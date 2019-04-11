@@ -133,7 +133,7 @@
                     "order": 2
                 },
                 "max_results": {
-                    "description": "Maximum number of results to return in a single call, between 5 and 100",
+                    "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -885,10 +885,10 @@
                     "primary": true,
                     "order": 1
                 },
-                "ShouldDecrementDesiredCapacity": {
+                "should_decrement_desired_capacity": {
                     "description": "Decrement the desired capacity value by the number of instances being detached",
                     "data_type": "boolean",
-                    "required": true,
+                    "required": false,
                     "primary": false,
                     "order": 2
                 }
@@ -902,7 +902,7 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.parameter.ShouldDecrementDesiredCapacity",
+                    "data_path": "action_result.parameter.should_decrement_desired_capacity",
                     "data_type": "boolean"
                 },
                 {
@@ -1016,7 +1016,7 @@
                 },
                 "instance_ids": {
                     "description": "One or more instance IDs, separated by commas",
-                    "data_type": "boolean",
+                    "data_type": "string",
                     "required": true,
                     "primary": false,
                     "order": 1
@@ -1032,7 +1032,7 @@
                 },
                 {
                     "data_path": "action_result.parameter.instance_ids",
-                    "data_type": "boolean"
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.parameter.load_balancer_name",
@@ -1076,7 +1076,7 @@
                 },
                 "tag_specifications": {
                     "description": "The tags to apply to the snapshot during creation, separated by commas. Example: { 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }",
-                    "data_type": "boolean",
+                    "data_type": "string",
                     "required": true,
                     "primary": false,
                     "order": 2
@@ -1107,7 +1107,7 @@
                 },
                 {
                     "data_path": "action_result.parameter.tag_specifications",
-                    "data_type": "boolean"
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.parameter.volume_id",
@@ -1257,7 +1257,7 @@
             "identifier": "remove_tag",
             "undo": "add tag",
             "description": "Remove specified tag from an instance",
-            "verbose": "",
+            "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix)",
             "type": "investigate",
             "read_only": false,
             "parameters": {
@@ -1440,7 +1440,7 @@
                 },
                 "network_acl_ids": {
                     "description": "One or more network ACL IDs, separated by commas",
-                    "data_type": "boolean",
+                    "data_type": "string",
                     "required": false,
                     "primary": false,
                     "order": 2
@@ -1468,11 +1468,7 @@
                 },
                 {
                     "data_path": "action_result.parameter.network_acl_ids",
-                    "data_type": "boolean",
-                    "example_values": [
-                        true,
-                        false
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.Associations.*.NetworkAclAssociationId",
@@ -1663,7 +1659,6 @@
         {
             "action": "add acl",
             "identifier": "add_acl",
-            "undo": "remove acl",
             "description": "Add ACL to an instance",
             "verbose": "",
             "type": "investigate",
@@ -1873,7 +1868,6 @@
         {
             "action": "remove acl",
             "identifier": "remove_acl",
-            "undo": "add acl",
             "description": "Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted",
             "verbose": "",
             "type": "investigate",
@@ -2059,7 +2053,7 @@
                     "order": 4
                 },
                 "max_results": {
-                    "description": "Maximum number of results to return in a single call, between 5 and 100",
+                    "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -2923,7 +2917,7 @@
                     "order": 3
                 },
                 "max_results": {
-                    "description": "The maximum number of items to return for this action",
+                    "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -3357,8 +3351,8 @@
                     "primary": true,
                     "order": 1
                 },
-                "max_records": {
-                    "description": "The maximum number of items to return",
+                "max_results": {
+                    "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
@@ -3381,7 +3375,7 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.max_records",
+                    "data_path": "action_result.parameter.max_results",
                     "data_type": "numeric"
                 },
                 {

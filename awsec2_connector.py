@@ -80,9 +80,7 @@ class AwsEc2Connector(BaseConnector):
         try:
             resp_json = boto_func(**kwargs)
         except Exception as e:
-            self.debug_print('exception')
             return RetVal(action_result.set_status(phantom.APP_ERROR, 'boto3 call to ec2 failed', e), None)
-        self.debug_print('unreachable')
 
         return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
 
@@ -168,34 +166,6 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS
 
-    # def _create_security_group(self, security_group_id, action_result):
-
-    #     boto_config = None
-    #     if self._proxy:
-    #         boto_config = Config(proxies=self._proxy)
-
-    #     try:
-    #         if self._access_key and self._secret_key:
-    #             self.debug_print("Creating boto3 client with API keys")
-    #             ec2 = resource(
-    #                 'ec2',
-    #                 region_name=self._region,
-    #                 aws_access_key_id=self._access_key,
-    #                 aws_secret_access_key=self._secret_key,
-    #                 config=boto_config)
-    #             self._service = ec2.SecurityGroup(security_group_id)
-    #         else:
-    #             self.debug_print("Creating boto3 client without API keys")
-    #             ec2 = resource(
-    #                 'ec2',
-    #                 region_name=self._region,
-    #                 config=boto_config)
-    #             self._service = ec2.SecurityGroup(security_group_id)
-    #     except Exception as e:
-    #         return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 security group: {0}".format(e))
-
-    #     return phantom.APP_SUCCESS
-
     def _create_vpc(self, vpc_id, action_result):
 
         boto_config = None
@@ -252,19 +222,15 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        self.debug_print('MLA 111')
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        self.debug_print('MLA 222')
         filters = param.get('filters')
         instance_ids = param.get('instance_ids')
         dry_run = param.get('dry_run')
         max_results = param.get('max_results')
         next_token = param.get('next_token')
 
-        self.debug_print('ABCD 111')
-        self.debug_print('Type is: {0}'.format(type(max_results)))
         args = dict()
         if filters:
             try:
@@ -277,7 +243,6 @@ class AwsEc2Connector(BaseConnector):
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(str(e)))
 
-        self.debug_print('ABCD 222')
         if instance_ids:
             args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
         if dry_run:
@@ -287,24 +252,26 @@ class AwsEc2Connector(BaseConnector):
         if next_token:
             args['NextToken'] = next_token
 
-        self.debug_print('ABCD 333')
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
 
-        self.debug_print('ABCD 444')
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
 
-        self.debug_print('ABCD 555')
         # Add the response into the data section
         action_result.add_data(response)
 
-        self.debug_print('ABCD 666')
+        # The instances are obtained from within the reservations list, hence, fetching the correct count of instances
+        reservations_list = response.get('Reservations')
+        total_instances = 0
+        if reservations_list:
+            for reservation in reservations_list:
+                total_instances += len(reservation.get('Instances', []))
+
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['num_instances'] = len(response.get('Reservations', {}))
+        summary['num_instances'] = total_instances
 
-        self.debug_print('ABCD 777')
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_detach_instance(self, param):
@@ -339,7 +306,7 @@ class AwsEc2Connector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['status'] = response.get('Activities', [])[0].get('StatusMessage', "")
+        summary['status'] = "Successfully detached instance"
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -363,7 +330,7 @@ class AwsEc2Connector(BaseConnector):
             args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
 
         # make rest call
-        ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
+        ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
 
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
@@ -506,17 +473,27 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         tag_key = param.get('tag_key')
-        tag_value = param.get('tag_value', "")
+        tag_value = param.get('tag_value')
         dry_run = param.get('dry_run')
 
-        args = {
-            "Tags": [
-                {
-                    "Key": tag_key,
-                    "Value": tag_value
-                }
-            ]
-        }
+        args = dict()
+
+        if not tag_key and tag_value:
+            return action_result.set_status(phantom.APP_ERROR, 'Providing tag value without a tag key performs nothing and hence, it is not allowed')
+
+        if tag_key and tag_value is None:
+            tags_dict = {
+                "Key": tag_key
+            }
+        elif tag_key:
+            tags_dict = {
+                "Key": tag_key,
+                "Value": tag_value
+            }
+
+        if tags_dict:
+            args['Tags'] = [tags_dict]
+
         if dry_run:
             args['DryRun'] = dry_run
 
@@ -563,7 +540,7 @@ class AwsEc2Connector(BaseConnector):
         if dry_run:
             args['DryRun'] = dry_run
         if network_acl_ids:
-            args['NetworkAclIds'] = network_acl_ids
+            args['NetworkAclIds'] = [item.strip() for item in network_acl_ids.split(',')]
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
@@ -663,10 +640,6 @@ class AwsEc2Connector(BaseConnector):
         group_names = param.get('group_names')
         next_token = param.get('next_token')
         max_results = param.get('max_results')
-        self.debug_print('check max result')
-        self.debug_print(max_results)
-        self.debug_print(type(max_results))
-        self.debug_print('check max result')
 
         args = dict()
         if filters:
@@ -715,18 +688,13 @@ class AwsEc2Connector(BaseConnector):
             'InstanceIds': [instance_id]
         }
 
-        self.debug_print('before boto call...{}'.format(args))
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
 
-        self.debug_print('after boto call...{}..{}'.format(response, ret_val))
         if (phantom.is_fail(ret_val)):
             return (action_result.get_status(), None, None)
 
         original_groups = response.get('Reservations')[0].get('Instances')[0].get('SecurityGroups')
-        self.debug_print('hello123')
-        self.debug_print(original_groups)
-        self.debug_print('hello123END')
         group_list = [item.get('GroupId') for item in original_groups]
         network_interface_id = response.get('Reservations')[0].get('Instances')[0].get('NetworkInterfaces')[0].get('NetworkInterfaceId')
 
@@ -741,9 +709,7 @@ class AwsEc2Connector(BaseConnector):
 
         group_to_add = param['group_to_add']
         instance_id = param['instance_id']
-        self.debug_print('before security group call')
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
-        self.debug_print('after security group call{}...{}..{}'.format(group_list, network_interface_id, ret_val))
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
 
@@ -813,11 +779,8 @@ class AwsEc2Connector(BaseConnector):
             'Groups': group_list
         }
 
-        self.debug_print('before boto call')
-
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'modify_attribute', **args)
-        self.debug_print('after boto call')
 
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
@@ -887,7 +850,6 @@ class AwsEc2Connector(BaseConnector):
         network_interface_ids = param.get('network_interface_ids')
         next_token = param.get('next_token')
         max_results = param.get('max_results')
-        self.debug_print('list_network start')
 
         args = dict()
         if filters:
@@ -909,10 +871,8 @@ class AwsEc2Connector(BaseConnector):
         if max_results is not None:
             args['MaxResults'] = max_results
 
-        self.debug_print('before boto..{}'.format(args))
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_interfaces', **args)
-        self.debug_print('after boto')
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
 
@@ -944,8 +904,9 @@ class AwsEc2Connector(BaseConnector):
             args['AutoScalingGroupNames'] = [item.strip() for item in autoscaling_group_names.split(',')]
         if next_token:
             args['NextToken'] = next_token
+        # This is a special case where the key is 'MaxRecords' instead of 'MaxResults'
         if max_results is not None:
-            args['MaxResults'] = max_results
+            args['MaxRecords'] = max_results
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_auto_scaling_groups', **args)
