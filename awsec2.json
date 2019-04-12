@@ -316,6 +316,9 @@
                     "column_order": 0,
                     "example_values": [
                         "i-074f52e85356829a3"
+                    ],
+                    "contains": [
+                        "ec2 instance id"
                     ]
                 },
                 {
