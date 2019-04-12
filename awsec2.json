@@ -869,7 +869,7 @@
             "undo": "attach instance",
             "description": "Detach an instance from an autoscaling group",
             "verbose": "",
-            "type": "investigate",
+            "type": "contain",
             "read_only": false,
             "parameters": {
                 "instance_ids": {
@@ -1099,7 +1099,7 @@
             "undo": "detach instance",
             "description": "Attach an instance to an autoscaling group",
             "verbose": "",
-            "type": "investigate",
+            "type": "correct",
             "read_only": false,
             "parameters": {
                 "instance_ids": {
@@ -1249,7 +1249,7 @@
             "identifier": "deregister_instance",
             "description": "Deregister an instance from AWS Elastic Load Balance",
             "verbose": "",
-            "type": "investigate",
+            "type": "contain",
             "read_only": false,
             "parameters": {
                 "load_balancer_name": {
@@ -1332,7 +1332,7 @@
             "identifier": "snapshot_instance",
             "description": "Snapshot AWS instance that has the given IP address or instance ID",
             "verbose": "",
-            "type": "investigate",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "volume_id": {
@@ -1571,7 +1571,7 @@
             "undo": "remove tag",
             "description": "Add tag to an instance",
             "verbose": "",
-            "type": "investigate",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "instance_id": {
@@ -1720,7 +1720,7 @@
             "undo": "add tag",
             "description": "Remove specified tag from an instance",
             "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix)",
-            "type": "investigate",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "instance_id": {
@@ -2143,7 +2143,7 @@
             "identifier": "add_acl",
             "description": "Add ACL to an instance",
             "verbose": "",
-            "type": "investigate",
+            "type": "correct",
             "read_only": false,
             "parameters": {
                 "vpc_id": {
@@ -2356,7 +2356,7 @@
             "identifier": "remove_acl",
             "description": "Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted",
             "verbose": "",
-            "type": "investigate",
+            "type": "contain",
             "read_only": false,
             "parameters": {
                 "network_acl_id": {
@@ -2856,7 +2856,7 @@
             "identifier": "assign_instance_to_group",
             "description": "Assign an instance to a security group",
             "verbose": "",
-            "type": "investigate",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "instance_id": {
@@ -3005,7 +3005,7 @@
             "identifier": "remove_security_group",
             "description": "Remove an EC2 instance from a security group",
             "verbose": "",
-            "type": "investigate",
+            "type": "contain",
             "read_only": false,
             "parameters": {
                 "instance_id": {
@@ -3151,7 +3151,7 @@
             "identifier": "create_vpc",
             "description": "Create a VPC with the specified IPv4 CIDR block",
             "verbose": "",
-            "type": "investigate",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "cidr_block": {
