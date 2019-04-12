@@ -290,7 +290,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_ids = param.get('instance_ids')
         autoscaling_group_name = param['autoscaling_group_name']
-        should_decrement_desired_capacity = param['should_decrement_desired_capacity']
+        should_decrement_desired_capacity = param.get('should_decrement_desired_capacity', False)
 
         args = {
             'AutoScalingGroupName': autoscaling_group_name,

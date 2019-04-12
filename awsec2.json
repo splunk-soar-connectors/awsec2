@@ -4,8 +4,8 @@
     "description": "This app integrates with AWS Elastic Compute Cloud (EC2) to perform virtualization actions",
     "type": "virtualization",
     "product_vendor": "AWS",
-    "logo": "awsec2.svg",
-    "logo_dark": "awsec2_dark.svg",
+    "logo": "logo_awsec2.svg",
+    "logo_dark": "logo_awsec2_dark.svg",
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
@@ -319,7 +319,7 @@
                         "i-074f52e85356829a3"
                     ],
                     "contains": [
-                        "ec2 instance id"
+                        "aws ec2 instance id"
                     ]
                 },
                 {
