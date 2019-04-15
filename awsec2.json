@@ -261,6 +261,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.CapacityReservationSpecification.CapacityReservationPreference",
+                    "data_type": "string",
+                    "example_values": [
+                        "open"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.ClientToken",
                     "data_type": "string",
                     "example_values": [
@@ -310,6 +317,20 @@
                     "data_type": "string",
                     "example_values": [
                         "xen"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.IamInstanceProfile.Arn",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:iam::849257271967:instance-profile/test-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.IamInstanceProfile.Id",
+                    "data_type": "string",
+                    "example_values": [
+                        "AIPAJBUYA2ZYFKHJ7WJJ4"
                     ]
                 },
                 {
@@ -582,6 +603,13 @@
                     "data_type": "string",
                     "example_values": [
                         "default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Platform",
+                    "data_type": "string",
+                    "example_values": [
+                        "windows"
                     ]
                 },
                 {
@@ -1262,6 +1290,9 @@
                 "instance_ids": {
                     "description": "One or more instance IDs, separated by commas",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
                     "required": true,
                     "primary": false,
                     "order": 1
@@ -1280,26 +1311,96 @@
                 {
                     "data_path": "action_result.parameter.instance_ids",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
                     "column_name": "Instance IDs",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_values": [
+                        "i-0d872de1de2ea7640"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.load_balancer_name",
                     "data_type": "string",
                     "column_name": "Load Balancer Name",
-                    "column_order": 1
+                    "column_order": 1,
+                    "example_values": [
+                        "test-2"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.Instances.*.InstanceId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "376"
+                    ]
                 },
                 {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "376"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mon, 15 Apr 2019 14:20:48 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "aa6ed835-5f89-11e9-98f6-57e14b621ca5"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aa6ed835-5f89-11e9-98f6-57e14b621ca5"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully deregistered instance"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Status: Successfully deregistered instance"
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -1972,6 +2073,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkAcls.*.Entries.*.Ipv6CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "::/0"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.NetworkAcls.*.Entries.*.Protocol",
                     "data_type": "string",
                     "example_values": [
@@ -2020,6 +2128,20 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkAcls.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "Name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NetworkAcls.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "Value"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.NetworkAcls.*.VpcId",
                     "data_type": "string",
                     "column_name": "Vpc ID",
@@ -2057,6 +2179,13 @@
                     "data_type": "string",
                     "example_values": [
                         "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.transfer-encoding",
+                    "data_type": "string",
+                    "example_values": [
+                        "chunked"
                     ]
                 },
                 {
@@ -2188,6 +2317,13 @@
                     "example_values": [
                         true,
                         false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NetworkAcl.Entries.*.Ipv6CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "::/0"
                     ]
                 },
                 {
@@ -2588,6 +2724,13 @@
                     "column_order": 4,
                     "example_values": [
                         "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "'2719'"
                     ]
                 },
                 {
@@ -3307,6 +3450,27 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.AssociationId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vpc-cidr-assoc-0c15e77e5475d004e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlockState.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "associating"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Vpc.IsDefault",
                     "data_type": "boolean",
                     "example_values": [
@@ -3472,16 +3636,6 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.NextToken",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 next token"
-                    ],
-                    "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -3712,6 +3866,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkInterfaces.*.RequesterId",
+                    "data_type": "string",
+                    "example_values": [
+                        "803884302965"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.RequesterManaged",
                     "data_type": "boolean",
                     "example_values": [
@@ -3742,6 +3903,20 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkInterfaces.*.TagSet.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "TagName"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NetworkInterfaces.*.TagSet.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "TagValue"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.VpcId",
                     "data_type": "string",
                     "contains": [
@@ -3749,6 +3924,23 @@
                     ],
                     "example_values": [
                         "vpc-5113dc2a"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "4508"
                     ]
                 },
                 {
@@ -3905,18 +4097,6 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.NextToken",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 next token"
-                    ],
-                    "column_name": "Next Page Token",
-                    "column_order": 3,
-                    "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4111,6 +4291,18 @@
                     "data_type": "string",
                     "example_values": [
                         "subnet-3ee92331"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "column_name": "Next Page Token",
+                    "column_order": 3,
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
