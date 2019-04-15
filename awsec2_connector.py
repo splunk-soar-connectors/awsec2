@@ -746,7 +746,7 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_remove_security_group(self, param):
+    def _handle_remove_instance_from_group(self, param):
         '''
             Changes the security groups for the network interface.
             The new set of groups you specify replaces the current set.
@@ -975,8 +975,8 @@ class AwsEc2Connector(BaseConnector):
         elif action_id == 'assign_instance_to_group':
             ret_val = self._handle_assign_instance_to_group(param)
 
-        elif action_id == 'remove_security_group':
-            ret_val = self._handle_remove_security_group(param)
+        elif action_id == 'remove_instance_from_group':
+            ret_val = self._handle_remove_instance_from_group(param)
 
         elif action_id == 'create_vpc':
             ret_val = self._handle_create_vpc(param)

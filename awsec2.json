@@ -197,7 +197,17 @@
                         "aws ec2 next token"
                     ],
                     "example_values": [
-                        ""
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -333,7 +343,7 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.KeyName",
                     "data_type": "string",
                     "example_values": [
-                        "phantom-lab-ssh-keypair"
+                        "test-lab-ssh-keypair"
                     ]
                 },
                 {
@@ -952,8 +962,6 @@
                 {
                     "data_path": "action_result.data.*.Activities.*.AutoScalingGroupName",
                     "data_type": "string",
-                    "column_name": "Autoscaling Group Name",
-                    "column_order": 3,
                     "example_values": [
                         "new-test-group1"
                     ]
@@ -962,14 +970,14 @@
                     "data_path": "action_result.data.*.Activities.*.Cause",
                     "data_type": "string",
                     "example_values": [
-                        "At 2019-04-11T10:15:55Z instance i-0fc20335d5bd6a222 was detached in response to a user request, shrinking the capacity from 7 to 6."
+                        "At 2019-04-11T10:15:55Z instance i-0fc20335d5bd6a222 was detached in response to a user request, shrinking the capacity from 7 to 6"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Activities.*.Description",
                     "data_type": "string",
                     "column_name": "Description",
-                    "column_order": 5,
+                    "column_order": 3,
                     "example_values": [
                         "Detaching EC2 instance: i-0fc20335d5bd6a222"
                     ]
@@ -977,8 +985,6 @@
                 {
                     "data_path": "action_result.data.*.Activities.*.Details",
                     "data_type": "string",
-                    "column_name": "Details",
-                    "column_order": 4,
                     "example_values": [
                         "{\"Subnet ID\":\"subnet-160c5929\",\"Availability Zone\":\"us-east-1e\"}"
                     ]
@@ -1001,7 +1007,7 @@
                     "data_path": "action_result.data.*.Activities.*.StatusCode",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 6,
+                    "column_order": 4,
                     "example_values": [
                         "InProgress"
                     ]
@@ -1054,10 +1060,6 @@
                     "example_values": [
                         0
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.status",
@@ -1127,8 +1129,11 @@
                 {
                     "data_path": "action_result.status",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ],
+                    "column_name": "Status",
+                    "column_order": 2,
                     "data_type": "string"
                 },
                 {
@@ -1205,10 +1210,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.summary.status",
                     "data_type": "string",
                     "example_values": [
@@ -1218,8 +1219,6 @@
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 2,
                     "example_values": [
                         "Status: Successfully attached instance"
                     ]
@@ -1253,11 +1252,9 @@
             "read_only": false,
             "parameters": {
                 "load_balancer_name": {
-                    "description": "The ID of the Amazon Machine Image (AMI)",
+                    "description": "Name of the classic load balancer",
+                    "verbose": "The load balancer provided in the input has to be in the active state and type classic",
                     "data_type": "string",
-                    "contanis": [
-                        "aws ec2 ami id"
-                    ],
                     "required": true,
                     "primary": false,
                     "order": 0
@@ -1289,10 +1286,7 @@
                 {
                     "data_path": "action_result.parameter.load_balancer_name",
                     "data_type": "string",
-                    "contanis": [
-                        "aws ec2 ami id"
-                    ],
-                    "column_name": "AMI ID",
+                    "column_name": "Load Balancer Name",
                     "column_order": 1
                 },
                 {
@@ -1403,10 +1397,6 @@
                     "example_values": [
                         "vol-0606e18158aac7321"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Description",
@@ -1526,10 +1516,6 @@
                     "example_values": [
                         50
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.snapshot_id",
@@ -1688,8 +1674,6 @@
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 4,
                     "example_values": [
                         "Status: Successfully added tag"
                     ]
@@ -1765,6 +1749,8 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
                     "example_values": [
                         "success"
                     ]
@@ -1797,7 +1783,6 @@
                         "aws ec2 tag key"
                     ],
                     "example_values": [
-                        "phantom",
                         "test1"
                     ]
                 },
@@ -1872,8 +1857,6 @@
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
-                    "column_name": "Message",
-                    "column_order": 1,
                     "example_values": [
                         "Status: Successfully removed tag"
                     ]
@@ -2596,6 +2579,18 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "column_name": "Next Page Token",
+                    "column_order": 4,
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
                     "data_type": "string",
                     "example_values": [
@@ -2654,8 +2649,6 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.Description",
                     "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 4,
                     "example_values": [
                         "SG for minemeld"
                     ]
@@ -3001,9 +2994,9 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "remove security group",
-            "identifier": "remove_security_group",
-            "description": "Remove an EC2 instance from a security group",
+            "action": "remove instance",
+            "identifier": "remove_instance_from_group",
+            "description": "Removes an EC2 instance from a security group",
             "verbose": "",
             "type": "contain",
             "read_only": false,
@@ -3482,6 +3475,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.AllocationId",
                     "data_type": "string",
                     "example_values": [
@@ -3572,8 +3575,6 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.AvailabilityZone",
                     "data_type": "string",
-                    "column_name": "Availability Zone",
-                    "column_order": 6,
                     "example_values": [
                         "us-east-1e"
                     ]
@@ -3619,8 +3620,6 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.NetworkInterfaceId",
                     "data_type": "string",
-                    "column_name": "Interface ID",
-                    "column_order": 1,
                     "example_values": [
                         "eni-024c6effa845834bb"
                     ]
@@ -3635,8 +3634,6 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
-                    "column_name": "Private DNS Name",
-                    "column_order": 2,
                     "example_values": [
                         "ip-172-31-59-219.ec2.internal"
                     ]
@@ -3649,9 +3646,7 @@
                     ],
                     "contains": [
                         "ip"
-                    ],
-                    "column_name": "Private IP Address",
-                    "column_order": 3
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.AllocationId",
@@ -3735,8 +3730,6 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 5,
                     "example_values": [
                         "in-use"
                     ]
@@ -3744,8 +3737,6 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.SubnetId",
                     "data_type": "string",
-                    "column_name": "Subnet ID",
-                    "column_order": 4,
                     "example_values": [
                         "subnet-160c5929"
                     ]
@@ -3756,8 +3747,6 @@
                     "contains": [
                         "aws ec2 vpc id"
                     ],
-                    "column_name": "VPC ID",
-                    "column_order": 0,
                     "example_values": [
                         "vpc-5113dc2a"
                     ]
@@ -3848,7 +3837,8 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "custom",
+                "view": "awsec2_view.display_view"
             },
             "versions": "EQ(*)"
         },
@@ -3918,8 +3908,16 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.NextToken",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 next token"
+                    ],
+                    "column_name": "Next Page Token",
+                    "column_order": 3,
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.AutoScalingGroupARN",
@@ -4170,10 +4168,6 @@
                     "example_values": [
                         0
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.num_autoscaling_groups",

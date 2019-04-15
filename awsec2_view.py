@@ -54,4 +54,6 @@ def display_view(provides, all_app_runs, context):
 
     if provides == 'describe instance':
         return_page = "awsec2_describe_instance.html"
+    elif provides == 'list network interfaces':
+        return_page = "awsec2_list_network_interfaces.html"
     return return_page
