@@ -698,9 +698,22 @@ class AwsEc2Connector(BaseConnector):
         if (phantom.is_fail(ret_val)):
             return (action_result.get_status(), None, None)
 
-        original_groups = response.get('Reservations')[0].get('Instances')[0].get('SecurityGroups')
-        group_list = [item.get('GroupId') for item in original_groups]
-        network_interface_id = response.get('Reservations')[0].get('Instances')[0].get('NetworkInterfaces')[0].get('NetworkInterfaceId')
+        group_list = None
+        network_interface_id = None
+        reservations = response.get('Reservations')
+        if reservations and reservations[0].get('Instances'):
+            original_groups = reservations[0].get('Instances')[0].get('SecurityGroups')
+            if original_groups:
+                group_list = [item.get('GroupId') for item in original_groups]
+
+            network_interfaces = reservations[0].get('Instances')[0].get('NetworkInterfaces')
+            if network_interfaces:
+                network_interface_id = network_interfaces[0].get('NetworkInterfaceId')
+        else:
+            return (action_result.set_status(phantom.APP_ERROR, 'The provided instance does not exist'), None, None)
+
+        if group_list is None or network_interface_id is None:
+            return (action_result.set_status(phantom.APP_ERROR, 'Error occurred while fetching the group list and network interface ID for given instance ID'), None, None)
 
         return (phantom.APP_SUCCESS, group_list, network_interface_id)
 
@@ -711,7 +724,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        group_to_add = param['group_to_add']
+        group_to_add = param['group_id']
         instance_id = param['instance_id']
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
         if (phantom.is_fail(ret_val)):
@@ -761,7 +774,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        group_to_remove = param['group_to_remove']
+        group_to_remove = param['group_id']
         instance_id = param['instance_id']
 
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)

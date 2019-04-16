@@ -2990,6 +2990,7 @@
         {
             "action": "assign instance",
             "identifier": "assign_instance_to_group",
+            "undo": "remove instance",
             "description": "Assign an instance to a security group",
             "verbose": "",
             "type": "generic",
@@ -3005,7 +3006,7 @@
                     ],
                     "order": 0
                 },
-                "group_to_add": {
+                "group_id": {
                     "description": "The security group ID to add",
                     "data_type": "string",
                     "contains": [
@@ -3025,7 +3026,7 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.group_to_add",
+                    "data_path": "action_result.parameter.group_id",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group id"
@@ -3139,6 +3140,7 @@
         {
             "action": "remove instance",
             "identifier": "remove_instance_from_group",
+            "undo": "assign instance",
             "description": "Removes an EC2 instance from a security group",
             "verbose": "",
             "type": "contain",
@@ -3154,7 +3156,7 @@
                     ],
                     "order": 0
                 },
-                "group_to_remove": {
+                "group_id": {
                     "description": "The security group ID to remove",
                     "data_type": "string",
                     "contains": [
@@ -3174,7 +3176,7 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.group_to_remove",
+                    "data_path": "action_result.parameter.group_id",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group id"
