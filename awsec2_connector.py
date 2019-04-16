@@ -114,9 +114,30 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS
 
+    def _validate_instance_id(self, instance_id, action_result):
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        args = {
+            'InstanceIds': [instance_id]
+        }
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
+
+        if phantom.is_fail(ret_val) or not response.get('Reservations'):
+            return action_result.set_status(phantom.APP_ERROR, 'Please provide a valid instance ID')
+
     def _create_instance(self, identifier, action_result):
 
         boto_config = None
+
+        # Validate the instance ID
+        ret_val = self._validate_instance_id(identifier, action_result)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
         if self._proxy:
             boto_config = Config(proxies=self._proxy)
 
@@ -481,6 +502,7 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run')
 
         args = dict()
+        tags_dict = dict()
 
         if not tag_key and tag_value:
             return action_result.set_status(phantom.APP_ERROR, 'Providing tag value without a tag key performs nothing and hence, it is not allowed')
