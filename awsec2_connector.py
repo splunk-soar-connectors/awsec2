@@ -128,6 +128,8 @@ class AwsEc2Connector(BaseConnector):
         if phantom.is_fail(ret_val) or not response.get('Reservations'):
             return action_result.set_status(phantom.APP_ERROR, 'Please provide a valid instance ID')
 
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _create_instance(self, identifier, action_result):
 
         boto_config = None
