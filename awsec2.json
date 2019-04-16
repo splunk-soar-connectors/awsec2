@@ -1294,7 +1294,7 @@
                         "aws ec2 instance id"
                     ],
                     "required": true,
-                    "primary": false,
+                    "primary": true,
                     "order": 1
                 }
             },
@@ -1804,7 +1804,7 @@
             "identifier": "remove_tag",
             "undo": "add tag",
             "description": "Remove specified tag from an instance",
-            "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix)",
+            "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix).",
             "type": "generic",
             "read_only": false,
             "parameters": {
