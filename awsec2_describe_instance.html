@@ -1,0 +1,286 @@
+{% extends 'widgets/widget_template.html' %}
+{% load custom_template %}
+
+{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block title1 %}{{ title1 }}{% endblock %}
+{% block title2 %}{{ title2 }}{% endblock %}
+{% block custom_tools %}
+{% endblock %}
+{% block widget_content %} <!-- Main Start Block -->
+
+<!-- File: awsec2_describe_instance.html
+  Copyright (c) 2019 Splunk Inc.
+
+  SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+  without a valid written license from Splunk Inc. is PROHIBITED.
+-->
+<style>
+
+    .awsec2 a:hover {
+        text-decoration:underline;
+    }
+
+    .awsec2 .wf-h4-style {
+        font-size : 20px
+    }
+
+    .awsec2 .wf-table-vertical .dataTable td {
+        vertical-align: top;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+
+    .awsec2 .wf-table-vertical {
+        width: initial;
+        font-size: 12px;
+    }
+
+    .awsec2 .wf-table-vertical td{
+        padding: 5px;
+        border: 1px solid !important;
+    }
+
+    .awsec2 .wf-table-vertical tr td:first-child {
+        font-weight: bold;
+    }
+
+    .awsec2 .dataTable th.widget-th {
+        border-top: 1px solid !important;
+        border-bottom: 1px solid !important;
+    }
+
+    .awsec2 .dataTable td {
+        vertical-align: top;
+    }
+
+    .awsec2 .dataTable td.widget-td a{
+        font-size: 12px;
+    }
+
+    .awsec2 .dataTable {
+        font-size: 12px;
+    }
+
+    .awsec2 .overflow-column {
+        overflow: auto;
+    }
+
+    .awsec2 .dataTable .glyphicon.glyphicon-dot:before {
+        content: "\25cf"; font-size: 10px;
+    }
+
+
+</style>
+
+<div class="awsec2" style="overflow: auto; width: 100% height: 100%; padding-left:10px; padding-right:10px">
+    <!-- Main Div -->
+
+    {% for result in results %} <!-- loop for each result -->
+        {% if not result.data or not result.data.Reservations %}
+            <h4 class="wf-h4-style">No data found</h4>
+        {% else %}
+            <h4 class="wf-h4-style">Info</h4>
+            <table class="wf-table-vertical">
+                {% if result.param.filters %}
+                    <tr>
+                        <td>Filters</td>
+                        <td>
+                            {{ result.param.filters }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.param.instance_ids %}
+                    <tr>
+                        <td>Instance IDs</td>
+                        <td>
+                            {{ result.param.instance_ids }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.param.max_results %}
+                    <tr>
+                        <td>Max Results</td>
+                        <td>
+                            {{ result.param.max_results }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.param.next_token %}
+                    <tr>
+                        <td>Current Page Token</td>
+                        <td>
+                            <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.param.next_token }}' }], 0, {{ container.id }}, null, false);">
+                                {{ result.param.next_token }}
+                                &nbsp;
+                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.data.NextToken %}
+                    <tr>
+                        <td>Next Page Token</td>
+                        <td>
+                            <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.data.NextToken }}' }], 0, {{ container.id }}, null, false);">
+                                {{ result.data.NextToken }}
+                                &nbsp;
+                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>Dry Run</td>
+                    <td>
+                        {{ result.param.dry_run }}
+                    </td>
+                </tr>
+            </table>
+
+            &nbsp;
+            <h4 class="wf-h4-style">Describe Instance</h4>
+
+            <div class="list_users_table overflow-column">
+                <table class="phantom-table dataTable">
+                    <thead>
+                        <th class="widget-th">Instance ID</th>
+                        <th class="widget-th">Instance Type</th>
+                        <th class="widget-th">AMI ID</th>
+                        <th class="widget-th">VPC ID</th>
+                        <th class="widget-th">Availability Zone</th>
+                        <th class="widget-th">Instance State</th>
+                        <th class="widget-th">Public DNS Name</th>
+                        <th class="widget-th">Public IP Address</th>
+                        <th class="widget-th">Tags Keys</th>
+                        <th class="widget-th">Tags Values</th>
+                        <th class="widget-th">Security Group IDs</th>
+                        <th class="widget-th">Security Group Names</th>
+                    </thead>
+                    <tbody>
+                    {% for reservation in result.data.Reservations %}
+                        {% for item in reservation.Instances %}
+                            <tr>
+                                <td class="widget-td">
+                                    <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 instance id'], 'value':'{{ item.InstanceId }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ item.InstanceId }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                </td>
+                                <td class="widget-td">{{ item.InstanceType }}</td>
+                                <td class="widget-td">
+                                    <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 ami id'], 'value':'{{ item.ImageId }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ item.ImageId }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                </td>
+                                <td class="widget-td">
+                                    <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ item.VpcId }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                </td>
+                                <td class="widget-td">{{ item.Placement.AvailabilityZone }}</td>
+                                <td class="widget-td">{{ item.State.Name }}</td>
+                                <td class="widget-td">
+                                    <a href="javascript:;" onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ item.PublicDnsName }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ item.PublicDnsName }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                </td>
+                                <td class="widget-td">
+                                    <a href="javascript:;" onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PublicIpAddress }}' }], 0, {{ container.id }}, null, false);">
+                                        {{ item.PublicIpAddress }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                </td>
+                                <td class="widget-td">
+                                    {% for tag in item.Tags %}
+                                        <span class="glyphicon glyphicon-dot"></span>&nbsp;
+                                            <a href="javascript:;"
+                                            onclick="context_menu(this, [{'contains': ['aws ec2 tag key'],
+                                            'value': '{{ tag.Key }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ tag.Key }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        {% if not forloop.last %}<br/> {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="widget-td">
+                                    {% for tag in item.Tags %}
+                                        <span class="glyphicon glyphicon-dot"></span>&nbsp;
+                                            <a href="javascript:;"
+                                            onclick="context_menu(this, [{'contains': ['aws ec2 tag value'],
+                                            'value': '{{ tag.Value }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ tag.Value }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        {% if not forloop.last %}<br/> {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="widget-td">
+                                    {% for group in item.SecurityGroups %}
+                                        <span class="glyphicon glyphicon-dot"></span>&nbsp;
+                                            <a href="javascript:;"
+                                            onclick="context_menu(this, [{'contains': ['aws ec2 group id'],
+                                            'value': '{{ group.GroupId }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ group.GroupId }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        {% if not forloop.last %}<br/> {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="widget-td">
+                                    {% for group in item.SecurityGroups %}
+                                        <span class="glyphicon glyphicon-dot"></span>&nbsp;
+                                            <a href="javascript:;"
+                                            onclick="context_menu(this, [{'contains': ['aws ec2 group name'],
+                                            'value': '{{ group.GroupName }}' }], 0, {{ container.id }}, null, false);">
+                                                {{ group.GroupName }}
+                                                &nbsp;
+                                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                            </a>
+                                        {% if not forloop.last %}<br/> {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script>
+$.extend(true, $.fn.dataTable.defaults, {
+    "searching": true,
+    "bLengthChange": false,
+    "language": {
+      "paginate": {
+        "previous": "<i class='fa fa-angle-left fa-lg'></i>",
+        "next": "<i class='fa fa-angle-right fa-lg'></i>"
+      },
+      "emptyTable": "No data available"
+    },
+    "dom": '<"top">rt<"bottom"p><"clear">',
+    drawCallback: function(settings) {
+      var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+      pagination.toggle(this.api().page.info().pages > 1);
+    }
+  });
+  $('.dataTable').DataTable();
+
+</script>
+
+{% endblock %}

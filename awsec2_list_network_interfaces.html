@@ -1,0 +1,200 @@
+{% extends 'widgets/widget_template.html' %}
+{% load custom_template %}
+
+{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block title1 %}{{ title1 }}{% endblock %}
+{% block title2 %}{{ title2 }}{% endblock %}
+{% block custom_tools %}
+{% endblock %}
+{% block widget_content %} <!-- Main Start Block -->
+
+<!-- File: awsec2_list_network_interfaces.html
+  Copyright (c) 2019 Splunk Inc.
+
+  SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+  without a valid written license from Splunk Inc. is PROHIBITED.
+-->
+<style>
+
+    .awsec2 a:hover {
+        text-decoration:underline;
+    }
+
+    .awsec2 .wf-h4-style {
+        font-size : 20px
+    }
+
+    .awsec2 .wf-table-vertical .dataTable td {
+        vertical-align: top;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+    }
+
+    .awsec2 .wf-table-vertical {
+        width: initial;
+        font-size: 12px;
+    }
+
+    .awsec2 .wf-table-vertical td{
+        padding: 5px;
+        border: 1px solid !important;
+    }
+
+    .awsec2 .wf-table-vertical tr td:first-child {
+        font-weight: bold;
+    }
+
+    .awsec2 .dataTable th.widget-th {
+        border-top: 1px solid !important;
+        border-bottom: 1px solid !important;
+    }
+
+    .awsec2 .dataTable td {
+        vertical-align: top;
+    }
+
+    .awsec2 .dataTable td.widget-td a{
+        font-size: 12px;
+    }
+
+    .awsec2 .dataTable {
+        font-size: 12px;
+    }
+
+    .awsec2 .overflow-column {
+        overflow: auto;
+    }
+
+
+</style>
+
+<div class="awsec2" style="overflow: auto; width: 100% height: 100%; padding-left:10px; padding-right:10px">
+    <!-- Main Div -->
+
+    {% for result in results %} <!-- loop for each result -->
+        {% if not result.data or not result.data.NetworkInterfaces %}
+            <h4 class="wf-h4-style">No data found</h4>
+        {% else %}
+            <h4 class="wf-h4-style">Info</h4>
+            <table class="wf-table-vertical">
+                {% if result.param.autoscaling_group_names %}
+                    <tr>
+                        <td>Autoscaling Group Names</td>
+                        <td>
+                            <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 autoscaling group name'], 'value':'{{ result.param.autoscaling_group_names }}' }], 0, {{ container.id }}, null, false);">
+                                {{ result.param.autoscaling_group_names }}
+                                &nbsp;
+                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.param.max_results %}
+                    <tr>
+                        <td>Max Results</td>
+                        <td>
+                            {{ result.param.max_results }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.param.next_token %}
+                    <tr>
+                        <td>Current Page Token</td>
+                        <td>
+                            <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.param.next_token }}' }], 0, {{ container.id }}, null, false);">
+                                {{ result.param.next_token }}
+                                &nbsp;
+                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if result.data.NextToken %}
+                    <tr>
+                        <td>Next Page Token</td>
+                        <td>
+                            <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.data.NextToken }}' }], 0, {{ container.id }}, null, false);">
+                                {{ result.data.NextToken }}
+                                &nbsp;
+                                <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+
+            &nbsp;
+            <h4 class="wf-h4-style">List Network Interfaces</h4>
+
+            <div class="list_users_table overflow-column">
+                <table class="phantom-table dataTable">
+                    <thead>
+                        <th class="widget-th">VPC ID</th>
+                        <th class="widget-th">Interface ID</th>
+                        <th class="widget-th">Private DNS Name</th>
+                        <th class="widget-th">Private IP Address</th>
+                        <th class="widget-th">Subnet ID</th>
+                        <th class="widget-th">Status</th>
+                        <th class="widget-th">Availability Zone</th>
+                    </thead>
+                    <tbody>
+                    {% for item in result.data.NetworkInterfaces %}
+                        <tr>
+                            <td class="widget-td">
+                                <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId }}' }], 0, {{ container.id }}, null, false);">
+                                    {{ item.VpcId }}
+                                    &nbsp;
+                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                </a>
+                            </td>
+                            <td class="widget-td">
+                                <a href="javascript:;" onclick="context_menu(this, [{'contains': ['aws ec2 network interface id'], 'value':'{{ item.NetworkInterfaceId }}' }], 0, {{ container.id }}, null, false);">
+                                    {{ item.NetworkInterfaceId }}
+                                    &nbsp;
+                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                </a>
+                            </td>
+                            <td class="widget-td">{{ item.PrivateDnsName }}</td>
+                            <td class="widget-td">
+                                <a href="javascript:;" onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PrivateIpAddress }}' }], 0, {{ container.id }}, null, false);">
+                                    {{ item.PrivateIpAddress }}
+                                    &nbsp;
+                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                </a>
+                            </td>
+                            <td class="widget-td">{{ item.SubnetId }}</td>
+                            <td class="widget-td">{{ item.Status }}</td>
+                            <td class="widget-td">{{ item.AvailabilityZone }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script>
+$.extend(true, $.fn.dataTable.defaults, {
+    "searching": true,
+    "bLengthChange": false,
+    "language": {
+      "paginate": {
+        "previous": "<i class='fa fa-angle-left fa-lg'></i>",
+        "next": "<i class='fa fa-angle-right fa-lg'></i>"
+      },
+      "emptyTable": "No data available"
+    },
+    "dom": '<"top">rt<"bottom"p><"clear">',
+    drawCallback: function(settings) {
+      var pagination = $(this).closest('.dataTables_wrapper').find('.dataTables_paginate');
+      pagination.toggle(this.api().page.info().pages > 1);
+    }
+  });
+  $('.dataTable').DataTable();
+
+</script>
+
+{% endblock %}
