@@ -234,7 +234,7 @@
             "identifier": "stop_instance",
             "undo": "start instance",
             "description": "Stop one or more instances",
-            "verbose": "If the hibernate parameter is enabled, it hibernates the instance instead of shutting it down. If the instance cannot hibernate successfully, a normal shutdown occurs. If the force parameter is enabled, the instances do not have an opportunity to flush file system caches or file system metadata. If this option is enabled, you must perform file system check and repair procedures. This option is not recommended for Windows instances.",
+            "verbose": "If the force parameter is enabled, the instances do not have an opportunity to flush file system caches or file system metadata. If this option is enabled, you must perform file system check and repair procedures. This option is not recommended for Windows instances.",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -248,26 +248,19 @@
                     "primary": true,
                     "order": 0
                 },
-                "hibernate": {
-                    "description": "Flag to hibernate the instances instead of shutting them down",
-                    "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
-                    "order": 1
-                },
                 "force": {
                     "description": "Forces the instances to stop",
                     "data_type": "boolean",
                     "required": false,
                     "primary": false,
-                    "order": 2
+                    "order": 1
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
                     "required": false,
                     "primary": false,
-                    "order": 3
+                    "order": 2
                 }
             },
             "output": [
@@ -289,14 +282,6 @@
                 },
                 {
                     "data_path": "action_result.parameter.force",
-                    "data_type": "boolean",
-                    "example_values": [
-                        true,
-                        false
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.hibernate",
                     "data_type": "boolean",
                     "example_values": [
                         true,
@@ -461,6 +446,13 @@
                     ],
                     "example_values": [
                         ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.limit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        35
                     ]
                 },
                 {
@@ -1002,26 +994,6 @@
                     "data_type": "string",
                     "example_values": [
                         "subnet-d8782cf7"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.*.Key",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 tag key"
-                    ],
-                    "example_values": [
-                        "Name"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.*.Value",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 tag value"
-                    ],
-                    "example_values": [
-                        "Splunk Enterprise Redux"
                     ]
                 },
                 {
@@ -1896,6 +1868,156 @@
                     "data_type": "string",
                     "example_values": [
                         "Snapshot id: 22"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get tag",
+            "identifier": "get_tag",
+            "description": "Get the value of a tag for the given instance ID",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "instance_id": {
+                    "description": "Instance ID",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "tag_key": {
+                    "description": "Tag key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_name": "Instance ID",
+                    "column_order": 0,
+                    "example_values": [
+                        "i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.tag_key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "column_name": "Tag Key",
+                    "column_order": 1,
+                    "example_values": [
+                        "test"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "example_values": [
+                        "test"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "instance"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Value",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag value"
+                    ],
+                    "column_name": "Tag Value",
+                    "column_order": 2,
+                    "example_values": [
+                        "value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully fetched the tag"
                     ]
                 },
                 {

@@ -386,7 +386,6 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         instance_ids = param['instance_ids']
-        hibernate = param.get('hibernate', False)
         force = param.get('force', False)
         dry_run = param.get('dry_run', False)
 
@@ -398,8 +397,6 @@ class AwsEc2Connector(BaseConnector):
         }
         if force:
             args['Force'] = force
-        if hibernate:
-            args['Hibernate'] = hibernate
         if dry_run:
             args['DryRun'] = dry_run
 
@@ -604,6 +601,64 @@ class AwsEc2Connector(BaseConnector):
         summary['status'] = "Successfully added tag"
 
         return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_get_tag(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        instance_id = param['instance_id']
+        tag_key = param['tag_key']
+        dry_run = param.get('dry_run', 'False')
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        args = {
+            "Filters": [
+                {
+                    "Name": "resource-type",
+                    "Values": [
+                        "instance"
+                    ]
+                },
+                {
+                    "Name": "resource-id",
+                    "Values": [
+                        instance_id
+                    ]
+                },
+                {
+                    "Name": "key",
+                    "Values": [
+                        tag_key
+                    ]
+                }
+            ]
+        }
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'describe_tags', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        if not response:
+            return action_result.get_status()
+
+        if not response.get('Tags'):
+            return action_result.set_status(phantom.APP_ERROR, 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(tag_key, instance_id))
+
+        # Add the response into the data section
+        # The output response will consist of a unique dictionary for given tag
+        # Hence, extracting the first element of the tags list
+        action_result.add_data(response.get('Tags')[0])
+
+        return action_result.set_status(phantom.APP_SUCCESS, 'Successfully fetched the tag value')
 
     def _handle_remove_tag(self, param):
 
@@ -1114,6 +1169,9 @@ class AwsEc2Connector(BaseConnector):
 
         elif action_id == 'snapshot_instance':
             ret_val = self._handle_snapshot_instance(param)
+
+        elif action_id == 'get_tag':
+            ret_val = self._handle_get_tag(param)
 
         elif action_id == 'add_tag':
             ret_val = self._handle_add_tag(param)
