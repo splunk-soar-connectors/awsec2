@@ -352,6 +352,7 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run', False)
 
         instance_ids_list = [x.strip() for x in instance_ids.split(',')]
+        instance_ids_list = ' '.join(instance_ids_list).split()
 
         args = {
             "InstanceIds": instance_ids_list
@@ -389,6 +390,7 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run', False)
 
         instance_ids_list = [x.strip() for x in instance_ids.split(',')]
+        instance_ids_list = ' '.join(instance_ids_list).split()
 
         args = {
             "InstanceIds": instance_ids_list
