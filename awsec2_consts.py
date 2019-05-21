@@ -8,6 +8,7 @@
 EC2_JSON_ACCESS_KEY = "access_key"
 EC2_JSON_SECRET_KEY = "secret_key"
 EC2_JSON_REGION = "region"
+EC2_MAX_RESULTS_LIMIT = 1000
 
 EC2_REGION_DICT = {
         "US East (Ohio)": "us-east-2",
@@ -32,3 +33,5 @@ EC2_REGION_DICT = {
         "AWS GovCloud (US-East)": "us-gov-east-1",
         "AWS GovCloud (US)": "us-gov-west-1"
     }
+
+EC2_INVALID_LIMIT_MSG = 'Please provide non-zero positive integer in {param_name}'
