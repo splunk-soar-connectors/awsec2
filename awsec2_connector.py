@@ -242,6 +242,34 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _paginator(self, method_name, limit, action_result, **kwargs):
+        """
+        Handles the pagination
+        """
+
+        list_items = list()
+        next_token = None
+
+        while True:
+            if next_token:
+                ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, MaxResults=EC2_MAX_RESULTS_LIMIT, **kwargs)
+            else:
+                ret_val, response = self._make_boto_call(action_result, method_name, MaxResults=EC2_MAX_RESULTS_LIMIT, **kwargs)
+
+            if phantom.is_fail(ret_val):
+                return None
+
+            list_items.extend(response.get('Reservations'))
+
+            if limit and len(list_items) >= limit:
+                return list_items[:limit]
+
+            next_token = response.get('NextToken')
+            if not next_token:
+                break
+
+        return list_items
+
     def _handle_describe_instance(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -255,8 +283,10 @@ class AwsEc2Connector(BaseConnector):
         filters = param.get('filters')
         instance_ids = param.get('instance_ids')
         dry_run = param.get('dry_run')
-        max_results = param.get('max_results')
-        next_token = param.get('next_token')
+        limit = param.get('limit')
+
+        if (limit and not str(limit).isdigit()) or limit == 0:
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='limit'))
 
         args = dict()
         if filters:
@@ -274,32 +304,117 @@ class AwsEc2Connector(BaseConnector):
             args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
         if dry_run:
             args['DryRun'] = dry_run
-        if max_results is not None:
-            args['MaxResults'] = max_results
-        if next_token:
-            args['NextToken'] = next_token
 
-        # make rest call
-        ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
+        list_reservations = self._paginator('describe_instances', limit, action_result, **args)
 
-        if (phantom.is_fail(ret_val)):
+        if list_reservations is None:
+            self.save_progress('No reservations found')
             return action_result.get_status()
 
+        response = {'Reservations': list_reservations}
         # Add the response into the data section
         action_result.add_data(response)
 
         # The instances are obtained from within the reservations list, hence, fetching the correct count of instances
+        # Change the structure of the tags based on the ticket PAPP-7613
         reservations_list = response.get('Reservations')
         total_instances = 0
         if reservations_list:
             for reservation in reservations_list:
-                total_instances += len(reservation.get('Instances', []))
+                instances_list = reservation.get('Instances', [])
+                total_instances += len(instances_list)
+                for instance in instances_list:
+                    tags_list = []
+                    if 'Tags' in instance:
+                        tags_list = instance.pop('Tags')
+
+                    instance['Tags'] = dict()
+                    for tag in tags_list:
+                        if tag.get('Key'):
+                            instance['Tags'].update({tag.get('Key'): tag.get('Value')})
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['num_instances'] = total_instances
 
         return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_start_instance(self, param):
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        instance_ids = param['instance_ids']
+        dry_run = param.get('dry_run', False)
+
+        instance_ids_list = [x.strip() for x in instance_ids.split(',')]
+        instance_ids_list = ' '.join(instance_ids_list).split()
+
+        args = {
+            "InstanceIds": instance_ids_list
+        }
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'start_instances', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        if not response:
+            return action_result.get_status()
+
+        started_instances = response.get('StartingInstances', [])
+
+        for instance in started_instances:
+            action_result.add_data(instance)
+
+        return action_result.set_status(phantom.APP_SUCCESS, 'Instances started successfully')
+
+    def _handle_stop_instance(self, param):
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        instance_ids = param['instance_ids']
+        force = param.get('force', False)
+        dry_run = param.get('dry_run', False)
+
+        instance_ids_list = [x.strip() for x in instance_ids.split(',')]
+        instance_ids_list = ' '.join(instance_ids_list).split()
+
+        args = {
+            "InstanceIds": instance_ids_list
+        }
+        if force:
+            args['Force'] = force
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'stop_instances', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        if not response:
+            return action_result.get_status()
+
+        stopped_instances = response.get('StoppingInstances', [])
+
+        for instance in stopped_instances:
+            action_result.add_data(instance)
+
+        return action_result.set_status(phantom.APP_SUCCESS, 'Instances stopped successfully')
 
     def _handle_detach_instance(self, param):
 
@@ -486,6 +601,64 @@ class AwsEc2Connector(BaseConnector):
         summary['status'] = "Successfully added tag"
 
         return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_get_tag(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        instance_id = param['instance_id']
+        tag_key = param['tag_key']
+        dry_run = param.get('dry_run', 'False')
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        args = {
+            "Filters": [
+                {
+                    "Name": "resource-type",
+                    "Values": [
+                        "instance"
+                    ]
+                },
+                {
+                    "Name": "resource-id",
+                    "Values": [
+                        instance_id
+                    ]
+                },
+                {
+                    "Name": "key",
+                    "Values": [
+                        tag_key
+                    ]
+                }
+            ]
+        }
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'describe_tags', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        if not response:
+            return action_result.get_status()
+
+        if not response.get('Tags'):
+            return action_result.set_status(phantom.APP_ERROR, 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(tag_key, instance_id))
+
+        # Add the response into the data section
+        # The output response will consist of a unique dictionary for given tag
+        # Hence, extracting the first element of the tags list
+        action_result.add_data(response.get('Tags')[0])
+
+        return action_result.set_status(phantom.APP_SUCCESS, 'Successfully fetched the tag value')
 
     def _handle_remove_tag(self, param):
 
@@ -979,6 +1152,12 @@ class AwsEc2Connector(BaseConnector):
         elif action_id == 'describe_instance':
             ret_val = self._handle_describe_instance(param)
 
+        elif action_id == 'start_instance':
+            ret_val = self._handle_start_instance(param)
+
+        elif action_id == 'stop_instance':
+            ret_val = self._handle_stop_instance(param)
+
         elif action_id == 'detach_instance':
             ret_val = self._handle_detach_instance(param)
 
@@ -990,6 +1169,9 @@ class AwsEc2Connector(BaseConnector):
 
         elif action_id == 'snapshot_instance':
             ret_val = self._handle_snapshot_instance(param)
+
+        elif action_id == 'get_tag':
+            ret_val = self._handle_get_tag(param)
 
         elif action_id == 'add_tag':
             ret_val = self._handle_add_tag(param)

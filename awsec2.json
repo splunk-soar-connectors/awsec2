@@ -10,8 +10,8 @@
     "product_version_regex": ".*",
     "publisher": "Splunk",
     "license": "Copyright (c) 2019 Splunk Inc.",
-    "app_version": "1.0.1",
-    "utctime_updated": "2019-04-17T06:44:37.000000Z",
+    "app_version": "1.0.3",
+    "utctime_updated": "2019-05-21T19:49:41.000000Z",
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.pyc",
     "min_phantom_version": "4.0.1068",
@@ -101,6 +101,280 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "start instance",
+            "identifier": "start_instance",
+            "undo": "stop instance",
+            "description": "Start one or more instances",
+            "verbose": "",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_name": "Instance IDs",
+                    "column_order": 0,
+                    "example_values": [
+                        "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Name",
+                    "data_type": "string",
+                    "column_name": "Current State",
+                    "column_order": 1,
+                    "example_values": [
+                        "pending"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.InstanceId",
+                    "data_type": "string",
+                    "example_values": [
+                        "i-0d872de1de2ea7640"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        80
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Name",
+                    "data_type": "string",
+                    "column_name": "Previous State",
+                    "column_order": 2,
+                    "example_values": [
+                        "stopped"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Instances started successfully"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "stop instance",
+            "identifier": "stop_instance",
+            "undo": "start instance",
+            "description": "Stop one or more instances",
+            "verbose": "If the force parameter is enabled, the instances do not have an opportunity to flush file system caches or file system metadata. If this option is enabled, you must perform file system check and repair procedures. This option is not recommended for Windows instances.",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "force": {
+                    "description": "Forces the instances to stop",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.force",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_name": "Instance IDs",
+                    "column_order": 0,
+                    "example_values": [
+                        "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        64
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Name",
+                    "data_type": "string",
+                    "column_name": "Current State",
+                    "column_order": 1,
+                    "example_values": [
+                        "stopping"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.InstanceId",
+                    "data_type": "string",
+                    "example_values": [
+                        "i-0d872de1de2ea7640"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        16
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Name",
+                    "data_type": "string",
+                    "column_name": "Previous State",
+                    "column_order": 2,
+                    "example_values": [
+                        "running"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "",
+                        "Instances stopped successfully"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "describe instance",
             "identifier": "describe_instance",
             "description": "Describe one or more instances",
@@ -125,29 +399,19 @@
                     "primary": true,
                     "order": 1
                 },
+                "limit": {
+                    "description": "The maximum number of results to be fetched",
+                    "data_type": "numeric",
+                    "required": false,
+                    "primary": false,
+                    "order": 2
+                },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
                     "required": false,
                     "primary": false,
-                    "order": 2
-                },
-                "max_results": {
-                    "description": "Maximum number of results to return in a single call",
-                    "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
                     "order": 3
-                },
-                "next_token": {
-                    "description": "Token to request the next page of results",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 next token"
-                    ],
-                    "required": false,
-                    "primary": true,
-                    "order": 4
                 }
             },
             "output": [
@@ -155,7 +419,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -184,20 +449,10 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.max_results",
+                    "data_path": "action_result.parameter.limit",
                     "data_type": "numeric",
                     "example_values": [
-                        1
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.next_token",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 next token"
-                    ],
-                    "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                        35
                     ]
                 },
                 {
@@ -742,26 +997,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.*.Key",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 tag key"
-                    ],
-                    "example_values": [
-                        "Name"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.*.Value",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 tag value"
-                    ],
-                    "example_values": [
-                        "Splunk Enterprise Redux"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.VirtualizationType",
                     "data_type": "string",
                     "example_values": [
@@ -942,7 +1177,8 @@
                 {
                     "data_path": "action_result.status",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ],
                     "data_type": "string"
                 },
@@ -1303,7 +1539,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ],
                     "column_name": "Status",
                     "column_order": 2
@@ -1463,7 +1700,8 @@
                 {
                     "data_path": "action_result.status",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ],
                     "data_type": "string"
                 },
@@ -1653,6 +1891,156 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "get tag",
+            "identifier": "get_tag",
+            "description": "Get the value of a tag for the given instance ID",
+            "verbose": "",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "instance_id": {
+                    "description": "Instance ID",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "tag_key": {
+                    "description": "Tag key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "required": false,
+                    "primary": false,
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_name": "Instance ID",
+                    "column_order": 0,
+                    "example_values": [
+                        "i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.tag_key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "column_name": "Tag Key",
+                    "column_order": 1,
+                    "example_values": [
+                        "test"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Key",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag key"
+                    ],
+                    "example_values": [
+                        "test"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "instance"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Value",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 tag value"
+                    ],
+                    "column_name": "Tag Value",
+                    "column_order": 2,
+                    "example_values": [
+                        "value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully fetched the tag"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "add tag",
             "identifier": "add_tag",
             "undo": "remove tag",
@@ -1704,7 +2092,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1853,7 +2242,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2017,7 +2407,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2281,7 +2672,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2501,7 +2893,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2674,7 +3067,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -3022,7 +3416,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -3172,7 +3567,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -3326,7 +3722,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -3607,7 +4004,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -4076,7 +4474,8 @@
                 {
                     "data_path": "action_result.status",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ],
                     "data_type": "string"
                 },
