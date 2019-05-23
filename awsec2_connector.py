@@ -250,11 +250,14 @@ class AwsEc2Connector(BaseConnector):
         list_items = list()
         next_token = None
 
+        if self.get_action_identifier() == 'describe_instance' and 'InstanceIds' not in kwargs:
+            kwargs['MaxResults'] = EC2_MAX_RESULTS_LIMIT
+
         while True:
             if next_token:
-                ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, MaxResults=EC2_MAX_RESULTS_LIMIT, **kwargs)
+                ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, **kwargs)
             else:
-                ret_val, response = self._make_boto_call(action_result, method_name, MaxResults=EC2_MAX_RESULTS_LIMIT, **kwargs)
+                ret_val, response = self._make_boto_call(action_result, method_name, **kwargs)
 
             if phantom.is_fail(ret_val):
                 return None

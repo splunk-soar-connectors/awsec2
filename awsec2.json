@@ -378,7 +378,7 @@
             "action": "describe instance",
             "identifier": "describe_instance",
             "description": "Describe one or more instances",
-            "verbose": "",
+            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as a filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
