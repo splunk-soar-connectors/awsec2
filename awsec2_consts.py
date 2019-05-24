@@ -20,6 +20,7 @@ EC2_REGION_DICT = {
         "Asia Pacific (Seoul)": "ap-northeast-2",
         "Asia Pacific (Singapore)": "ap-southeast-1",
         "Asia Pacific (Sydney)": "ap-southeast-2",
+        "Asia Pacific (Hong Kong)": "ap-east-1",
         "Asia Pacific (Tokyo)": "ap-northeast-1",
         "Canada (Central)": "ca-central-1",
         "China (Beijing)": "cn-north-1",
