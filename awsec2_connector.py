@@ -1,5 +1,5 @@
 # File: awsec2_connector.py
-# Copyright (c) 2019 Splunk Inc.
+# Copyright (c) 2019-2020 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -18,6 +18,8 @@ import requests
 import json
 import re
 import ast
+
+import six
 
 
 class RetVal(tuple):
@@ -48,7 +50,7 @@ class AwsEc2Connector(BaseConnector):
 
         if isinstance(cur_obj, dict):
             new_dict = {}
-            for k, v in cur_obj.iteritems():
+            for k, v in six.iteritems(cur_obj):
                 if isinstance(v, br.StreamingBody):
                     content = v.read()
                     new_dict[k] = json.loads(content)
@@ -614,7 +616,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
         tag_key = param['tag_key']
-        dry_run = param.get('dry_run', 'False')
+        dry_run = param.get('dry_run', False)
 
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
@@ -1272,7 +1274,7 @@ if __name__ == '__main__':
         try:
             login_url = AwsEc2Connector._get_phantom_base_url() + '/login'
 
-            print ("Accessing the Login page")
+            print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
             csrftoken = r.cookies['csrftoken']
 
@@ -1285,11 +1287,11 @@ if __name__ == '__main__':
             headers['Cookie'] = 'csrftoken=' + csrftoken
             headers['Referer'] = login_url
 
-            print ("Logging into Platform to get the session id")
+            print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print ("Unable to get session id from the platform. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
 
     with open(args.input_test_json) as f:
@@ -1305,6 +1307,6 @@ if __name__ == '__main__':
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print (json.dumps(json.loads(ret_val), indent=4))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)
