@@ -9,12 +9,16 @@
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2019 Splunk Inc.",
-    "app_version": "1.0.6",
+    "license": "Copyright (c) 2019-2020 Splunk Inc.",
+    "app_version": "2.0.0",
     "utctime_updated": "2019-06-06T18:33:15.000000Z",
     "package_name": "phantom_awsec2",
-    "main_module": "awsec2_connector.pyc",
-    "min_phantom_version": "4.0.1068",
+    "main_module": "awsec2_connector.py",
+    "min_phantom_version": "4.6.19142",
+    "python_version": "3",
+    "latest_tested_versions": [
+        "Cloud tested on 2-19-2020"
+    ],
     "app_wizard_version": "1.0.0",
     "pip_dependencies": {
         "wheel": [
@@ -31,12 +35,8 @@
                 "input_file": "wheels/botocore-1.12.96-py2.py3-none-any.whl"
             },
             {
-                "module": "futures",
-                "input_file": "wheels/futures-3.2.0-py2-none-any.whl"
-            },
-            {
                 "module": "docutils",
-                "input_file": "wheels/docutils-0.14-py2-none-any.whl"
+                "input_file": "wheels/docutils-0.16-py2.py3-none-any.whl"
             },
             {
                 "module": "jmespath",
