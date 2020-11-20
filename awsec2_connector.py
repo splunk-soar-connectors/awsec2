@@ -13,11 +13,13 @@ from awsec2_consts import *
 from boto3 import client, resource
 from datetime import datetime
 from botocore.config import Config
+from bs4 import UnicodeDammit
 import botocore.response as br
 import requests
 import json
 import re
 import ast
+import sys
 
 import six
 
@@ -39,6 +41,51 @@ class AwsEc2Connector(BaseConnector):
         self._access_key = None
         self._secret_key = None
         self._proxy = None
+
+    def _handle_py_ver_compat_for_input_str(self, input_str):
+        """
+        This method returns the encoded|original string based on the Python version.
+        :param input_str: Input string to be processed
+        :return: input_str (Processed input string based on following logic 'input_str - Python 3; encoded input_str - Python 2')
+        """
+        try:
+            if input_str and self._python_version < 3:
+                input_str = UnicodeDammit(input_str).unicode_markup.encode('utf-8')
+        except:
+            self.debug_print("Error occurred while handling python 2to3 compatibility for the input string")
+
+        return input_str
+
+    def _get_error_message_from_exception(self, e):
+        """ This function is used to get appropriate error message from the exception.
+        :param e: Exception object
+        :return: error message
+        """
+        error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
+        error_code = "Error code unavailable"
+        try:
+            if e.args:
+                if len(e.args) > 1:
+                    error_code = e.args[0]
+                    error_msg = e.args[1]
+                elif len(e.args) == 1:
+                    error_code = "Error code unavailable"
+                    error_msg = e.args[0]
+            else:
+                error_code = "Error code unavailable"
+                error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
+        except:
+            error_code = "Error code unavailable"
+            error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
+
+        try:
+            error_msg = self._handle_py_ver_compat_for_input_str(error_msg)
+        except TypeError:
+            error_msg = "Error occurred while connecting to the AWS. Please check the asset configuration and|or the action parameters."
+        except:
+            error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
+
+        return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
 
     def _sanitize_data(self, cur_obj):
 
@@ -112,7 +159,8 @@ class AwsEc2Connector(BaseConnector):
                     region_name=self._region,
                     config=boto_config)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -163,7 +211,8 @@ class AwsEc2Connector(BaseConnector):
                     config=boto_config)
                 self._service = ec2.Instance(identifier)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -191,7 +240,8 @@ class AwsEc2Connector(BaseConnector):
                     config=boto_config)
                 self._service = ec2.NetworkInterface(identifier)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 network interface: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 network interface: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -219,7 +269,8 @@ class AwsEc2Connector(BaseConnector):
                     config=boto_config)
                 self._service = ec2.Vpc(vpc_id)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 security group: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 security group: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -285,8 +336,8 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        filters = param.get('filters')
-        instance_ids = param.get('instance_ids')
+        filters = self._handle_py_ver_compat_for_input_str(param.get('filters'))
+        instance_ids = self._handle_py_ver_compat_for_input_str(param.get('instance_ids'))
         dry_run = param.get('dry_run')
         limit = param.get('limit')
 
@@ -303,7 +354,8 @@ class AwsEc2Connector(BaseConnector):
                 else:
                     args['Filters'] = evaluated_filters
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(str(e)))
+                error_message = self._get_error_message_from_exception(e)
+                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(error_message))
 
         if instance_ids:
             args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
@@ -353,7 +405,7 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        instance_ids = param['instance_ids']
+        instance_ids = self._handle_py_ver_compat_for_input_str(param['instance_ids'])
         dry_run = param.get('dry_run', False)
 
         instance_ids_list = [x.strip() for x in instance_ids.split(',')]
@@ -390,7 +442,7 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        instance_ids = param['instance_ids']
+        instance_ids = self._handle_py_ver_compat_for_input_str(param['instance_ids'])
         force = param.get('force', False)
         dry_run = param.get('dry_run', False)
 
@@ -431,8 +483,8 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('autoscaling', action_result):
             return action_result.get_status()
 
-        instance_ids = param.get('instance_ids')
-        autoscaling_group_name = param['autoscaling_group_name']
+        instance_ids = self._handle_py_ver_compat_for_input_str(param.get('instance_ids'))
+        autoscaling_group_name = self._handle_py_ver_compat_for_input_str(param['autoscaling_group_name'])
         should_decrement_desired_capacity = param.get('should_decrement_desired_capacity', False)
 
         args = {
@@ -467,8 +519,8 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('autoscaling', action_result):
             return action_result.get_status()
 
-        instance_ids = param.get('instance_ids')
-        autoscaling_group_name = param['autoscaling_group_name']
+        instance_ids = self._handle_py_ver_compat_for_input_str(param.get('instance_ids'))
+        autoscaling_group_name = self._handle_py_ver_compat_for_input_str(param['autoscaling_group_name'])
 
         args = {
             'AutoScalingGroupName': autoscaling_group_name
@@ -501,9 +553,9 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('elb', action_result):
             return action_result.get_status()
 
-        load_balancer_name = param['load_balancer_name']
-        instance_ids = param['instance_ids']
-        instance_id_dict = [{ 'InstanceId': item.strip() } for item in instance_ids.split(',')]
+        load_balancer_name = self._handle_py_ver_compat_for_input_str(param['load_balancer_name'])
+        instance_ids = self._handle_py_ver_compat_for_input_str(param['instance_ids'])
+        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',')]
 
         args = {
             'LoadBalancerName': load_balancer_name,
@@ -535,9 +587,9 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        volume_id = param['volume_id']
-        description = param.get('description')
-        tag_specifications = param.get('tag_specifications')
+        volume_id = self._handle_py_ver_compat_for_input_str(param['volume_id'])
+        description = self._handle_py_ver_compat_for_input_str(param.get('description'))
+        tag_specifications = self._handle_py_ver_compat_for_input_str(param.get('tag_specifications'))
         dry_run = param.get('dry_run')
 
         args = {
@@ -572,13 +624,13 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        instance_id = param['instance_id']
+        instance_id = self._handle_py_ver_compat_for_input_str(param['instance_id'])
 
         if not self._create_instance(instance_id, action_result):
             return action_result.get_status()
 
-        tag_key = param.get('tag_key')
-        tag_value = param.get('tag_value', "")
+        tag_key = self._handle_py_ver_compat_for_input_str(param.get('tag_key'))
+        tag_value = self._handle_py_ver_compat_for_input_str(param.get('tag_value', ""))
         dry_run = param.get('dry_run')
 
         args = {
@@ -614,8 +666,8 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        instance_id = param['instance_id']
-        tag_key = param['tag_key']
+        instance_id = self._handle_py_ver_compat_for_input_str(param['instance_id'])
+        tag_key = self._handle_py_ver_compat_for_input_str(param['tag_key'])
         dry_run = param.get('dry_run', False)
 
         if not self._create_client('ec2', action_result):
@@ -672,13 +724,13 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        instance_id = param['instance_id']
+        instance_id = self._handle_py_ver_compat_for_input_str(param['instance_id'])
 
         if not self._create_instance(instance_id, action_result):
             return action_result.get_status()
 
-        tag_key = param.get('tag_key')
-        tag_value = param.get('tag_value')
+        tag_key = self._handle_py_ver_compat_for_input_str(param.get('tag_key'))
+        tag_value = self._handle_py_ver_compat_for_input_str(param.get('tag_value'))
         dry_run = param.get('dry_run')
 
         args = dict()
@@ -728,9 +780,9 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        filters = param.get('filters')
+        filters = self._handle_py_ver_compat_for_input_str(param.get('filters'))
         dry_run = param.get('dry_run')
-        network_acl_ids = param.get('network_acl_ids')
+        network_acl_ids = self._handle_py_ver_compat_for_input_str(param.get('network_acl_ids'))
 
         args = dict()
         if filters:
@@ -742,7 +794,8 @@ class AwsEc2Connector(BaseConnector):
                 else:
                     args['Filters'] = evaluated_filters
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+                error_message = self._get_error_message_from_exception(e)
+                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(error_message))
         if dry_run:
             args['DryRun'] = dry_run
         if network_acl_ids:
@@ -773,7 +826,7 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        vpc_id = param['vpc_id']
+        vpc_id = self._handle_py_ver_compat_for_input_str(param['vpc_id'])
         dry_run = param.get('dry_run')
         args = {
             "VpcId": vpc_id
@@ -806,7 +859,7 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        network_acl_id = param['network_acl_id']
+        network_acl_id = self._handle_py_ver_compat_for_input_str(param['network_acl_id'])
         dry_run = param.get('dry_run')
 
         args = {
@@ -840,11 +893,11 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        filters = param.get('filters')
+        filters = self._handle_py_ver_compat_for_input_str(param.get('filters'))
         dry_run = param.get('dry_run')
-        group_ids = param.get('group_ids')
-        group_names = param.get('group_names')
-        next_token = param.get('next_token')
+        group_ids = self._handle_py_ver_compat_for_input_str(param.get('group_ids'))
+        group_names = self._handle_py_ver_compat_for_input_str(param.get('group_names'))
+        next_token = self._handle_py_ver_compat_for_input_str(param.get('next_token'))
         max_results = param.get('max_results')
 
         args = dict()
@@ -857,7 +910,8 @@ class AwsEc2Connector(BaseConnector):
                 else:
                     args['Filters'] = evaluated_filters
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+                error_message = self._get_error_message_from_exception(e)
+                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(error_message))
         if group_ids:
             args['GroupIds'] = group_ids.split(',')
         if group_names:
@@ -926,8 +980,8 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        group_to_add = param['group_id']
-        instance_id = param['instance_id']
+        group_to_add = self._handle_py_ver_compat_for_input_str(param['group_id'])
+        instance_id = self._handle_py_ver_compat_for_input_str(param['instance_id'])
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
         if (phantom.is_fail(ret_val)):
             return action_result.get_status()
@@ -976,8 +1030,8 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        group_to_remove = param['group_id']
-        instance_id = param['instance_id']
+        group_to_remove = self._handle_py_ver_compat_for_input_str(param['group_id'])
+        instance_id = self._handle_py_ver_compat_for_input_str(param['instance_id'])
 
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
 
@@ -1023,10 +1077,10 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        cidr_block = param['cidr_block']
+        cidr_block = self._handle_py_ver_compat_for_input_str(param['cidr_block'])
         amazon_provided_ipv6_cidr_block = param.get('amazon_provided_ipv6_cidr_block')
         dry_run = param.get('dry_run')
-        instance_tenancy = param.get('instance_tenancy')
+        instance_tenancy = self._handle_py_ver_compat_for_input_str(param.get('instance_tenancy'))
 
         args = {
             "CidrBlock": cidr_block
@@ -1064,10 +1118,10 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
 
-        filters = param.get('filters')
+        filters = self._handle_py_ver_compat_for_input_str(param.get('filters'))
         dry_run = param.get('dry_run')
-        network_interface_ids = param.get('network_interface_ids')
-        next_token = param.get('next_token')
+        network_interface_ids = self._handle_py_ver_compat_for_input_str(param.get('network_interface_ids'))
+        next_token = self._handle_py_ver_compat_for_input_str(param.get('next_token'))
         max_results = param.get('max_results')
 
         args = dict()
@@ -1080,7 +1134,8 @@ class AwsEc2Connector(BaseConnector):
                 else:
                     args['Filters'] = evaluated_filters
             except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+                error_message = self._get_error_message_from_exception(e)
+                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(error_message))
         if dry_run:
             args['DryRun'] = dry_run
         if network_interface_ids:
@@ -1114,8 +1169,8 @@ class AwsEc2Connector(BaseConnector):
         if not self._create_client('autoscaling', action_result):
             return action_result.get_status()
 
-        autoscaling_group_names = param.get('autoscaling_group_names')
-        next_token = param.get('next_token')
+        autoscaling_group_names = self._handle_py_ver_compat_for_input_str(param.get('autoscaling_group_names'))
+        next_token = self._handle_py_ver_compat_for_input_str(param.get('next_token'))
         max_results = param.get('max_results')
 
         args = dict()
@@ -1217,15 +1272,20 @@ class AwsEc2Connector(BaseConnector):
 
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
+        try:
+            self._python_version = int(sys.version_info[0])
+        except:
+            return self.set_status(phantom.APP_ERROR, "Error occurred while getting the Phantom server's Python major version.")
+
         self._state = self.load_state()
 
         # get the asset config
         config = self.get_config()
 
         if EC2_JSON_ACCESS_KEY in config:
-            self._access_key = config.get(EC2_JSON_ACCESS_KEY)
+            self._access_key = self._handle_py_ver_compat_for_input_str(config.get(EC2_JSON_ACCESS_KEY))
         if EC2_JSON_SECRET_KEY in config:
-            self._secret_key = config.get(EC2_JSON_SECRET_KEY)
+            self._secret_key = self._handle_py_ver_compat_for_input_str(config.get(EC2_JSON_SECRET_KEY))
 
         self._region = EC2_REGION_DICT.get(config[EC2_JSON_REGION])
 
