@@ -41,6 +41,7 @@ class AwsEc2Connector(BaseConnector):
         self._access_key = None
         self._secret_key = None
         self._proxy = None
+        self._python_version = None
 
     def _handle_py_ver_compat_for_input_str(self, input_str):
         """
