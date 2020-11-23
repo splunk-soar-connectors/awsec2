@@ -3171,6 +3171,11 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.Description",
+                    "data_type": "string",
+                    "example_value": "Allow resources within the security group complete access to others in same sg."
+                },
+                {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
                     "example_values": [
@@ -3197,6 +3202,11 @@
                     "example_values": [
                         "0.0.0.0/0"
                     ]
+                },
+                {
+                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.IpRanges.*.Description",
+                    "data_type": "string",
+                    "example_value": "Allow egress to all"
                 },
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.Ipv6Ranges.*.CidrIpv6",
@@ -3281,16 +3291,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.Description",
-                    "data_type": "string",
-                    "example_value": "Allow resources within the security group complete access to others in same sg."
-                },
-                {
-                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.IpRanges.*.Description",
-                    "data_type": "string",
-                    "example_value": "Allow egress to all"
                 }
             ],
             "render": {
@@ -4515,6 +4515,46 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandAllocationStrategy",
+                    "data_type": "string",
+                    "example_value": "prioritized"
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandBaseCapacity",
+                    "data_type": "numeric",
+                    "example_value": 0
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandPercentageAboveBaseCapacity",
+                    "data_type": "numeric",
+                    "example_value": 70
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.SpotAllocationStrategy",
+                    "data_type": "string",
+                    "example_value": "capacity-optimized"
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateId",
+                    "data_type": "string",
+                    "example_value": "lt-064a00f751234654h"
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateName",
+                    "data_type": "string",
+                    "example_value": "SOAR_Linux"
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.Version",
+                    "data_type": "string",
+                    "example_value": "$Default"
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceType",
+                    "data_type": "string",
+                    "example_value": "a1.medium"
+                },
+                {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.NewInstancesProtectedFromScaleIn",
                     "data_type": "boolean",
                     "example_values": [
@@ -4676,46 +4716,6 @@
                     "example_values": [
                         1
                     ]
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.SpotAllocationStrategy",
-                    "data_type": "string",
-                    "example_value": "capacity-optimized"
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandPercentageAboveBaseCapacity",
-                    "data_type": "numeric",
-                    "example_value": 70
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandBaseCapacity",
-                    "data_type": "numeric",
-                    "example_value": 0
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandAllocationStrategy",
-                    "data_type": "string",
-                    "example_value": "prioritized"
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateName",
-                    "data_type": "string",
-                    "example_value": "SOAR_Linux"
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.Version",
-                    "data_type": "string",
-                    "example_value": "$Default"
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateId",
-                    "data_type": "string",
-                    "example_value": "lt-064a00f751234654h"
-                },
-                {
-                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceType",
-                    "data_type": "string",
-                    "example_value": "a1.medium"
                 }
             ],
             "render": {
