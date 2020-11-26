@@ -625,14 +625,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-10-10-10-10.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -723,14 +723,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-10-10-10-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -747,14 +747,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-10-10-10-10.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -772,14 +772,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-10-10-10-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -849,14 +849,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-10-10-10-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -880,14 +880,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-10-10-10-10.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4011,14 +4011,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-10-10-10-10.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4137,14 +4137,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-10-10-10-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4175,14 +4175,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-10-10-10-10.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4200,14 +4200,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-10-10-10-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "10.10.10.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
