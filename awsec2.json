@@ -421,6 +421,9 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-002f4885c00dd08cf0"
                     ]
                 },
                 {
@@ -622,14 +625,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-10-10-10-10.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -673,7 +676,10 @@
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Description",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Primary network interface"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Groups.*.GroupId",
@@ -717,14 +723,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-10-10-10-10.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -741,14 +747,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-10-10-10-10.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -766,14 +772,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-10-10-10-10.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -820,7 +826,10 @@
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.Placement.GroupName",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "7-2-0-Auto-Test-Group"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.Placement.Tenancy",
@@ -840,14 +849,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-10-10-10-10.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -871,14 +880,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-10-10-10-10.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -1710,7 +1719,10 @@
                 },
                 {
                     "data_path": "action_result.data.*.Progress",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "89"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
@@ -2344,11 +2356,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.network_acl_ids",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "acl-0729ksdnv768dda206"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.Associations.*.NetworkAclAssociationId",
@@ -2988,13 +3006,19 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.group_ids",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-005000000ea7b73e0"
                     ]
                 },
                 {
@@ -3002,17 +3026,26 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Phantom Security Group"
                     ]
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.next_token",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZASDFGHJKLERTYU34GFG78SDFGHJR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -3206,7 +3239,9 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.IpRanges.*.Description",
                     "data_type": "string",
-                    "example_value": "Allow egress to all"
+                    "example_value": [
+                        "Allow egress to all"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.Ipv6Ranges.*.CidrIpv6",
@@ -3658,7 +3693,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.instance_tenancy",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Dedicated"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
@@ -3764,7 +3802,10 @@
                 },
                 {
                     "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlock",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "2000:1000:2000:4000::/56"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlockState.State",
@@ -3913,17 +3954,26 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.network_interface_ids",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 network interface id"
+                    ],
+                    "example_values": [
+                        "eni-07fb411234dd33d65a"
                     ]
                 },
                 {
@@ -3931,6 +3981,9 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -3958,14 +4011,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-100-25-197-155.compute-1.amazonaws.com"
+                        "ec2-10-10-10-10.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "100.25.197.155"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -4030,13 +4083,16 @@
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Description",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "ElastiCache test-clstr2-0003-001"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
                     "example_values": [
-                        "sg-00c60fd41aea33c09"
+                        "sg-00c60hquaea33c09"
                     ]
                 },
                 {
@@ -4081,14 +4137,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-59-219.ec2.internal"
+                        "ip-10-10-10-10.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.59.219"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -4119,14 +4175,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-100-25-197-155.compute-1.amazonaws.com"
+                        "ec2-10-10-10-10.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "100.25.197.155"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -4144,14 +4200,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-59-219.ec2.internal"
+                        "ip-10-10-10-10.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.59.219"
+                        "10.10.10.10"
                     ],
                     "contains": [
                         "ip"
@@ -4225,7 +4281,7 @@
                         "aws ec2 next token"
                     ],
                     "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDasdfghjklasdfghjklVWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4378,13 +4434,19 @@
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.next_token",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4517,42 +4579,58 @@
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandAllocationStrategy",
                     "data_type": "string",
-                    "example_value": "prioritized"
+                    "example_values": [
+                        "prioritized"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandBaseCapacity",
                     "data_type": "numeric",
-                    "example_value": 0
+                    "example_values": [
+                        0
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandPercentageAboveBaseCapacity",
                     "data_type": "numeric",
-                    "example_value": 70
+                    "example_values": [
+                        70
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.SpotAllocationStrategy",
                     "data_type": "string",
-                    "example_value": "capacity-optimized"
+                    "example_values": [
+                        "capacity-optimized"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateId",
                     "data_type": "string",
-                    "example_value": "lt-064a00f751234654h"
+                    "example_values": [
+                        "lt-064a0gg751234654h"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateName",
                     "data_type": "string",
-                    "example_value": "SOAR_Linux"
+                    "example_values": [
+                        "SOAR_Linux"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.Version",
                     "data_type": "string",
-                    "example_value": "$Default"
+                    "example_values": [
+                        "$Default"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceType",
                     "data_type": "string",
-                    "example_value": "a1.medium"
+                    "example_values": [
+                        "a1.medium"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.NewInstancesProtectedFromScaleIn",
@@ -4568,7 +4646,7 @@
                     "column_name": "Service Linked Role ARN",
                     "column_order": 2,
                     "example_values": [
-                        "arn:aws:iam::849257271967:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                        "arn:aws:iam::849257270067:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
                     ]
                 },
                 {
@@ -4630,7 +4708,7 @@
                     "column_name": "Next Page Token",
                     "column_order": 3,
                     "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaaaaaaaaaaaDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {

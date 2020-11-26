@@ -82,7 +82,7 @@ class AwsEc2Connector(BaseConnector):
         try:
             error_msg = self._handle_py_ver_compat_for_input_str(error_msg)
         except TypeError:
-            error_msg = "Error occurred while connecting to the AWS. Please check the asset configuration and|or the action parameters."
+            error_msg = "Error occurred while connecting to the AWS EC2. Please check the asset configuration and|or the action parameters."
         except:
             error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
 
@@ -289,7 +289,7 @@ class AwsEc2Connector(BaseConnector):
         ret_val, resp_json = self._make_boto_call(action_result, 'describe_security_groups', MaxResults=5)
 
         if (phantom.is_fail(ret_val)):
-            self.save_progress("Test Connectivity Failed.")
+            self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
         # Return success
@@ -652,7 +652,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data({ 'resource_id': response })
+        action_result.add_data({'resource_id': response})
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
