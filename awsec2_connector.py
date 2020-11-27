@@ -13,11 +13,13 @@ from awsec2_consts import *
 from boto3 import client, resource
 from datetime import datetime
 from botocore.config import Config
+from bs4 import UnicodeDammit
 import botocore.response as br
 import requests
 import json
 import re
 import ast
+import sys
 
 import six
 
@@ -40,7 +42,7 @@ class AwsEc2Connector(BaseConnector):
         self._secret_key = None
         self._proxy = None
         self._python_version = None
-    
+
     def _handle_py_ver_compat_for_input_str(self, input_str):
         """
         This method returns the encoded|original string based on the Python version.
@@ -54,7 +56,7 @@ class AwsEc2Connector(BaseConnector):
             self.debug_print("Error occurred while handling python 2to3 compatibility for the input string")
 
         return input_str
-    
+
     def _get_error_message_from_exception(self, e):
         """ This method is used to get appropriate error message from the exception.
         :param e: Exception object
@@ -351,7 +353,8 @@ class AwsEc2Connector(BaseConnector):
                 return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(str(e)))
 
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
         if dry_run:
             args['DryRun'] = dry_run
 
@@ -485,7 +488,8 @@ class AwsEc2Connector(BaseConnector):
             'ShouldDecrementDesiredCapacity': should_decrement_desired_capacity
         }
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
@@ -519,7 +523,8 @@ class AwsEc2Connector(BaseConnector):
             'AutoScalingGroupName': autoscaling_group_name
         }
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
@@ -791,7 +796,8 @@ class AwsEc2Connector(BaseConnector):
         if dry_run:
             args['DryRun'] = dry_run
         if network_acl_ids:
-            args['NetworkAclIds'] = [item.strip() for item in network_acl_ids.split(',')]
+            network_acl_ids_list = [item.strip() for item in network_acl_ids.split(',')]
+            args['NetworkAclIds'] = list(filter(None, network_acl_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
@@ -1129,7 +1135,8 @@ class AwsEc2Connector(BaseConnector):
         if dry_run:
             args['DryRun'] = dry_run
         if network_interface_ids:
-            args['NetworkInterfaceIds'] = [item.strip() for item in network_interface_ids.split(',')]
+            network_interface_ids_list = [item.strip() for item in network_interface_ids.split(',')]
+            args['NetworkInterfaceIds'] = list(filter(None, network_interface_ids_list))
         if next_token:
             args['NextToken'] = next_token
         if max_results is not None:
@@ -1165,7 +1172,8 @@ class AwsEc2Connector(BaseConnector):
 
         args = dict()
         if autoscaling_group_names:
-            args['AutoScalingGroupNames'] = [item.strip() for item in autoscaling_group_names.split(',')]
+            autoscaling_group_names_list = [item.strip() for item in autoscaling_group_names.split(',')]
+            args['AutoScalingGroupNames'] = list(filter(None, autoscaling_group_names_list))
         if next_token:
             args['NextToken'] = next_token
         # This is a special case where the key is 'MaxRecords' instead of 'MaxResults'
