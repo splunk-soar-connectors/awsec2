@@ -170,6 +170,9 @@
                     "data_path": "action_result.data.*.InstanceId",
                     "data_type": "string",
                     "column_name": "Instance ID",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
                     "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640"
@@ -307,6 +310,9 @@
                     "data_path": "action_result.data.*.InstanceId",
                     "data_type": "string",
                     "column_name": "Instance IDs",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
                     "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640"

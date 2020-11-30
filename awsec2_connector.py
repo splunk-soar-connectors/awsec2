@@ -706,7 +706,11 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         if not response.get('Tags'):
-            return action_result.set_status(phantom.APP_ERROR, 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(tag_key, instance_id))
+            resp_message = 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(
+                self._handle_py_ver_compat_for_input_str(tag_key),
+                self._handle_py_ver_compat_for_input_str(instance_id)
+            )
+            return action_result.set_status(phantom.APP_ERROR, resp_message)
 
         # Add the response into the data section
         # The output response will consist of a unique dictionary for given tag
