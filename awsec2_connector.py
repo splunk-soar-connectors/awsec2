@@ -108,7 +108,7 @@ class AwsEc2Connector(BaseConnector):
         # if returning list(ec2.Tag) - example, for add_tag action
         if str(cur_obj).startswith('[ec2.Tag'):
             try:
-                return re.findall('.*resource_id=\'(.*?)\',.*', str(cur_obj))[0]
+                return re.findall('.*resource_id=u?\'(.*?)\',.*', str(cur_obj))[0]
             except:
                 pass
 
@@ -902,7 +902,7 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if max_results and (not str(max_results).isdigit() or max_results < 5):
+        if (max_results and (not str(max_results).isdigit() or max_results < 5)) or max_results == 0:
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
 
         args = dict()
@@ -1130,7 +1130,7 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if max_results and (not str(max_results).isdigit() or max_results < 5):
+        if (max_results and (not str(max_results).isdigit() or max_results < 5)) or max_results == 0:
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
 
         args = dict()
