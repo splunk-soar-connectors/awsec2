@@ -611,7 +611,7 @@ class AwsEc2Connector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['snapshot_id'] = len(response.get('SnapshotId', {}))
+        summary['snapshot_id'] = response.get('SnapshotId', {})
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -898,6 +898,9 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
+        if (max_results and not str(max_results).isdigit()) or max_results < 5:
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
+
         args = dict()
         if filters:
             try:
@@ -910,9 +913,11 @@ class AwsEc2Connector(BaseConnector):
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
         if group_ids:
-            args['GroupIds'] = group_ids.split(',')
+            group_ids_list = [item.strip() for item in group_ids.split(',')]
+            args['GroupIds'] = list(filter(None, group_ids_list))
         if group_names:
-            args['GroupNames'] = group_names.split(',')
+            group_names_list = [item.strip() for item in group_names.split(',')]
+            args['GroupNames'] = list(filter(None, group_names_list))
         if dry_run:
             args['DryRun'] = dry_run
         if next_token:
@@ -1121,6 +1126,9 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
+        if (max_results and not str(max_results).isdigit()) or max_results < 5:
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
+
         args = dict()
         if filters:
             try:
@@ -1169,6 +1177,9 @@ class AwsEc2Connector(BaseConnector):
         autoscaling_group_names = param.get('autoscaling_group_names')
         next_token = param.get('next_token')
         max_results = param.get('max_results')
+
+        if (max_results and not str(max_results).isdigit()) or max_results == 0:
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
 
         args = dict()
         if autoscaling_group_names:
