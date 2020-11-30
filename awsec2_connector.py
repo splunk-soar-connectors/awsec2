@@ -611,7 +611,7 @@ class AwsEc2Connector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['snapshot_id'] = response.get('SnapshotId', {})
+        summary['snapshot_id'] = response.get('SnapshotId')
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
