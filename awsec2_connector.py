@@ -87,6 +87,14 @@ class AwsEc2Connector(BaseConnector):
 
         return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
 
+    def is_positive_int(self, value):
+        try:
+            value = int(value)
+            return True if value > 0 else False
+        except Exception:
+            pass
+        return False
+
     def _sanitize_data(self, cur_obj):
 
         try:
@@ -337,7 +345,7 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run')
         limit = param.get('limit')
 
-        if (limit and not str(limit).isdigit()) or limit == 0:
+        if not (limit is None or self.is_positive_int(limit)):
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='limit'))
 
         args = dict()
@@ -902,7 +910,7 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if (max_results and (not str(max_results).isdigit() or max_results < 5)) or max_results == 0:
+        if max_results is not None and (not self.is_positive_int(max_results) or int(max_results) < 5):
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
 
         args = dict()
@@ -1130,7 +1138,7 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if (max_results and (not str(max_results).isdigit() or max_results < 5)) or max_results == 0:
+        if max_results is not None and (not self.is_positive_int(max_results) or int(max_results) < 5):
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
 
         args = dict()
@@ -1182,7 +1190,7 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if (max_results and not str(max_results).isdigit()) or max_results == 0:
+        if not (max_results is None or self.is_positive_int(max_results)):
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
 
         args = dict()
