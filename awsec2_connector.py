@@ -57,36 +57,6 @@ class AwsEc2Connector(BaseConnector):
 
         return input_str
 
-    def _get_error_message_from_exception(self, e):
-        """ This method is used to get appropriate error message from the exception.
-        :param e: Exception object
-        :return: error message
-        """
-
-        try:
-            if hasattr(e, 'args'):
-                if len(e.args) > 1:
-                    error_code = e.args[0]
-                    error_msg = e.args[1]
-                elif len(e.args) == 1:
-                    error_code = "Error code unavailable"
-                    error_msg = e.args[0]
-            else:
-                error_code = "Error code unavailable"
-                error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
-        except:
-            error_code = "Error code unavailable"
-            error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
-
-        try:
-            error_msg = self._handle_py_ver_compat_for_input_str(error_msg)
-        except TypeError:
-            error_msg = "Error occurred while connecting to the AWS EC2. Please check the asset configuration and|or the action parameters."
-        except:
-            error_msg = "Unknown error occurred. Please check the asset configuration and|or action parameters."
-
-        return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
-
     def is_positive_int(self, value):
         try:
             value = int(value)
