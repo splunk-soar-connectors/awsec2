@@ -1007,7 +1007,7 @@ class AwsEc2Connector(BaseConnector):
             You must specify at least one group, even if it's just the default security group in the VPC.
             You must specify the ID of the security group, not the name.
 
-            Get original group list, create list of groups without parameterized group, then update group list
+            Get original group list, create a list of groups without a parameterised group, then update the group list
         '''
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))

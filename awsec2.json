@@ -369,7 +369,7 @@
             "action": "describe instance",
             "identifier": "describe_instance",
             "description": "Describe one or more instances",
-            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as a filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
+            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -2000,7 +2000,7 @@
             "action": "add tag",
             "identifier": "add_tag",
             "undo": "remove tag",
-            "description": "Add tag to an instance",
+            "description": "Add a tag to an instance",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2145,7 +2145,7 @@
             "identifier": "remove_tag",
             "undo": "add tag",
             "description": "Remove specified tag from an instance",
-            "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix).",
+            "verbose": "If the user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If the user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If the user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the AWS: prefix).",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -4106,9 +4106,6 @@
                     "data_type": "string",
                     "example_values": [
                         "nginx-default-sg"
-                    ],
-                    "contains": [
-                        "url"
                     ]
                 },
                 {
