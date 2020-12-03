@@ -36,4 +36,3 @@ EC2_REGION_DICT = {
     }
 
 EC2_INVALID_LIMIT_MSG = 'Please provide non-zero positive integer in {param_name}'
-EC2_INVALID_LIMIT_MSG_GTE_5 = 'Please provide positive integer greater than or equal to 5 in {param_name}'

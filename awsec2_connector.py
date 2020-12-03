@@ -220,6 +220,7 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS
 
+    # This is not used anywhere, but as Phantom SaaS scope is only python 2 to 3 conversion, not removing this method
     def _create_vpc(self, vpc_id, action_result):
 
         boto_config = None
@@ -880,8 +881,8 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if max_results is not None and (not self.is_positive_int(max_results) or int(max_results) < 5):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
+        if not (max_results is None or self.is_positive_int(max_results)):
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
 
         args = dict()
         if filters:
@@ -1108,8 +1109,8 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
-        if max_results is not None and (not self.is_positive_int(max_results) or int(max_results) < 5):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG_GTE_5.format(param_name='max_results'))
+        if not (max_results is None or self.is_positive_int(max_results)):
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
 
         args = dict()
         if filters:
