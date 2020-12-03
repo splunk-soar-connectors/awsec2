@@ -532,7 +532,7 @@ class AwsEc2Connector(BaseConnector):
 
         load_balancer_name = param['load_balancer_name']
         instance_ids = param['instance_ids']
-        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',')]
+        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',') if item]
 
         args = {
             'LoadBalancerName': load_balancer_name,
