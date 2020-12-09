@@ -35,4 +35,4 @@ EC2_REGION_DICT = {
         "AWS GovCloud (US)": "us-gov-west-1"
     }
 
-EC2_INVALID_LIMIT_MSG = 'Please provide non-zero positive integer in {param_name}'
+EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_name}'
