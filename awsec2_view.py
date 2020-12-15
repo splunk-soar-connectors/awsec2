@@ -1,5 +1,5 @@
 # File: awsec2_view.py
-# Copyright (c) 2019 Splunk Inc.
+# Copyright (c) 2019-2020 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -44,7 +44,7 @@ def display_view(provides, all_app_runs, context):
     """
 
     context['results'] = results = []
-    for summary, action_results in all_app_runs:
+    for _, action_results in all_app_runs:
         for result in action_results:
 
             ctx_result = get_ctx_result(provides, result)

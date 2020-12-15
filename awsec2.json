@@ -9,12 +9,16 @@
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2019 Splunk Inc.",
-    "app_version": "1.0.7",
-    "utctime_updated": "2019-06-06T22:55:46.000000Z",
+    "license": "Copyright (c) 2019-2020 Splunk Inc.",
+    "app_version": "2.0.7",
+    "utctime_updated": "2020-12-10T11:00:08.000000Z",
     "package_name": "phantom_awsec2",
-    "main_module": "awsec2_connector.pyc",
-    "min_phantom_version": "4.0.1068",
+    "main_module": "awsec2_connector.py",
+    "min_phantom_version": "4.8.24304",
+    "python_version": "3",
+    "latest_tested_versions": [
+        "Cloud tested on 11-24-2020"
+    ],
     "app_wizard_version": "1.0.0",
     "pip_dependencies": {
         "wheel": [
@@ -31,12 +35,8 @@
                 "input_file": "wheels/botocore-1.12.96-py2.py3-none-any.whl"
             },
             {
-                "module": "futures",
-                "input_file": "wheels/futures-3.2.0-py2-none-any.whl"
-            },
-            {
                 "module": "docutils",
-                "input_file": "wheels/docutils-0.14-py2-none-any.whl"
+                "input_file": "wheels/docutils-0.16-py2.py3-none-any.whl"
             },
             {
                 "module": "jmespath",
@@ -85,7 +85,6 @@
                 "AWS GovCloud (US-East)",
                 "AWS GovCloud (US)"
             ],
-            "default": "",
             "order": 2
         }
     },
@@ -94,7 +93,6 @@
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
-            "verbose": "",
             "type": "test",
             "read_only": true,
             "parameters": {},
@@ -106,7 +104,6 @@
             "identifier": "start_instance",
             "undo": "stop instance",
             "description": "Start one or more instances",
-            "verbose": "",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -123,8 +120,6 @@
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 }
             },
@@ -151,8 +146,6 @@
                     "contains": [
                         "aws ec2 instance id"
                     ],
-                    "column_name": "Instance IDs",
-                    "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
                     ]
@@ -176,6 +169,11 @@
                 {
                     "data_path": "action_result.data.*.InstanceId",
                     "data_type": "string",
+                    "column_name": "Instance ID",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640"
                     ]
@@ -198,10 +196,7 @@
                 },
                 {
                     "data_path": "action_result.summary",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -252,15 +247,11 @@
                 "force": {
                     "description": "Forces the instances to stop",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 }
             },
@@ -295,8 +286,6 @@
                     "contains": [
                         "aws ec2 instance id"
                     ],
-                    "column_name": "Instance IDs",
-                    "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
                     ]
@@ -320,6 +309,11 @@
                 {
                     "data_path": "action_result.data.*.InstanceId",
                     "data_type": "string",
+                    "column_name": "Instance ID",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_order": 0,
                     "example_values": [
                         "i-0d872de1de2ea7640"
                     ]
@@ -342,16 +336,12 @@
                 },
                 {
                     "data_path": "action_result.summary",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "",
                         "Instances stopped successfully"
                     ]
                 },
@@ -379,15 +369,13 @@
             "action": "describe instance",
             "identifier": "describe_instance",
             "description": "Describe one or more instances",
-            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as a filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
+            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
                     "description": "One or more filters, separated by commas. Example: { 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 0
                 },
                 "instance_ids": {
@@ -396,22 +384,17 @@
                     "contains": [
                         "aws ec2 instance id"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 1
                 },
                 "limit": {
                     "description": "The maximum number of results to be fetched",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 3
                 }
             },
@@ -446,7 +429,7 @@
                         "aws ec2 instance id"
                     ],
                     "example_values": [
-                        ""
+                        "i-002f4885c00dd08cf0"
                     ]
                 },
                 {
@@ -648,14 +631,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -701,7 +684,7 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Description",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "Primary network interface"
                     ]
                 },
                 {
@@ -746,14 +729,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -770,14 +753,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -795,14 +778,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -851,7 +834,7 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.Placement.GroupName",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "7-2-0-Auto-Test-Group"
                     ]
                 },
                 {
@@ -872,14 +855,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-85-10.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.85.10"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -903,14 +886,14 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-54-87-130-185.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.PublicIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "54.87.130.185"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -971,24 +954,15 @@
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.StateReason.Code",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.StateReason.Message",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.StateTransitionReason",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.SubnetId",
@@ -1142,7 +1116,6 @@
             "identifier": "detach_instance",
             "undo": "attach instance",
             "description": "Detach an instance from an autoscaling group",
-            "verbose": "",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -1169,8 +1142,6 @@
                 "should_decrement_desired_capacity": {
                     "description": "Decrement the desired capacity value by the number of instances being detached",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 }
             },
@@ -1365,7 +1336,6 @@
             "identifier": "attach_instance",
             "undo": "detach instance",
             "description": "Attach an instance to an autoscaling group",
-            "verbose": "",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -1512,7 +1482,6 @@
             "action": "deregister instance",
             "identifier": "deregister_instance",
             "description": "Deregister an instance from AWS Elastic Load Balance",
-            "verbose": "",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -1521,7 +1490,6 @@
                     "verbose": "The load balancer provided in the input has to be in the active state and type classic",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "order": 0
                 },
                 "instance_ids": {
@@ -1664,7 +1632,6 @@
             "action": "snapshot instance",
             "identifier": "snapshot_instance",
             "description": "Snapshot AWS instance that has the given IP address or instance ID",
-            "verbose": "",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -1672,28 +1639,22 @@
                     "description": "The ID of the Elastic Block Store (EBS) volume",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "order": 0
                 },
                 "description": {
                     "description": "A description of the snapshot",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "tag_specifications": {
                     "description": "The tags to apply to the snapshot during creation, separated by commas. Example: { 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "order": 2
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 3
                 }
             },
@@ -1766,7 +1727,7 @@
                     "data_path": "action_result.data.*.Progress",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "89"
                     ]
                 },
                 {
@@ -1895,7 +1856,6 @@
             "action": "get tag",
             "identifier": "get_tag",
             "description": "Get the value of a tag for the given instance ID",
-            "verbose": "",
             "type": "investigate",
             "read_only": false,
             "parameters": {
@@ -1922,8 +1882,6 @@
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 }
             },
@@ -2009,10 +1967,7 @@
                 },
                 {
                     "data_path": "action_result.summary",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.message",
@@ -2045,8 +2000,7 @@
             "action": "add tag",
             "identifier": "add_tag",
             "undo": "remove tag",
-            "description": "Add tag to an instance",
-            "verbose": "",
+            "description": "Add a tag to an instance",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2076,15 +2030,12 @@
                     "contains": [
                         "aws ec2 tag value"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 2
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 3
                 }
             },
@@ -2194,7 +2145,7 @@
             "identifier": "remove_tag",
             "undo": "add tag",
             "description": "Remove specified tag from an instance",
-            "verbose": "If user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the aws: prefix).",
+            "verbose": "If the user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If the user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If the user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the AWS: prefix).",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2214,7 +2165,6 @@
                     "contains": [
                         "aws ec2 tag key"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 1
                 },
@@ -2224,15 +2174,12 @@
                     "contains": [
                         "aws ec2 tag value"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 2
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 3
                 }
             },
@@ -2377,29 +2324,22 @@
             "action": "get acls",
             "identifier": "get_acls",
             "description": "Get one or more network ACLs",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
                     "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 0
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "network_acl_ids": {
                     "description": "One or more network ACL IDs, separated by commas",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 }
             },
@@ -2422,11 +2362,17 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.network_acl_ids",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "acl-0729ksdnv768dda206"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.Associations.*.NetworkAclAssociationId",
@@ -2646,7 +2592,6 @@
             "action": "add acl",
             "identifier": "add_acl",
             "description": "Add ACL to an instance",
-            "verbose": "",
             "type": "correct",
             "read_only": false,
             "parameters": {
@@ -2663,8 +2608,6 @@
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 }
             },
@@ -2867,7 +2810,6 @@
             "action": "remove acl",
             "identifier": "remove_acl",
             "description": "Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted",
-            "verbose": "",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -2884,8 +2826,6 @@
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 }
             },
@@ -3007,22 +2947,17 @@
             "action": "list security groups",
             "identifier": "list_security_groups",
             "description": "Display security groups",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
                     "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 0
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "group_ids": {
@@ -3031,7 +2966,6 @@
                     "contains": [
                         "aws ec2 group id"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 2
                 },
@@ -3041,7 +2975,6 @@
                     "contains": [
                         "aws ec2 group name"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 3
                 },
@@ -3051,15 +2984,12 @@
                     "contains": [
                         "aws ec2 next token"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 4
                 },
                 "max_results": {
                     "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
                     "order": 5
                 }
             },
@@ -3082,13 +3012,19 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.group_ids",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-005000000ea7b73e0"
                     ]
                 },
                 {
@@ -3096,17 +3032,26 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Phantom Security Group"
                     ]
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.next_token",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZASDFGHJKLERTYU34GFG78SDFGHJR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -3265,6 +3210,11 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.Description",
+                    "data_type": "string",
+                    "example_value": "Allow resources within the security group complete access to others in same sg."
+                },
+                {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
                     "example_values": [
@@ -3290,6 +3240,13 @@
                     "data_type": "string",
                     "example_values": [
                         "0.0.0.0/0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.IpRanges.*.Description",
+                    "data_type": "string",
+                    "example_value": [
+                        "Allow egress to all"
                     ]
                 },
                 {
@@ -3387,7 +3344,6 @@
             "identifier": "assign_instance_to_group",
             "undo": "remove instance",
             "description": "Assign an instance to a security group",
-            "verbose": "",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -3538,7 +3494,6 @@
             "identifier": "remove_instance_from_group",
             "undo": "assign instance",
             "description": "Removes an EC2 instance from a security group",
-            "verbose": "",
             "type": "contain",
             "read_only": false,
             "parameters": {
@@ -3685,7 +3640,6 @@
             "action": "create vpc",
             "identifier": "create_vpc",
             "description": "Create a VPC with the specified IPv4 CIDR block",
-            "verbose": "",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -3693,28 +3647,21 @@
                     "description": "The IPv4 network range for the VPC, in CIDR notation. For example: 10.0.0.0/16",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "order": 0
                 },
                 "amazon_provided_ipv6_cidr_block": {
                     "description": "The Amazon provided IPv6 CIDR block with a /56 prefix length",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 },
                 "instance_tenancy": {
                     "description": "The tenancy options for instances launched into the VPC",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 3
                 }
             },
@@ -3752,7 +3699,10 @@
                 },
                 {
                     "data_path": "action_result.parameter.instance_tenancy",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Dedicated"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
@@ -3860,7 +3810,7 @@
                     "data_path": "action_result.data.*.Vpc.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlock",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "2000:1000:2000:4000::/56"
                     ]
                 },
                 {
@@ -3954,22 +3904,17 @@
             "action": "list network interfaces",
             "identifier": "list_network_interfaces",
             "description": "Display network interfaces",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
                     "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
                     "data_type": "string",
-                    "required": false,
-                    "primary": false,
                     "order": 0
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
                     "data_type": "boolean",
-                    "required": false,
-                    "primary": false,
                     "order": 1
                 },
                 "network_interface_ids": {
@@ -3978,7 +3923,6 @@
                     "contains": [
                         "aws ec2 network interface id"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 2
                 },
@@ -3988,15 +3932,12 @@
                     "contains": [
                         "aws ec2 next token"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 3
                 },
                 "max_results": {
                     "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
                     "order": 4
                 }
             },
@@ -4019,17 +3960,26 @@
                 },
                 {
                     "data_path": "action_result.parameter.filters",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.network_interface_ids",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 network interface id"
+                    ],
+                    "example_values": [
+                        "eni-07fb411234dd33d65a"
                     ]
                 },
                 {
@@ -4037,6 +3987,9 @@
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4064,14 +4017,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-100-25-197-155.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "100.25.197.155"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4138,14 +4091,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Description",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "ElastiCache test-clstr2-0003-001"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
                     "example_values": [
-                        "sg-00c60fd41aea33c09"
+                        "sg-00c60hquaea33c09"
                     ]
                 },
                 {
@@ -4153,9 +4106,6 @@
                     "data_type": "string",
                     "example_values": [
                         "nginx-default-sg"
-                    ],
-                    "contains": [
-                        "url"
                     ]
                 },
                 {
@@ -4190,14 +4140,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-59-219.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.59.219"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4228,14 +4178,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ec2-100-25-197-155.compute-1.amazonaws.com"
+                        "ec2-122-122-122-122.compute-1.amazonaws.com"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.Association.PublicIp",
                     "data_type": "string",
                     "example_values": [
-                        "100.25.197.155"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4253,14 +4203,14 @@
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateDnsName",
                     "data_type": "string",
                     "example_values": [
-                        "ip-172-31-59-219.ec2.internal"
+                        "ip-122-122-122-122.ec2.internal"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.PrivateIpAddresses.*.PrivateIpAddress",
                     "data_type": "string",
                     "example_values": [
-                        "172.31.59.219"
+                        "122.122.122.122"
                     ],
                     "contains": [
                         "ip"
@@ -4334,7 +4284,7 @@
                         "aws ec2 next token"
                     ],
                     "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDasdfghjklasdfghjklVWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4439,14 +4389,12 @@
             "action": "list autoscaling groups",
             "identifier": "list_autoscaling_groups",
             "description": "Display autoscaling groups",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "autoscaling_group_names": {
                     "description": "The names of the Auto Scaling groups, separated by commas",
                     "data_type": "string",
-                    "required": false,
                     "primary": true,
                     "contains": [
                         "aws ec2 autoscaling group name"
@@ -4459,15 +4407,12 @@
                     "contains": [
                         "aws ec2 next token"
                     ],
-                    "required": false,
                     "primary": true,
                     "order": 1
                 },
                 "max_results": {
                     "description": "Maximum number of results to return in a single call",
                     "data_type": "numeric",
-                    "required": false,
-                    "primary": false,
                     "order": 2
                 }
             },
@@ -4492,13 +4437,19 @@
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.next_token",
                     "data_type": "string",
                     "contains": [
                         "aws ec2 next token"
+                    ],
+                    "example_values": [
+                        "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {
@@ -4629,6 +4580,62 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandAllocationStrategy",
+                    "data_type": "string",
+                    "example_values": [
+                        "prioritized"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandBaseCapacity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.OnDemandPercentageAboveBaseCapacity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        70
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.InstancesDistribution.SpotAllocationStrategy",
+                    "data_type": "string",
+                    "example_values": [
+                        "capacity-optimized"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateId",
+                    "data_type": "string",
+                    "example_values": [
+                        "lt-064a0gg751234654h"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.LaunchTemplateName",
+                    "data_type": "string",
+                    "example_values": [
+                        "SOAR_Linux"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.LaunchTemplateSpecification.Version",
+                    "data_type": "string",
+                    "example_values": [
+                        "$Default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.MixedInstancesPolicy.LaunchTemplate.Overrides.*.InstanceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "a1.medium"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.NewInstancesProtectedFromScaleIn",
                     "data_type": "boolean",
                     "example_values": [
@@ -4642,7 +4649,7 @@
                     "column_name": "Service Linked Role ARN",
                     "column_order": 2,
                     "example_values": [
-                        "arn:aws:iam::849257271967:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                        "arn:aws:iam::849257270067:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
                     ]
                 },
                 {
@@ -4704,7 +4711,7 @@
                     "column_name": "Next Page Token",
                     "column_order": 3,
                     "example_values": [
-                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                        "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaaaaaaaaaaaDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
                     ]
                 },
                 {

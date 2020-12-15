@@ -1,5 +1,5 @@
 # File: awsec2_connector.py
-# Copyright (c) 2019 Splunk Inc.
+# Copyright (c) 2019-2020 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -13,11 +13,15 @@ from awsec2_consts import *
 from boto3 import client, resource
 from datetime import datetime
 from botocore.config import Config
+from bs4 import UnicodeDammit
 import botocore.response as br
 import requests
 import json
 import re
 import ast
+import sys
+
+import six
 
 
 class RetVal(tuple):
@@ -37,6 +41,29 @@ class AwsEc2Connector(BaseConnector):
         self._access_key = None
         self._secret_key = None
         self._proxy = None
+        self._python_version = None
+
+    def _handle_py_ver_compat_for_input_str(self, input_str):
+        """
+        This method returns the encoded|original string based on the Python version.
+        :param input_str: Input string to be processed
+        :return: input_str (Processed input string based on following logic 'input_str - Python 3; encoded input_str - Python 2')
+        """
+        try:
+            if input_str and self._python_version == 2:
+                input_str = UnicodeDammit(input_str).unicode_markup.encode('utf-8')
+        except:
+            self.debug_print("Error occurred while handling python 2to3 compatibility for the input string")
+
+        return input_str
+
+    def is_positive_int(self, value):
+        try:
+            value = int(value)
+            return True if value > 0 else False
+        except Exception:
+            pass
+        return False
 
     def _sanitize_data(self, cur_obj):
 
@@ -48,7 +75,7 @@ class AwsEc2Connector(BaseConnector):
 
         if isinstance(cur_obj, dict):
             new_dict = {}
-            for k, v in cur_obj.iteritems():
+            for k, v in six.iteritems(cur_obj):
                 if isinstance(v, br.StreamingBody):
                     content = v.read()
                     new_dict[k] = json.loads(content)
@@ -59,7 +86,7 @@ class AwsEc2Connector(BaseConnector):
         # if returning list(ec2.Tag) - example, for add_tag action
         if str(cur_obj).startswith('[ec2.Tag'):
             try:
-                return re.findall('.*resource_id=\'(.*?)\',.*', str(cur_obj))[0]
+                return re.findall('.*resource_id=u?\'(.*?)\',.*', str(cur_obj))[0]
             except:
                 pass
 
@@ -193,6 +220,7 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS
 
+    # This is not used anywhere, but as Phantom SaaS scope is only python 2 to 3 conversion, not removing this method
     def _create_vpc(self, vpc_id, action_result):
 
         boto_config = None
@@ -235,7 +263,7 @@ class AwsEc2Connector(BaseConnector):
         ret_val, resp_json = self._make_boto_call(action_result, 'describe_security_groups', MaxResults=5)
 
         if (phantom.is_fail(ret_val)):
-            self.save_progress("Test Connectivity Failed.")
+            self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
         # Return success
@@ -288,7 +316,7 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run')
         limit = param.get('limit')
 
-        if (limit and not str(limit).isdigit()) or limit == 0:
+        if not (limit is None or self.is_positive_int(limit)):
             return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='limit'))
 
         args = dict()
@@ -304,7 +332,8 @@ class AwsEc2Connector(BaseConnector):
                 return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(str(e)))
 
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
         if dry_run:
             args['DryRun'] = dry_run
 
@@ -438,7 +467,8 @@ class AwsEc2Connector(BaseConnector):
             'ShouldDecrementDesiredCapacity': should_decrement_desired_capacity
         }
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
@@ -472,7 +502,8 @@ class AwsEc2Connector(BaseConnector):
             'AutoScalingGroupName': autoscaling_group_name
         }
         if instance_ids:
-            args['InstanceIds'] = [item.strip() for item in instance_ids.split(',')]
+            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
+            args['InstanceIds'] = list(filter(None, instance_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
@@ -501,7 +532,7 @@ class AwsEc2Connector(BaseConnector):
 
         load_balancer_name = param['load_balancer_name']
         instance_ids = param['instance_ids']
-        instance_id_dict = [{ 'InstanceId': item.strip() } for item in instance_ids.split(',')]
+        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',') if item]
 
         args = {
             'LoadBalancerName': load_balancer_name,
@@ -559,7 +590,7 @@ class AwsEc2Connector(BaseConnector):
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary['snapshot_id'] = len(response.get('SnapshotId', {}))
+        summary['snapshot_id'] = response.get('SnapshotId')
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -597,7 +628,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         # Add the response into the data section
-        action_result.add_data({ 'resource_id': response })
+        action_result.add_data({'resource_id': response})
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
@@ -614,7 +645,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
         tag_key = param['tag_key']
-        dry_run = param.get('dry_run', 'False')
+        dry_run = param.get('dry_run', False)
 
         if not self._create_client('ec2', action_result):
             return action_result.get_status()
@@ -654,7 +685,11 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         if not response.get('Tags'):
-            return action_result.set_status(phantom.APP_ERROR, 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(tag_key, instance_id))
+            resp_message = 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(
+                self._handle_py_ver_compat_for_input_str(tag_key),
+                self._handle_py_ver_compat_for_input_str(instance_id)
+            )
+            return action_result.set_status(phantom.APP_ERROR, resp_message)
 
         # Add the response into the data section
         # The output response will consist of a unique dictionary for given tag
@@ -744,7 +779,8 @@ class AwsEc2Connector(BaseConnector):
         if dry_run:
             args['DryRun'] = dry_run
         if network_acl_ids:
-            args['NetworkAclIds'] = [item.strip() for item in network_acl_ids.split(',')]
+            network_acl_ids_list = [item.strip() for item in network_acl_ids.split(',')]
+            args['NetworkAclIds'] = list(filter(None, network_acl_ids_list))
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
@@ -845,6 +881,9 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
+        if not (max_results is None or self.is_positive_int(max_results)):
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+
         args = dict()
         if filters:
             try:
@@ -857,9 +896,11 @@ class AwsEc2Connector(BaseConnector):
             except Exception as e:
                 return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
         if group_ids:
-            args['GroupIds'] = group_ids.split(',')
+            group_ids_list = [item.strip() for item in group_ids.split(',')]
+            args['GroupIds'] = list(filter(None, group_ids_list))
         if group_names:
-            args['GroupNames'] = group_names.split(',')
+            group_names_list = [item.strip() for item in group_names.split(',')]
+            args['GroupNames'] = list(filter(None, group_names_list))
         if dry_run:
             args['DryRun'] = dry_run
         if next_token:
@@ -966,7 +1007,7 @@ class AwsEc2Connector(BaseConnector):
             You must specify at least one group, even if it's just the default security group in the VPC.
             You must specify the ID of the security group, not the name.
 
-            Get original group list, create list of groups without parameterized group, then update group list
+            Get original group list, create a list of groups without a parameterised group, then update the group list
         '''
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -1068,6 +1109,9 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
+        if not (max_results is None or self.is_positive_int(max_results)):
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+
         args = dict()
         if filters:
             try:
@@ -1082,7 +1126,8 @@ class AwsEc2Connector(BaseConnector):
         if dry_run:
             args['DryRun'] = dry_run
         if network_interface_ids:
-            args['NetworkInterfaceIds'] = [item.strip() for item in network_interface_ids.split(',')]
+            network_interface_ids_list = [item.strip() for item in network_interface_ids.split(',')]
+            args['NetworkInterfaceIds'] = list(filter(None, network_interface_ids_list))
         if next_token:
             args['NextToken'] = next_token
         if max_results is not None:
@@ -1116,9 +1161,13 @@ class AwsEc2Connector(BaseConnector):
         next_token = param.get('next_token')
         max_results = param.get('max_results')
 
+        if not (max_results is None or self.is_positive_int(max_results)):
+            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+
         args = dict()
         if autoscaling_group_names:
-            args['AutoScalingGroupNames'] = [item.strip() for item in autoscaling_group_names.split(',')]
+            autoscaling_group_names_list = [item.strip() for item in autoscaling_group_names.split(',')]
+            args['AutoScalingGroupNames'] = list(filter(None, autoscaling_group_names_list))
         if next_token:
             args['NextToken'] = next_token
         # This is a special case where the key is 'MaxRecords' instead of 'MaxResults'
@@ -1215,6 +1264,11 @@ class AwsEc2Connector(BaseConnector):
 
         # Load the state in initialize, use it to store data
         # that needs to be accessed across actions
+        try:
+            self._python_version = int(sys.version_info[0])
+        except:
+            return self.set_status(phantom.APP_ERROR, "Error occurred while getting the Phantom server's Python major version.")
+
         self._state = self.load_state()
 
         # get the asset config
@@ -1272,7 +1326,7 @@ if __name__ == '__main__':
         try:
             login_url = AwsEc2Connector._get_phantom_base_url() + '/login'
 
-            print ("Accessing the Login page")
+            print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
             csrftoken = r.cookies['csrftoken']
 
@@ -1285,11 +1339,11 @@ if __name__ == '__main__':
             headers['Cookie'] = 'csrftoken=' + csrftoken
             headers['Referer'] = login_url
 
-            print ("Logging into Platform to get the session id")
+            print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print ("Unable to get session id from the platform. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
 
     with open(args.input_test_json) as f:
@@ -1305,6 +1359,6 @@ if __name__ == '__main__':
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print (json.dumps(json.loads(ret_val), indent=4))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)
