@@ -1,5 +1,5 @@
 # File: awsec2_consts.py
-# Copyright (c) 2019-2020 Splunk Inc.
+# Copyright (c) 2019-2021 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -36,3 +36,5 @@ EC2_REGION_DICT = {
     }
 
 EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_name}'
+EC2_BAD_ASSET_CONFIG_MSG = 'Please provide access keys or select assume role check box in asset configuration'
+EC2_ROLE_CREDENTIALS_FAILURE_MSG = 'Failed to retrieve EC2 role credentials from instance'
