@@ -179,45 +179,21 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _create_instance(self, identifier, action_result, param=None):
+    def _create_resource(self, action_result, resource_type, identifier=None, param=None):
+
+        if resource_type not in EC2_RESOURCE_TYPES:
+            return action_result.set_status(phantom.APP_ERROR,
+                                            "Incorrect resource type: {0}".format(resource_type))
 
         boto_config = None
 
         # Validate the instance ID
-        ret_val = self._validate_instance_id(identifier, action_result, param)
+        if resource_type == 'instance' and identifier:
+            ret_val = self._validate_instance_id(identifier, action_result, param)
 
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
 
-        if self._proxy:
-            boto_config = Config(proxies=self._proxy)
-
-        try:
-            if self._access_key and self._secret_key:
-                self.debug_print("Creating boto3 client with API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    aws_access_key_id=self._access_key,
-                    aws_secret_access_key=self._secret_key,
-                    aws_session_token=self._session_token,
-                    config=boto_config)
-                self._service = ec2.Instance(identifier)
-            else:
-                self.debug_print("Creating boto3 client without API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    config=boto_config)
-                self._service = ec2.Instance(identifier)
-        except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(e))
-
-        return phantom.APP_SUCCESS
-
-    def _create_network_interface(self, identifier, action_result, param):
-
-        boto_config = None
         if self._proxy:
             boto_config = Config(proxies=self._proxy)
 
@@ -237,7 +213,7 @@ class AwsEc2Connector(BaseConnector):
 
         try:
             if self._access_key and self._secret_key:
-                self.debug_print("Creating boto3 client with API keys")
+                self.debug_print("Creating boto3 ec2 resource with API keys")
                 ec2 = resource(
                     'ec2',
                     region_name=self._region,
@@ -245,16 +221,21 @@ class AwsEc2Connector(BaseConnector):
                     aws_secret_access_key=self._secret_key,
                     aws_session_token=self._session_token,
                     config=boto_config)
-                self._service = ec2.NetworkInterface(identifier)
             else:
-                self.debug_print("Creating boto3 client without API keys")
+                self.debug_print("Creating boto3 ec2 resource without API keys")
                 ec2 = resource(
                     'ec2',
                     region_name=self._region,
                     config=boto_config)
+
+            if resource_type == 'instance' and identifier:
+                self._service = ec2.Instance(identifier)
+            elif resource_type == 'network_interface' and identifier:
                 self._service = ec2.NetworkInterface(identifier)
+            else:
+                return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: incorrect resource parameters")
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 network interface: {0}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(e))
 
         return phantom.APP_SUCCESS
 
@@ -563,6 +544,38 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_register_instance(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('elb', action_result):
+            return action_result.get_status()
+
+        load_balancer_name = param['load_balancer_name']
+        instance_ids = param['instance_ids']
+        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',') if item]
+
+        args = {
+            'LoadBalancerName': load_balancer_name,
+            'Instances': instance_id_dict
+        }
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'register_instances_with_load_balancer', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully registered instance"
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_snapshot_instance(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -603,6 +616,38 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_delete_snapshot(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        snapshot_id = param['snapshot_id']
+        dry_run = param.get('dry_run')
+
+        args = {
+            'SnapshotId': snapshot_id
+        }
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make boto call
+        ret_val, response = self._make_boto_call(action_result, 'delete_snapshot', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully deleted snapshot"
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_add_tag(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -612,7 +657,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
 
-        if not self._create_instance(instance_id, action_result, param):
+        if not self._create_resource(action_result, 'instance', instance_id, param):
             return action_result.get_status()
 
         tag_key = param.get('tag_key')
@@ -716,7 +761,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
 
-        if not self._create_instance(instance_id, action_result, param):
+        if not self._create_resource(action_result, 'instance', instance_id, param):
             return action_result.get_status()
 
         tag_key = param.get('tag_key')
@@ -987,7 +1032,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_network_interface(network_interface_id, action_result, param):
+        if not self._create_resource(action_result, 'network_interface', network_interface_id, param):
             return action_result.get_status()
 
         args = {
@@ -1039,7 +1084,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already not included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_network_interface(network_interface_id, action_result, param):
+        if not self._create_resource(action_result, 'network_interface', network_interface_id, param):
             return action_result.get_status()
 
         args = {
@@ -1099,6 +1144,39 @@ class AwsEc2Connector(BaseConnector):
         summary = action_result.update_summary({})
         summary['vpc_id'] = response.get('Vpc', {}).get('VpcId', 'Unavailable')
         summary['instance_tenancy'] = response.get('Vpc', {}).get('InstanceTenancy', 'Unavailable')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_delete_vpc(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result):
+            return action_result.get_status()
+
+        vpc_id = param['vpc_id']
+        dry_run = param.get('dry_run')
+
+        args = {
+            "VpcId": vpc_id
+        }
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make boto call
+        ret_val, response = self._make_boto_call(action_result, 'delete_vpc', **args)
+
+        if (phantom.is_fail(ret_val)):
+            return action_result.get_status()
+
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully deleted vpc"
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -1225,11 +1303,17 @@ class AwsEc2Connector(BaseConnector):
         elif action_id == 'attach_instance':
             ret_val = self._handle_attach_instance(param)
 
+        elif action_id == 'register_instance':
+            ret_val = self._handle_register_instance(param)
+
         elif action_id == 'deregister_instance':
             ret_val = self._handle_deregister_instance(param)
 
         elif action_id == 'snapshot_instance':
             ret_val = self._handle_snapshot_instance(param)
+
+        elif action_id == 'delete_snapshot':
+            ret_val = self._handle_delete_snapshot(param)
 
         elif action_id == 'get_tag':
             ret_val = self._handle_get_tag(param)
@@ -1260,6 +1344,9 @@ class AwsEc2Connector(BaseConnector):
 
         elif action_id == 'create_vpc':
             ret_val = self._handle_create_vpc(param)
+
+        elif action_id == 'delete_vpc':
+            ret_val = self._handle_delete_vpc(param)
 
         elif action_id == 'list_network_interfaces':
             ret_val = self._handle_list_network_interfaces(param)

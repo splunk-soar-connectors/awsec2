@@ -1578,6 +1578,317 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "delete vpc",
+            "identifier": "delete_vpc",
+            "description": "Delete a VPC",
+            "type": "contain",
+            "read_only": false,
+            "parameters": {
+                "vpc_id": {
+                    "description": "VPC id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "b220b8a8-9763-4a2a-9811-be6393fede56"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 11 Feb 2021 00:01:31 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "219"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "b220b8a8-9763-4a2a-9811-be6393fede56"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Status: Successfully deleted VPC"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.vpc_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-0606b5757a86faaaa"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "numeric",
+                    "example_values": [
+                        false
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully deleted VPC"
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "register instance",
+            "identifier": "register_instance",
+            "undo": "deregister instance",
+            "description": "Register an instance to an AWS Elastic Load Balancer",
+            "type": "contain",
+            "read_only": false,
+            "parameters": {
+                "load_balancer_name": {
+                    "description": "Name of the classic load balancer",
+                    "verbose": "The load balancer provided in the input has to be in the active state and of type classic",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 0
+                },
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.Instances.*.InstanceId",
+                    "data_type": "string",
+                    "example_values": [
+                        "i-00617ee31402c4b46"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 11 Feb 2021 00:17:18 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "468"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Status: Successfully registered instance"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully registered instance"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-00617ee31402c4b46"
+                    ],
+                    "column_name": "Instance IDs",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.load_balancer_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "testloadbalancer1"
+                    ],
+                    "column_name": "Load Balancer Name",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "numeric",
+                    "example_values": [
+                        false
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "deregister instance",
             "identifier": "deregister_instance",
             "description": "Deregister an instance from AWS Elastic Load Balance",
@@ -1738,6 +2049,163 @@
                     "data_type": "numeric",
                     "example_values": [
                         1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "delete snapshot",
+            "identifier": "delete_snapshot",
+            "description": "Delete snapshot of given AWS instance",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "snapshot_id": {
+                    "description": "Snapshot ID",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "cbdea730-5f77-4607-a030-4b94587283d8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 11 Feb 2021 00:18:26 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "229"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "cbdea730-5f77-4607-a030-4b94587283d8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "",
+                        "Status: Successfully deleted snapshot"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "numeric",
+                    "example_values": [
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.snapshot_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-0157e1eeeee3112be"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully deleted snapshot"
                     ]
                 }
             ],
@@ -3782,7 +4250,7 @@
             "action": "remove instance",
             "identifier": "remove_instance_from_group",
             "undo": "assign instance",
-            "description": "Removes an EC2 instance from a security group",
+            "description": "Removes an instance from a security group",
             "type": "contain",
             "read_only": false,
             "parameters": {
