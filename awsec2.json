@@ -2085,7 +2085,6 @@
                     "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "906001c5-b95d-4031-978d-3a123d5ed099",
                         "cbdea730-5f77-4607-a030-4b94587283d8"
                     ]
                 },
