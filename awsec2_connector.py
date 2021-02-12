@@ -252,7 +252,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, resp_json = self._make_boto_call(action_result, 'describe_security_groups', MaxResults=5)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
@@ -385,7 +385,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'start_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -425,7 +425,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'stop_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -463,7 +463,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -498,7 +498,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -532,7 +532,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'deregister_instances_from_load_balancer', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -562,10 +562,10 @@ class AwsEc2Connector(BaseConnector):
             'Instances': instance_id_dict
         }
 
-        # make rest call
+        # make boto call
         ret_val, response = self._make_boto_call(action_result, 'register_instances_with_load_balancer', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -604,7 +604,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_snapshot', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -638,7 +638,7 @@ class AwsEc2Connector(BaseConnector):
         # make boto call
         ret_val, response = self._make_boto_call(action_result, 'delete_snapshot', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         action_result.add_data(response)
@@ -678,7 +678,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -732,7 +732,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -793,7 +793,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'delete_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -839,7 +839,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -872,7 +872,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_network_acl', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -906,7 +906,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'delete_network_acl', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -965,7 +965,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_security_groups', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -990,7 +990,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return (action_result.get_status(), None, None)
 
         group_list = None
@@ -1022,7 +1022,7 @@ class AwsEc2Connector(BaseConnector):
         group_to_add = param['group_id']
         instance_id = param['instance_id']
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Try to add the parameterized group from the list
@@ -1042,7 +1042,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'modify_attribute', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1074,7 +1074,7 @@ class AwsEc2Connector(BaseConnector):
 
         ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Try to remove the parameterized group from the list
@@ -1094,7 +1094,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'modify_attribute', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1134,7 +1134,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_vpc', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1170,7 +1170,7 @@ class AwsEc2Connector(BaseConnector):
         # make boto call
         ret_val, response = self._make_boto_call(action_result, 'delete_vpc', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         action_result.add_data(response)
@@ -1222,7 +1222,7 @@ class AwsEc2Connector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_interfaces', **args)
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1264,7 +1264,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_auto_scaling_groups', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
