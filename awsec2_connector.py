@@ -550,7 +550,7 @@ class AwsEc2Connector(BaseConnector):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('elb', action_result):
+        if not self._create_client('elb', action_result, param):
             return action_result.get_status()
 
         load_balancer_name = param['load_balancer_name']
@@ -622,7 +622,7 @@ class AwsEc2Connector(BaseConnector):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         snapshot_id = param['snapshot_id']
@@ -1154,7 +1154,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         vpc_id = param['vpc_id']
