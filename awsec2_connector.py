@@ -1,5 +1,5 @@
 # File: awsec2_connector.py
-# Copyright (c) 2019-2020 Splunk Inc.
+# Copyright (c) 2019-2021 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -10,7 +10,7 @@ from phantom.action_result import ActionResult
 
 # Usage of the consts file is recommended
 from awsec2_consts import *
-from boto3 import client, resource
+from boto3 import client, resource, Session
 from datetime import datetime
 from botocore.config import Config
 from bs4 import UnicodeDammit
@@ -40,6 +40,7 @@ class AwsEc2Connector(BaseConnector):
         self._region = None
         self._access_key = None
         self._secret_key = None
+        self._session_token = None
         self._proxy = None
         self._python_version = None
 
@@ -115,11 +116,31 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
 
-    def _create_client(self, service, action_result):
+    def _handle_get_ec2_role(self):
+
+        session = Session(region_name=self._region)
+        credentials = session.get_credentials()
+        return credentials
+
+    def _create_client(self, service, action_result, param=None):
 
         boto_config = None
         if self._proxy:
             boto_config = Config(proxies=self._proxy)
+
+        # Try getting and using temporary assume role credentials from parameters
+        temp_credentials = dict()
+        if param and 'credentials' in param:
+            try:
+                temp_credentials = ast.literal_eval(param['credentials'])
+                self._access_key = temp_credentials.get('AccessKeyId', '')
+                self._secret_key = temp_credentials.get('SecretAccessKey', '')
+                self._session_token = temp_credentials.get('SessionToken', '')
+
+                self.save_progress("Using temporary assume role credentials for action")
+            except Exception as e:
+                return action_result.set_status(phantom.APP_ERROR,
+                                                "Failed to get temporary credentials:{0}".format(e))
 
         try:
             if self._access_key and self._secret_key:
@@ -129,6 +150,7 @@ class AwsEc2Connector(BaseConnector):
                     region_name=self._region,
                     aws_access_key_id=self._access_key,
                     aws_secret_access_key=self._secret_key,
+                    aws_session_token=self._session_token,
                     config=boto_config)
             else:
                 self.debug_print("Creating boto3 client without API keys")
@@ -141,8 +163,8 @@ class AwsEc2Connector(BaseConnector):
 
         return phantom.APP_SUCCESS
 
-    def _validate_instance_id(self, instance_id, action_result):
-        if not self._create_client('ec2', action_result):
+    def _validate_instance_id(self, instance_id, action_result, param):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         args = {
@@ -157,95 +179,63 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _create_instance(self, identifier, action_result):
+    def _create_resource(self, action_result, resource_type, identifier=None, param=None):
+
+        if resource_type not in EC2_RESOURCE_TYPES:
+            return action_result.set_status(phantom.APP_ERROR,
+                                            "Incorrect resource type: {0}".format(resource_type))
 
         boto_config = None
 
         # Validate the instance ID
-        ret_val = self._validate_instance_id(identifier, action_result)
+        if resource_type == 'instance' and identifier:
+            ret_val = self._validate_instance_id(identifier, action_result, param)
 
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
 
         if self._proxy:
             boto_config = Config(proxies=self._proxy)
 
+        # Try getting and using temporary assume role credentials from parameters
+        temp_credentials = dict()
+        if param and 'credentials' in param:
+            try:
+                temp_credentials = ast.literal_eval(param['credentials'])
+                self._access_key = temp_credentials.get('AccessKeyId', '')
+                self._secret_key = temp_credentials.get('SecretAccessKey', '')
+                self._session_token = temp_credentials.get('SessionToken', '')
+
+                self.save_progress("Using temporary assume role credentials for action")
+            except Exception as e:
+                return action_result.set_status(phantom.APP_ERROR,
+                                                "Failed to get temporary credentials:{0}".format(e))
+
         try:
             if self._access_key and self._secret_key:
-                self.debug_print("Creating boto3 client with API keys")
+                self.debug_print("Creating boto3 ec2 resource with API keys")
                 ec2 = resource(
                     'ec2',
                     region_name=self._region,
                     aws_access_key_id=self._access_key,
                     aws_secret_access_key=self._secret_key,
+                    aws_session_token=self._session_token,
                     config=boto_config)
-                self._service = ec2.Instance(identifier)
             else:
-                self.debug_print("Creating boto3 client without API keys")
+                self.debug_print("Creating boto3 ec2 resource without API keys")
                 ec2 = resource(
                     'ec2',
                     region_name=self._region,
                     config=boto_config)
+
+            if resource_type == 'instance' and identifier:
                 self._service = ec2.Instance(identifier)
+            elif resource_type == 'network_interface' and identifier:
+                self._service = ec2.NetworkInterface(identifier)
+            else:
+                return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: incorrect resource parameters")
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(e))
-
-        return phantom.APP_SUCCESS
-
-    def _create_network_interface(self, identifier, action_result):
-
-        boto_config = None
-        if self._proxy:
-            boto_config = Config(proxies=self._proxy)
-
-        try:
-            if self._access_key and self._secret_key:
-                self.debug_print("Creating boto3 client with API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    aws_access_key_id=self._access_key,
-                    aws_secret_access_key=self._secret_key,
-                    config=boto_config)
-                self._service = ec2.NetworkInterface(identifier)
-            else:
-                self.debug_print("Creating boto3 client without API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    config=boto_config)
-                self._service = ec2.NetworkInterface(identifier)
-        except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 network interface: {0}".format(e))
-
-        return phantom.APP_SUCCESS
-
-    # This is not used anywhere, but as Phantom SaaS scope is only python 2 to 3 conversion, not removing this method
-    def _create_vpc(self, vpc_id, action_result):
-
-        boto_config = None
-        if self._proxy:
-            boto_config = Config(proxies=self._proxy)
-
-        try:
-            if self._access_key and self._secret_key:
-                self.debug_print("Creating boto3 client with API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    aws_access_key_id=self._access_key,
-                    aws_secret_access_key=self._secret_key,
-                    config=boto_config)
-                self._service = ec2.Vpc(vpc_id)
-            else:
-                self.debug_print("Creating boto3 client without API keys")
-                ec2 = resource(
-                    'ec2',
-                    region_name=self._region,
-                    config=boto_config)
-                self._service = ec2.Vpc(vpc_id)
-        except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 security group: {0}".format(e))
 
         return phantom.APP_SUCCESS
 
@@ -256,13 +246,13 @@ class AwsEc2Connector(BaseConnector):
 
         self.save_progress("Querying AWS to check credentials")
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         # make rest call
         ret_val, resp_json = self._make_boto_call(action_result, 'describe_security_groups', MaxResults=5)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
 
@@ -308,7 +298,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         filters = param.get('filters')
@@ -377,7 +367,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         instance_ids = param['instance_ids']
@@ -395,7 +385,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'start_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -414,7 +404,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         instance_ids = param['instance_ids']
@@ -435,7 +425,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'stop_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -455,7 +445,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('autoscaling', action_result):
+        if not self._create_client('autoscaling', action_result, param):
             return action_result.get_status()
 
         instance_ids = param.get('instance_ids')
@@ -473,7 +463,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -492,7 +482,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('autoscaling', action_result):
+        if not self._create_client('autoscaling', action_result, param):
             return action_result.get_status()
 
         instance_ids = param.get('instance_ids')
@@ -508,7 +498,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -527,7 +517,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('elb', action_result):
+        if not self._create_client('elb', action_result, param):
             return action_result.get_status()
 
         load_balancer_name = param['load_balancer_name']
@@ -542,7 +532,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'deregister_instances_from_load_balancer', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -554,6 +544,38 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_register_instance(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('elb', action_result, param):
+            return action_result.get_status()
+
+        load_balancer_name = param['load_balancer_name']
+        instance_ids = param['instance_ids']
+        instance_id_dict = [{'InstanceId': item.strip()} for item in instance_ids.split(',') if item]
+
+        args = {
+            'LoadBalancerName': load_balancer_name,
+            'Instances': instance_id_dict
+        }
+
+        # make boto call
+        ret_val, response = self._make_boto_call(action_result, 'register_instances_with_load_balancer', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully registered instance"
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_snapshot_instance(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -561,7 +583,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         volume_id = param['volume_id']
@@ -582,7 +604,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_snapshot', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -591,6 +613,38 @@ class AwsEc2Connector(BaseConnector):
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['snapshot_id'] = response.get('SnapshotId')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_delete_snapshot(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        snapshot_id = param['snapshot_id']
+        dry_run = param.get('dry_run')
+
+        args = {
+            'SnapshotId': snapshot_id
+        }
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make boto call
+        ret_val, response = self._make_boto_call(action_result, 'delete_snapshot', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully deleted snapshot"
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -603,7 +657,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
 
-        if not self._create_instance(instance_id, action_result):
+        if not self._create_resource(action_result, 'instance', instance_id, param):
             return action_result.get_status()
 
         tag_key = param.get('tag_key')
@@ -624,7 +678,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -647,7 +701,7 @@ class AwsEc2Connector(BaseConnector):
         tag_key = param['tag_key']
         dry_run = param.get('dry_run', False)
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         args = {
@@ -678,7 +732,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         if not response:
@@ -707,7 +761,7 @@ class AwsEc2Connector(BaseConnector):
 
         instance_id = param['instance_id']
 
-        if not self._create_instance(instance_id, action_result):
+        if not self._create_resource(action_result, 'instance', instance_id, param):
             return action_result.get_status()
 
         tag_key = param.get('tag_key')
@@ -739,7 +793,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'delete_tags', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -758,7 +812,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         filters = param.get('filters')
@@ -785,7 +839,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -804,7 +858,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         vpc_id = param['vpc_id']
@@ -818,7 +872,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_network_acl', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -837,7 +891,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         network_acl_id = param['network_acl_id']
@@ -852,7 +906,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'delete_network_acl', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -871,7 +925,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         filters = param.get('filters')
@@ -911,7 +965,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_security_groups', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -923,10 +977,10 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _security_group_helper(self, instance_id, action_result):
+    def _security_group_helper(self, instance_id, action_result, param):
 
         # Get original list of security groups associated with network interface id
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         args = {
@@ -936,7 +990,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_instances', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return (action_result.get_status(), None, None)
 
         group_list = None
@@ -967,8 +1021,8 @@ class AwsEc2Connector(BaseConnector):
 
         group_to_add = param['group_id']
         instance_id = param['instance_id']
-        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
-        if (phantom.is_fail(ret_val)):
+        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Try to add the parameterized group from the list
@@ -978,7 +1032,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_network_interface(network_interface_id, action_result):
+        if not self._create_resource(action_result, 'network_interface', network_interface_id, param):
             return action_result.get_status()
 
         args = {
@@ -988,7 +1042,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'modify_attribute', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1018,9 +1072,9 @@ class AwsEc2Connector(BaseConnector):
         group_to_remove = param['group_id']
         instance_id = param['instance_id']
 
-        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result)
+        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Try to remove the parameterized group from the list
@@ -1030,7 +1084,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already not included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_network_interface(network_interface_id, action_result):
+        if not self._create_resource(action_result, 'network_interface', network_interface_id, param):
             return action_result.get_status()
 
         args = {
@@ -1040,7 +1094,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'modify_attribute', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1059,7 +1113,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         cidr_block = param['cidr_block']
@@ -1080,7 +1134,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_vpc', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1093,6 +1147,39 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_delete_vpc(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        vpc_id = param['vpc_id']
+        dry_run = param.get('dry_run')
+
+        args = {
+            "VpcId": vpc_id
+        }
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make boto call
+        ret_val, response = self._make_boto_call(action_result, 'delete_vpc', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        action_result.add_data(response)
+
+        summary = action_result.update_summary({})
+        summary['status'] = "Successfully deleted vpc"
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_list_network_interfaces(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -1100,7 +1187,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result):
+        if not self._create_client('ec2', action_result, param):
             return action_result.get_status()
 
         filters = param.get('filters')
@@ -1135,7 +1222,7 @@ class AwsEc2Connector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_interfaces', **args)
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1154,7 +1241,7 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('autoscaling', action_result):
+        if not self._create_client('autoscaling', action_result, param):
             return action_result.get_status()
 
         autoscaling_group_names = param.get('autoscaling_group_names')
@@ -1177,7 +1264,7 @@ class AwsEc2Connector(BaseConnector):
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_auto_scaling_groups', **args)
 
-        if (phantom.is_fail(ret_val)):
+        if phantom.is_fail(ret_val):
             return action_result.get_status()
 
         # Add the response into the data section
@@ -1216,11 +1303,17 @@ class AwsEc2Connector(BaseConnector):
         elif action_id == 'attach_instance':
             ret_val = self._handle_attach_instance(param)
 
+        elif action_id == 'register_instance':
+            ret_val = self._handle_register_instance(param)
+
         elif action_id == 'deregister_instance':
             ret_val = self._handle_deregister_instance(param)
 
         elif action_id == 'snapshot_instance':
             ret_val = self._handle_snapshot_instance(param)
+
+        elif action_id == 'delete_snapshot':
+            ret_val = self._handle_delete_snapshot(param)
 
         elif action_id == 'get_tag':
             ret_val = self._handle_get_tag(param)
@@ -1252,6 +1345,9 @@ class AwsEc2Connector(BaseConnector):
         elif action_id == 'create_vpc':
             ret_val = self._handle_create_vpc(param)
 
+        elif action_id == 'delete_vpc':
+            ret_val = self._handle_delete_vpc(param)
+
         elif action_id == 'list_network_interfaces':
             ret_val = self._handle_list_network_interfaces(param)
 
@@ -1274,11 +1370,6 @@ class AwsEc2Connector(BaseConnector):
         # get the asset config
         config = self.get_config()
 
-        if EC2_JSON_ACCESS_KEY in config:
-            self._access_key = config.get(EC2_JSON_ACCESS_KEY)
-        if EC2_JSON_SECRET_KEY in config:
-            self._secret_key = config.get(EC2_JSON_SECRET_KEY)
-
         self._region = EC2_REGION_DICT.get(config[EC2_JSON_REGION])
 
         self._proxy = {}
@@ -1287,6 +1378,22 @@ class AwsEc2Connector(BaseConnector):
             self._proxy['http'] = env_vars['HTTP_PROXY']['value']
         if 'HTTPS_PROXY' in env_vars:
             self._proxy['https'] = env_vars['HTTPS_PROXY']['value']
+
+        if config.get('use_role'):
+            credentials = self._handle_get_ec2_role()
+            if not credentials:
+                return self.set_status(phantom.APP_ERROR, EC2_ROLE_CREDENTIALS_FAILURE_MSG)
+            self._access_key = credentials.access_key
+            self._secret_key = credentials.secret_key
+            self._session_token = credentials.token
+
+            return phantom.APP_SUCCESS
+
+        self._access_key = config.get(EC2_JSON_ACCESS_KEY)
+        self._secret_key = config.get(EC2_JSON_SECRET_KEY)
+
+        if not (self._access_key and self._secret_key):
+            return self.set_status(phantom.APP_ERROR, EC2_BAD_ASSET_CONFIG_MSG)
 
         return phantom.APP_SUCCESS
 
