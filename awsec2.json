@@ -17,7 +17,7 @@
     "min_phantom_version": "4.9.39220",
     "python_version": "3",
     "latest_tested_versions": [
-        "Cloud tested on 11-24-2020"
+        "Cloud tested on August 11, 2021"
     ],
     "app_wizard_version": "1.0.0",
     "pip_dependencies": {
@@ -89,6 +89,9 @@
             "description": "Use attached role when running Phantom in EC2",
             "data_type": "boolean",
             "default": false,
+            "visibility": [
+                "onprem"
+            ],
             "order": 3
         }
     },
@@ -2192,13 +2195,25 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.snapshot_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-0157e1eeeee3112be"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0
+                },
+                {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
                         "success"
                     ],
                     "column_name": "Status",
-                    "column_order": 2
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.message",
@@ -2214,18 +2229,6 @@
                     "example_values": [
                         false
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.snapshot_id",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 snapshot id"
-                    ],
-                    "example_values": [
-                        "snap-0157e1eeeee3112be"
-                    ],
-                    "column_name": "Snapshot ID",
-                    "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.credentials",
