@@ -14,7 +14,7 @@
     "utctime_updated": "2021-10-13T07:06:58.000000Z",
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.py",
-    "min_phantom_version": "4.9.39220",
+    "min_phantom_version": "5.0.0",
     "python_version": "3",
     "latest_tested_versions": [
         "Cloud tested on August 11, 2021"
