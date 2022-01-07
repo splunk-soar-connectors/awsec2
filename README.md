@@ -11,7 +11,7 @@ Minimum Product Version: 5\.0\.0
 This app integrates with AWS Elastic Compute Cloud \(EC2\) to perform virtualization actions
 
 [comment]: # " File: readme.md"
-[comment]: # "  Copyright (c) 2019-2021 Splunk Inc."
+[comment]: # "  Copyright (c) 2019-2022 Splunk Inc."
 [comment]: # ""
 [comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
 [comment]: # "you may not use this file except in compliance with the License."
