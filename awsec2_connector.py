@@ -1,6 +1,6 @@
 # File: awsec2_connector.py
 #
-# Copyright (c) 2019-2021 Splunk Inc.
+# Copyright (c) 2019-2022 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,25 +14,23 @@
 # and limitations under the License.
 #
 #
-# Phantom App imports
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
-# Usage of the consts file is recommended
-from awsec2_consts import *
-from boto3 import client, resource, Session
-from datetime import datetime
-from botocore.config import Config
-from bs4 import UnicodeDammit
-import botocore.response as br
-import requests
+import ast
 import json
 import re
-import ast
 import sys
+from datetime import datetime
 
+import botocore.response as br
+import phantom.app as phantom
+import requests
 import six
+from boto3 import Session, client, resource
+from botocore.config import Config
+from bs4 import UnicodeDammit
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
+from awsec2_consts import *
 
 
 class RetVal(tuple):
@@ -783,7 +781,8 @@ class AwsEc2Connector(BaseConnector):
         tags_dict = dict()
 
         if not tag_key and tag_value:
-            return action_result.set_status(phantom.APP_ERROR, 'Providing tag value without a tag key performs nothing and hence, it is not allowed')
+            return action_result.set_status(phantom.APP_ERROR,
+                'Providing tag value without a tag key performs nothing and hence, it is not allowed')
 
         if tag_key and tag_value is None:
             tags_dict = {
@@ -1019,7 +1018,8 @@ class AwsEc2Connector(BaseConnector):
             return (action_result.set_status(phantom.APP_ERROR, 'The provided instance does not exist'), None, None)
 
         if group_list is None or network_interface_id is None:
-            return (action_result.set_status(phantom.APP_ERROR, 'Error occurred while fetching the group list and network interface ID for given instance ID'), None, None)
+            return (action_result.set_status(phantom.APP_ERROR,
+                'Error occurred while fetching the group list and network interface ID for given instance ID'), None, None)
 
         return (phantom.APP_SUCCESS, group_list, network_interface_id)
 
@@ -1417,8 +1417,9 @@ class AwsEc2Connector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
