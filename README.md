@@ -2,7 +2,7 @@
 # AWS EC2
 
 Publisher: Splunk  
-Connector Version: 2\.3\.8  
+Connector Version: 2\.3\.11  
 Product Vendor: AWS  
 Product Name: EC2  
 Product Version Supported (regex): "\.\*"  
@@ -10,7 +10,7 @@ Minimum Product Version: 5\.0\.0
 
 This app integrates with AWS Elastic Compute Cloud \(EC2\) to perform virtualization actions
 
-[comment]: # " File: readme.md"
+[comment]: # " File: README.md"
 [comment]: # "  Copyright (c) 2019-2022 Splunk Inc."
 [comment]: # ""
 [comment]: # "Licensed under the Apache License, Version 2.0 (the 'License');"
