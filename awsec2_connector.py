@@ -1,27 +1,36 @@
 # File: awsec2_connector.py
-# Copyright (c) 2019-2021 Splunk Inc.
 #
-# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
-# without a valid written license from Splunk Inc. is PROHIBITED.
-# Phantom App imports
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-
-# Usage of the consts file is recommended
-from awsec2_consts import *
-from boto3 import client, resource, Session
-from datetime import datetime
-from botocore.config import Config
-from bs4 import UnicodeDammit
-import botocore.response as br
-import requests
+# Copyright (c) 2019-2022 Splunk Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+# either express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
+#
+import ast
 import json
 import re
-import ast
 import sys
+from datetime import datetime
 
+import botocore.response as br
+import phantom.app as phantom
+import requests
 import six
+from boto3 import Session, client, resource
+from botocore.config import Config
+from bs4 import UnicodeDammit
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
+from awsec2_consts import *
 
 
 class RetVal(tuple):
@@ -772,7 +781,8 @@ class AwsEc2Connector(BaseConnector):
         tags_dict = dict()
 
         if not tag_key and tag_value:
-            return action_result.set_status(phantom.APP_ERROR, 'Providing tag value without a tag key performs nothing and hence, it is not allowed')
+            return action_result.set_status(phantom.APP_ERROR,
+                'Providing tag value without a tag key performs nothing and hence, it is not allowed')
 
         if tag_key and tag_value is None:
             tags_dict = {
@@ -1008,7 +1018,8 @@ class AwsEc2Connector(BaseConnector):
             return (action_result.set_status(phantom.APP_ERROR, 'The provided instance does not exist'), None, None)
 
         if group_list is None or network_interface_id is None:
-            return (action_result.set_status(phantom.APP_ERROR, 'Error occurred while fetching the group list and network interface ID for given instance ID'), None, None)
+            return (action_result.set_status(phantom.APP_ERROR,
+                'Error occurred while fetching the group list and network interface ID for given instance ID'), None, None)
 
         return (phantom.APP_SUCCESS, group_list, network_interface_id)
 
@@ -1406,8 +1417,9 @@ class AwsEc2Connector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
