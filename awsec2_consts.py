@@ -49,3 +49,4 @@ EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_na
 EC2_BAD_ASSET_CONFIG_MSG = 'Please provide access keys or select assume role check box in asset configuration'
 EC2_ROLE_CREDENTIALS_FAILURE_MSG = 'Failed to retrieve EC2 role credentials from instance'
 EC2_RESOURCE_TYPES = ['instance', 'network_interface']
+EC2_DEFAULT_TIMEOUT = 30
