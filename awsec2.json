@@ -14,7 +14,7 @@
     "utctime_updated": "2022-01-26T22:29:01.000000Z",
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.py",
-    "min_phantom_version": "5.0.0",
+    "min_phantom_version": "5.1.0",
     "python_version": "3",
     "fips_compliant": true,
     "latest_tested_versions": [
