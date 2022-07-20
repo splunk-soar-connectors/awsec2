@@ -16,7 +16,7 @@
 #
 # Define your constants here
 EC2_JSON_ACCESS_KEY = "access_key"
-EC2_JSON_SECRET_KEY = "secret_key"
+EC2_JSON_SECRET_KEY = "secret_key"  # pragma: allowlist secret
 EC2_JSON_REGION = "region"
 EC2_MAX_RESULTS_LIMIT = 1000
 
@@ -48,5 +48,14 @@ EC2_REGION_DICT = {
 EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_name}'
 EC2_BAD_ASSET_CONFIG_MSG = 'Please provide access keys or select assume role check box in asset configuration'
 EC2_ROLE_CREDENTIALS_FAILURE_MSG = 'Failed to retrieve EC2 role credentials from instance'
+
+EC2_ERR_MSG_UNAVAILABLE = "Error message unavailable. Please check the asset configuration and|or action parameters"
+EC2_VALID_INT_MSG = "Please provide a valid integer value in the '{param}' parameter"
+EC2_NON_NEG_NON_ZERO_INT_MSG = "Please provide a valid non-zero positive integer value in '{param}' parameter"
+EC2_NON_NEG_INT_MSG = "Please provide a valid non-negative integer value in the '{param}' parameter"
+
 EC2_RESOURCE_TYPES = ['instance', 'network_interface']
 EC2_DEFAULT_TIMEOUT = 30
+
+EC2_LIMIT_KEY = "'limit' action parameter"
+EC2_MAX_RESULTS_KEY = "'max_results' action parameter"
