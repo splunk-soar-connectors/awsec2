@@ -109,7 +109,7 @@ class AwsEc2Connector(BaseConnector):
         try:
             json.dumps(cur_obj)
             return cur_obj
-        except:
+        except Exception:
             pass
 
         if isinstance(cur_obj, dict):
@@ -126,7 +126,7 @@ class AwsEc2Connector(BaseConnector):
         if str(cur_obj).startswith('[ec2.Tag'):
             try:
                 return re.findall('.*resource_id=u?\'(.*?)\',.*', str(cur_obj))[0]
-            except:
+            except Exception:
                 pass
 
         if isinstance(cur_obj, list):
@@ -313,7 +313,8 @@ class AwsEc2Connector(BaseConnector):
         list_items = list()
         next_token = None
 
-        if self.get_action_identifier() == 'describe_instance' and 'InstanceIds' not in kwargs:
+        if self.get_action_identifier() in EC2_PAGINATION_SUPPORTED_ACTIONS and \
+                EC2_PAGINATION_SUPPORTED_ACTIONS[self.get_action_identifier()] not in kwargs:
             kwargs['MaxResults'] = EC2_MAX_RESULTS_LIMIT
 
         while True:
@@ -427,6 +428,8 @@ class AwsEc2Connector(BaseConnector):
             args['DryRun'] = dry_run
 
         list_reservations = self._paginator('describe_instances', limit, action_result, key="Reservations", **args)
+        if action_result.get_message():
+            return action_result.get_status()
 
         response = {'Reservations': list_reservations}
         # Add the response into the data section
@@ -486,6 +489,8 @@ class AwsEc2Connector(BaseConnector):
             args['DryRun'] = dry_run
 
         list_subnets = self._paginator('describe_subnets', limit, action_result, key="Subnets", **args)
+        if action_result.get_message():
+            return action_result.get_status()
 
         # Add the response into the data section
         for subnet in list_subnets:
@@ -494,6 +499,49 @@ class AwsEc2Connector(BaseConnector):
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['num_subnets'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_describe_network_interfaces(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        network_interface_ids = param.get('network_interface_ids')
+        dry_run = param.get('dry_run')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if network_interface_ids:
+            args['NetworkInterfaceIds'] = self._parse_comma_separated_ids(network_interface_ids)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_network_interfaces = self._paginator('describe_network_interfaces', limit, action_result, key="NetworkInterfaces", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for network_interface in list_network_interfaces:
+            action_result.add_data(network_interface)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_network_interfaces'] = action_result.get_data_size()
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -1196,7 +1244,7 @@ class AwsEc2Connector(BaseConnector):
         # Try to remove the parameterized group from the list
         try:
             group_list.remove(group_to_remove)
-        except:
+        except Exception:
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already not included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
@@ -1404,6 +1452,9 @@ class AwsEc2Connector(BaseConnector):
 
         elif action_id == 'describe_subnets':
             ret_val = self._handle_describe_subnets(param)
+
+        elif action_id == 'describe_network_interfaces':
+            ret_val = self._handle_describe_network_interfaces(param)
 
         elif action_id == 'start_instance':
             ret_val = self._handle_start_instance(param)

@@ -45,6 +45,12 @@ EC2_REGION_DICT = {
         "AWS GovCloud (US)": "us-gov-west-1"
     }
 
+EC2_PAGINATION_SUPPORTED_ACTIONS = {
+    'describe_instance': 'InstanceIds',
+    'describe_subnets': 'SubnetIds',
+    'describe_network_interfaces': 'NetworkInterfaceIds'
+}
+
 EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_name}'
 EC2_BAD_ASSET_CONFIG_MSG = 'Please provide access keys or select assume role check box in asset configuration'
 EC2_ROLE_CREDENTIALS_FAILURE_MSG = 'Failed to retrieve EC2 role credentials from instance'
