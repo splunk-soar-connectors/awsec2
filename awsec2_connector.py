@@ -326,7 +326,7 @@ class AwsEc2Connector(BaseConnector):
             if phantom.is_fail(ret_val):
                 return []
 
-            list_items.extend(response.get(key))
+            list_items.extend(response.get(key, []))
 
             if limit and len(list_items) >= limit:
                 return list_items[:limit]
@@ -753,6 +753,55 @@ class AwsEc2Connector(BaseConnector):
 
         summary = action_result.update_summary({})
         summary['status'] = "Successfully registered instance"
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_describe_snapshots(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        snapshot_ids = param.get('snapshot_ids')
+        dry_run = param.get('dry_run')
+        restorable_by = param.get('restorable_by')
+        owners = param.get('owners')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if snapshot_ids:
+            args['SnapshotIds'] = self._parse_comma_separated_ids(snapshot_ids)
+        if restorable_by:
+            args['RestorableByUserIds'] = self._parse_comma_separated_ids(restorable_by)
+        if owners:
+            args['OwnerIds'] = self._parse_comma_separated_ids(owners)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_snapshots = self._paginator('describe_snapshots', limit, action_result, key="Snapshots", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for snapshot in list_snapshots:
+            action_result.add_data(snapshot)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_snapshots'] = action_result.get_data_size()
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -1473,6 +1522,9 @@ class AwsEc2Connector(BaseConnector):
 
         elif action_id == 'deregister_instance':
             ret_val = self._handle_deregister_instance(param)
+
+        elif action_id == 'describe_snapshots':
+            ret_val = self._handle_describe_snapshots(param)
 
         elif action_id == 'snapshot_instance':
             ret_val = self._handle_snapshot_instance(param)

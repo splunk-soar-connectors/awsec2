@@ -1228,6 +1228,274 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "describe snapshots",
+            "identifier": "describe_snapshots",
+            "description": "Describe one or more snapshots",
+            "verbose": "The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions.",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "filters": {
+                    "description": "One or more filters, separated by commas",
+                    "data_type": "string",
+                    "order": 0
+                },
+                "snapshot_ids": {
+                    "description": "One or more snapshot IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "restorable_by": {
+                    "description": "The IDs of the AWS accounts that can create volumes from the snapshot",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "order": 2
+                },
+                "owners": {
+                    "description": "Scopes the results to snapshots with the specified owners. You can specify a combination of AWS account IDs, self, and amazon",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "primary": true,
+                    "order": 3
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 4
+                },
+                "limit": {
+                    "description": "The maximum number of results to be fetched",
+                    "data_type": "numeric",
+                    "order": 5
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 6
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.filters",
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.limit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.owners",
+                    "data_type": "string",
+                    "example_values": [
+                        "575461648593"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.restorable_by",
+                    "data_type": "string",
+                    "example_values": [
+                        "575461648593"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.snapshot_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-08391e1d0fe151035"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Description",
+                    "data_type": "string",
+                    "column_name": "Description",
+                    "column_order": 1,
+                    "example_values": [
+                        "snapshot of image.vmdk"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Encrypted",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerAlias",
+                    "data_type": "string",
+                    "example_values": [
+                        "amazon"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "column_name": "Owner",
+                    "column_order": 2,
+                    "example_values": [
+                        "099720109477"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Progress",
+                    "data_type": "string",
+                    "example_values": [
+                        "100%"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SnapshotId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0,
+                    "example_values": [
+                        "snap-08391e1d0fe151035"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.StartTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "2017-02-08 12:14:09"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "completed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.StateMessage",
+                    "data_type": "string",
+                    "example_values": [
+                        "Source snapshot is not found"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "proyer-lab"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "xoltdjq"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.VolumeId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vol-ffffffff"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.VolumeSize",
+                    "data_type": "numeric",
+                    "example_values": [
+                        8
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.num_snapshots",
+                    "data_type": "numeric",
+                    "example_values": [
+                        53805
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num snapshots: 53805"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "describe images",
             "identifier": "describe_images",
             "description": "Describe one or more images",
@@ -1332,13 +1600,12 @@
                 {
                     "data_path": "action_result.parameter.owners",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "575461648593"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Architecture",

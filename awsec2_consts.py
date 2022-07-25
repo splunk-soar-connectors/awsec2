@@ -48,7 +48,8 @@ EC2_REGION_DICT = {
 EC2_PAGINATION_SUPPORTED_ACTIONS = {
     'describe_instance': 'InstanceIds',
     'describe_subnets': 'SubnetIds',
-    'describe_network_interfaces': 'NetworkInterfaceIds'
+    'describe_network_interfaces': 'NetworkInterfaceIds',
+    'describe_snapshots': 'SnapshotIds',
 }
 
 EC2_INVALID_LIMIT_MSG = 'Please provide a non-zero positive integer in {param_name}'
