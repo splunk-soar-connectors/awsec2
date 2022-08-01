@@ -645,6 +645,14 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.EnclaveOptions.Enabled",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.HibernationOptions.Configured",
                     "data_type": "boolean",
                     "example_values": [
@@ -715,6 +723,34 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpEndpoint",
+                    "data_type": "string",
+                    "example_values": [
+                        "enabled"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpPutResponseHopLimit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpTokens",
+                    "data_type": "string",
+                    "example_values": [
+                        "optional"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "applied"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.Monitoring.State",
                     "data_type": "string",
                     "example_values": [
@@ -775,6 +811,10 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Attachment.NetworkCardIndex",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Attachment.Status",
                     "data_type": "string",
                     "example_values": [
@@ -791,6 +831,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-07987bf5b796b5261"
                     ]
@@ -803,6 +846,13 @@
                     ],
                     "contains": [
                         "url"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.InterfaceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "interface"
                     ]
                 },
                 {
@@ -1026,6 +1076,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.SecurityGroups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-07987bf5b796b5261"
                     ]
@@ -1037,7 +1090,7 @@
                         "Splunk Enterprise-7-2-0-AutogenByAWSMP-4"
                     ],
                     "contains": [
-                        "url"
+                        "aws ec2 group name"
                     ]
                 },
                 {
@@ -1082,6 +1135,97 @@
                     ],
                     "example_values": [
                         "subnet-d8782cf7"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.ASG",
+                    "data_type": "string",
+                    "example_values": [
+                        "ASG_value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.BMC",
+                    "data_type": "string",
+                    "example_values": [
+                        "TICKET-632"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.JIRA",
+                    "data_type": "string",
+                    "example_values": [
+                        "TICKET-408"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "proyer-xoltdjq-test-v45-backup"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.Project",
+                    "data_type": "string",
+                    "example_values": [
+                        "TestProject"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:logical-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "EDAInstance1100VTrace"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:stack-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:cloudformation:us-east-1:157568067690:stack/test-extrahop-sensor/0e24e140-bfd5-11ec-a04d-0aac273a061b"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:stack-name",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-extrahop-sensor"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.proyer-lab",
+                    "data_type": "string",
+                    "example_values": [
+                        "xoltdjq"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.proyer-schedule",
+                    "data_type": "string",
+                    "example_values": [
+                        "night-shutoff"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.purpose",
+                    "data_type": "string",
+                    "example_values": [
+                        "apps-testing"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.team",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-plugin-team"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.windows-hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "EC2AMAZ-4CQ1DK7"
                     ]
                 },
                 {
@@ -1228,6 +1372,439 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "create security group",
+            "identifier": "create_security_group",
+            "description": "Creates a security group",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "group_name": {
+                    "description": "The name of the security group",
+                    "data_type": "string",
+                    "required": true,
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "order": 0,
+                    "primary": true
+                },
+                "group_description": {
+                    "description": "A description for the security group",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 1
+                },
+                "tag_specifications": {
+                    "description": "The tags to assign to the security group",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "vpc_id": {
+                    "description": "The ID of the VPC",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "primary": true,
+                    "order": 3
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 4
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 5
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_description",
+                    "data_type": "string",
+                    "example_values": [
+                        "Test Group Description"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_name",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Test Group Name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.tag_specifications",
+                    "data_type": "string",
+                    "example_values": [
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.vpc_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-04a9ace96009f1141"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.GroupId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-082268bbc0b1c7a6a"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "283"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mon, 01 Aug 2022 06:13:25 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "d103997b-3fc6-4cfa-a3bd-e3200005c1b9"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "d103997b-3fc6-4cfa-a3bd-e3200005c1b9"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-key"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.group_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-082268bbc0b1c7a6a"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Group id: sg-082268bbc0b1c7a6a"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "json"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "delete security group",
+            "identifier": "delete_security_group",
+            "description": "Deletes a security group",
+            "verbose": "You can specify either the security group name or the security group ID. If both parameters are provided, the 'group id' will be considered.",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "group_id": {
+                    "description": "The ID of the security group",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "primary": true,
+                    "order": 0
+                },
+                "group_name": {
+                    "description": "The name of the security group",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 2
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 3
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-00dae13e516e82136"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_name",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Test Group Name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "239"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mon, 01 Aug 2022 06:06:41 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "c5ada32e-8c4d-4f4a-b9aa-d53efd210aba"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "c5ada32e-8c4d-4f4a-b9aa-d53efd210aba"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully deleted the security group"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "json"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "describe snapshots",
             "identifier": "describe_snapshots",
             "description": "Describe one or more snapshots",
@@ -1255,7 +1832,8 @@
                     "contains": [
                         "aws ec2 owner id"
                     ],
-                    "order": 2
+                    "order": 2,
+                    "primary": true
                 },
                 "owners": {
                     "description": "Scopes the results to snapshots with the specified owners. You can specify a combination of AWS account IDs, self, and amazon",
@@ -1375,6 +1953,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.KmsKeyId",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:kms:us-east-1:157568067690:key/cabd6f9c-4bd4-4f88-80ef-5509e5d23551"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.OwnerAlias",
                     "data_type": "string",
                     "example_values": [
@@ -1473,6 +2058,285 @@
                     "data_type": "string",
                     "example_values": [
                         "Num snapshots: 53805"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "copy snapshot",
+            "identifier": "copy_snapshot",
+            "description": "Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "source_region": {
+                    "description": "The ID of the region that contains the snapshot to be copied",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 0
+                },
+                "source_snapshot_id": {
+                    "description": "The ID of the EBS snapshot to copy",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "required": true,
+                    "order": 1,
+                    "primary": true
+                },
+                "destination_region": {
+                    "description": "The destination region to use in the 'presigned url' parameter of a snapshot copy operation",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "destination_outpost_arn": {
+                    "description": "The Amazon Resource Name (ARN) of the Outpost to which to copy the snapshot",
+                    "data_type": "string",
+                    "order": 3
+                },
+                "kms_key_id": {
+                    "description": "The identifier of the AWS Key Management Service (AWS KMS) KMS key to use for Amazon EBS encryption",
+                    "data_type": "string",
+                    "order": 4
+                },
+                "ph_0": {
+                    "description": "Placeholder",
+                    "data_type": "ph",
+                    "order": 5
+                },
+                "presigned_url": {
+                    "description": "When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL",
+                    "data_type": "string",
+                    "order": 6
+                },
+                "encrypted": {
+                    "description": "To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter",
+                    "data_type": "boolean",
+                    "order": 7
+                },
+                "description": {
+                    "description": "A description for the EBS snapshot",
+                    "data_type": "string",
+                    "order": 8
+                },
+                "tag_specifications": {
+                    "description": "The tags to apply to the snapshot during creation, separated by commas",
+                    "data_type": "string",
+                    "order": 9
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 10
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 11
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.destination_outpost_arn",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.destination_region",
+                    "data_type": "string",
+                    "example_values": [
+                        "eu-central-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.encrypted",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.kms_key_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "cabd6f9c-4bd4-4f88-80ef-5509e5d23551"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.presigned_url",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.source_region",
+                    "data_type": "string",
+                    "example_values": [
+                        "us-east-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.source_snapshot_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-00f74e7e5ba4a187e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.tag_specifications",
+                    "data_type": "string",
+                    "example_values": [
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "251"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 28 Jul 2022 13:04:52 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "ea754bd2-f8de-4460-a45b-972c6f6295e0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "ea754bd2-f8de-4460-a45b-972c6f6295e0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SnapshotId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-061d898454a25d946"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.summary.snapshot_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "snap-061d898454a25d946"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Snapshot id: snap-061d898454a25d946"
                     ]
                 },
                 {
@@ -2085,6 +2949,9 @@
                 {
                     "data_path": "action_result.data.*.Groups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-0cdae2b5ffc03472b"
                     ]
@@ -2092,6 +2959,9 @@
                 {
                     "data_path": "action_result.data.*.Groups.*.GroupName",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
                     "example_values": [
                         "BMC ITSM Sec Group"
                     ]
@@ -2270,6 +3140,9 @@
                 {
                     "data_path": "action_result.data.*.VpcId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
                     "example_values": [
                         "vpc-b962a3df"
                     ]
@@ -2503,6 +3376,9 @@
                 {
                     "data_path": "action_result.data.*.VpcId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
                     "example_values": [
                         "vpc-b962a3df"
                     ]
@@ -2651,6 +3527,9 @@
                 {
                     "data_path": "action_result.data.*.Activities.*.AutoScalingGroupName",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 autoscaling group name"
+                    ],
                     "example_values": [
                         "new-test-group1"
                     ]
@@ -3660,7 +4539,6 @@
                 "tag_specifications": {
                     "description": "The tags to apply to the snapshot during creation, separated by commas",
                     "data_type": "string",
-                    "required": true,
                     "order": 2
                 },
                 "dry_run": {
@@ -3716,7 +4594,7 @@
                     "data_path": "action_result.parameter.tag_specifications",
                     "data_type": "string",
                     "example_values": [
-                        "{ 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }"
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
                     ]
                 },
                 {
@@ -4596,7 +5474,7 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.VpcId",
                     "data_type": "string",
-                    "column_name": "Vpc ID",
+                    "column_name": "VPC ID",
                     "column_order": 1,
                     "contains": [
                         "aws ec2 vpc id"
@@ -5208,7 +6086,7 @@
                         "aws ec2 group name"
                     ],
                     "example_values": [
-                        "Phantom Security Group"
+                        "Test Security Group"
                     ]
                 },
                 {
@@ -5241,6 +6119,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
                     "data_type": "string",
                     "example_values": [
@@ -5269,6 +6154,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.transfer-encoding",
                     "data_type": "string",
                     "example_values": [
@@ -5280,6 +6172,13 @@
                     "data_type": "string",
                     "example_values": [
                         "accept-encoding"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "deb7046d-4d6d-411b-89a7-dfeccf0713f3"
                     ]
                 },
                 {
@@ -5331,7 +6230,7 @@
                         "minemeld-SGMinemeld-1PU2N2REVCWEB"
                     ],
                     "contains": [
-                        "url"
+                        "aws ec2 group name"
                     ]
                 },
                 {
@@ -5391,6 +6290,9 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-04c191ec3ad281c4d"
                     ]
@@ -5433,6 +6335,9 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-0c95f4c3e04a5ed2f"
                     ]
@@ -6330,6 +7235,10 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkInterfaces.*.Attachment.NetworkCardIndex",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Attachment.Status",
                     "data_type": "string",
                     "example_values": [
@@ -6353,6 +7262,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-00c60hquaea33c09"
                     ]
@@ -6553,6 +7465,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
                     "data_type": "string",
                     "example_values": [
@@ -6581,6 +7500,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.transfer-encoding",
                     "data_type": "string",
                     "example_values": [
@@ -6592,6 +7518,13 @@
                     "data_type": "string",
                     "example_values": [
                         "Accept-Encoding"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "19523f47-f0be-4f9e-a05b-8917e7430937"
                     ]
                 },
                 {
@@ -6765,6 +7698,14 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.CapacityRebalance",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.AutoScalingGroups.*.CreatedTime",
                     "data_type": "string",
                     "example_values": [
@@ -6934,6 +7875,20 @@
                     "column_order": 2,
                     "example_values": [
                         "arn:aws:iam::849257270067:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.SuspendedProcesses.*.ProcessName",
+                    "data_type": "string",
+                    "example_values": [
+                        "AlarmNotification"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.SuspendedProcesses.*.SuspensionReason",
+                    "data_type": "string",
+                    "example_values": [
+                        "User suspended at 2021-03-05T20:00:06Z"
                     ]
                 },
                 {

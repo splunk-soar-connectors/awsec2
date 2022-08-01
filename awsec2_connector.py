@@ -142,7 +142,7 @@ class AwsEc2Connector(BaseConnector):
 
     def _make_boto_call(self, action_result, method, **kwargs):
 
-        self.debug_print(f"Making boto call with arguments: {kwargs}")
+        self.debug_print(f"Making boto call to '{method}' with arguments: {kwargs}")
         try:
             boto_func = getattr(self._service, method)
         except AttributeError:
@@ -353,6 +353,13 @@ class AwsEc2Connector(BaseConnector):
             error_msg = self._get_error_message_from_exception(e)
             return action_result.set_status(
                 phantom.APP_ERROR, 'Error occurred while parsing filter: {0}'.format(error_msg)), None
+
+    def _parse_tag_specifications(self, tag_specs, action_result):
+        try:
+            return phantom.APP_SUCCESS, json.loads(tag_specs)
+        except Exception as e:
+            error_msg = "Error occurred while parsing tag specifications. {}".format(self._get_error_message_from_exception(e))
+            return action_result.set_status(phantom.APP_ERROR, error_msg), None
 
     def _handle_describe_images(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -756,6 +763,86 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_create_security_group(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        tag_specifications = param.get('tag_specifications')
+        vpc_id = param.get('vpc_id')
+        dry_run = param.get('dry_run')
+
+        args = {
+            "GroupName": param['group_name'],
+            "Description": param['group_description']
+        }
+        if vpc_id:
+            args['VpcId'] = vpc_id
+        if dry_run:
+            args['DryRun'] = dry_run
+        if tag_specifications:
+            ret_val, tag_specifications = self._parse_tag_specifications(tag_specifications, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+            args['TagSpecifications'] = tag_specifications
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'create_security_group', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['group_id'] = response.get('GroupId', 'Unavailable')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_delete_security_group(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        dry_run = param.get('dry_run')
+        group_name = param.get('group_name')
+        group_id = param.get('group_id')
+
+        args = dict()
+        if group_id:
+            args['GroupId'] = group_id
+        elif group_name:
+            args['GroupName'] = group_name
+        else:
+            return action_result.set_status(phantom.APP_ERROR, "Please provide one of the 'group id' or 'group name' parameter")
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'delete_security_group', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        return action_result.set_status(phantom.APP_SUCCESS, "Successfully deleted the security group")
+
     def _handle_describe_snapshots(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -832,6 +919,56 @@ class AwsEc2Connector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_snapshot', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['snapshot_id'] = response.get('SnapshotId')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_copy_snapshot(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        args = {
+            'SourceRegion': param['source_region'],
+            'SourceSnapshotId': param['source_snapshot_id'],
+            'Description': param.get('description', f"[Copied {param['source_snapshot_id']} from {param['source_region']}]")
+        }
+        if param.get('encrypted', False):
+            args['Encrypted'] = param.get('encrypted')
+        if param.get('destination_region'):
+            args['DestinationRegion'] = param.get('destination_region')
+        if param.get('destination_outpost_arn'):
+            args['DestinationOutpostArn'] = param.get('destination_outpost_arn')
+        if param.get('kms_key_id'):
+            args['KmsKeyId'] = param.get('kms_key_id')
+        if param.get('presigned_url'):
+            args['PresignedUrl'] = param.get('presigned_url')
+
+        if param.get('dry_run'):
+            args['DryRun'] = param.get('dry_run')
+        if param.get('tag_specifications'):
+            ret_val, tag_specifications = self._parse_tag_specifications(tag_specifications, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+            args['TagSpecifications'] = tag_specifications
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'copy_snapshot', **args)
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
@@ -1490,86 +1627,42 @@ class AwsEc2Connector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
-            ret_val = self._handle_test_connectivity(param)
+        action_mappings = {
+            'test_connectivity': self._handle_test_connectivity,
+            'describe_instance': self._handle_describe_instance,
+            'describe_images': self._handle_describe_images,
+            'describe_subnets': self._handle_describe_subnets,
+            'describe_network_interfaces': self._handle_describe_network_interfaces,
+            'start_instance': self._handle_start_instance,
+            'stop_instance': self._handle_stop_instance,
+            'detach_instance': self._handle_detach_instance,
+            'attach_instance': self._handle_attach_instance,
+            'register_instance': self._handle_register_instance,
+            'deregister_instance': self._handle_deregister_instance,
+            'describe_snapshots': self._handle_describe_snapshots,
+            'snapshot_instance': self._handle_snapshot_instance,
+            'copy_snapshot': self._handle_copy_snapshot,
+            'delete_snapshot': self._handle_delete_snapshot,
+            'get_tag': self._handle_get_tag,
+            'add_tag': self._handle_add_tag,
+            'remove_tag': self._handle_remove_tag,
+            'get_acls': self._handle_get_acls,
+            'add_acl': self._handle_add_acl,
+            'remove_acl': self._handle_remove_acl,
+            'list_security_groups': self._handle_list_security_groups,
+            'assign_instance_to_group': self._handle_assign_instance_to_group,
+            'remove_instance_from_group': self._handle_remove_instance_from_group,
+            'create_vpc': self._handle_create_vpc,
+            'delete_vpc': self._handle_delete_vpc,
+            'list_network_interfaces': self._handle_list_network_interfaces,
+            'list_autoscaling_groups': self._handle_list_autoscaling_groups,
+            'create_security_group': self._handle_create_security_group,
+            'delete_security_group': self._handle_delete_security_group,
+        }
 
-        elif action_id == 'describe_instance':
-            ret_val = self._handle_describe_instance(param)
-
-        elif action_id == 'describe_images':
-            ret_val = self._handle_describe_images(param)
-
-        elif action_id == 'describe_subnets':
-            ret_val = self._handle_describe_subnets(param)
-
-        elif action_id == 'describe_network_interfaces':
-            ret_val = self._handle_describe_network_interfaces(param)
-
-        elif action_id == 'start_instance':
-            ret_val = self._handle_start_instance(param)
-
-        elif action_id == 'stop_instance':
-            ret_val = self._handle_stop_instance(param)
-
-        elif action_id == 'detach_instance':
-            ret_val = self._handle_detach_instance(param)
-
-        elif action_id == 'attach_instance':
-            ret_val = self._handle_attach_instance(param)
-
-        elif action_id == 'register_instance':
-            ret_val = self._handle_register_instance(param)
-
-        elif action_id == 'deregister_instance':
-            ret_val = self._handle_deregister_instance(param)
-
-        elif action_id == 'describe_snapshots':
-            ret_val = self._handle_describe_snapshots(param)
-
-        elif action_id == 'snapshot_instance':
-            ret_val = self._handle_snapshot_instance(param)
-
-        elif action_id == 'delete_snapshot':
-            ret_val = self._handle_delete_snapshot(param)
-
-        elif action_id == 'get_tag':
-            ret_val = self._handle_get_tag(param)
-
-        elif action_id == 'add_tag':
-            ret_val = self._handle_add_tag(param)
-
-        elif action_id == 'remove_tag':
-            ret_val = self._handle_remove_tag(param)
-
-        elif action_id == 'get_acls':
-            ret_val = self._handle_get_acls(param)
-
-        elif action_id == 'add_acl':
-            ret_val = self._handle_add_acl(param)
-
-        elif action_id == 'remove_acl':
-            ret_val = self._handle_remove_acl(param)
-
-        elif action_id == 'list_security_groups':
-            ret_val = self._handle_list_security_groups(param)
-
-        elif action_id == 'assign_instance_to_group':
-            ret_val = self._handle_assign_instance_to_group(param)
-
-        elif action_id == 'remove_instance_from_group':
-            ret_val = self._handle_remove_instance_from_group(param)
-
-        elif action_id == 'create_vpc':
-            ret_val = self._handle_create_vpc(param)
-
-        elif action_id == 'delete_vpc':
-            ret_val = self._handle_delete_vpc(param)
-
-        elif action_id == 'list_network_interfaces':
-            ret_val = self._handle_list_network_interfaces(param)
-
-        elif action_id == 'list_autoscaling_groups':
-            ret_val = self._handle_list_autoscaling_groups(param)
+        if action_id in action_mappings:
+            action_function = action_mappings[action_id]
+            ret_val = action_function(param)
 
         return ret_val
 
