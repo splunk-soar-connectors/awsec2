@@ -163,7 +163,7 @@ class AwsEc2Connector(BaseConnector):
         credentials = session.get_credentials()
         return credentials
 
-    def _create_client(self, service, action_result, param=None):
+    def _create_client(self, service, action_result, param=None, region=None):
 
         boto_config = None
         if self._proxy:
@@ -184,12 +184,15 @@ class AwsEc2Connector(BaseConnector):
                 return action_result.set_status(phantom.APP_ERROR,
                                                 "Failed to get temporary credentials: {0}".format(error_msg))
 
+        if not region:
+            region = self._region
+
         try:
             if self._access_key and self._secret_key:
                 self.debug_print("Creating boto3 client with API keys")
                 self._service = client(
                     service,
-                    region_name=self._region,
+                    region_name=region,
                     aws_access_key_id=self._access_key,
                     aws_secret_access_key=self._secret_key,
                     aws_session_token=self._session_token,
@@ -198,7 +201,7 @@ class AwsEc2Connector(BaseConnector):
                 self.debug_print("Creating boto3 client without API keys")
                 self._service = client(
                     service,
-                    region_name=self._region,
+                    region_name=region,
                     config=boto_config)
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
@@ -506,6 +509,49 @@ class AwsEc2Connector(BaseConnector):
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
         summary['num_subnets'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_describe_vpcs(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        vpc_ids = param.get('vpc_ids')
+        dry_run = param.get('dry_run')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if vpc_ids:
+            args['VpcIds'] = self._parse_comma_separated_ids(vpc_ids)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_vpcs = self._paginator('describe_vpcs', limit, action_result, key="Vpcs", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for vpc in list_vpcs:
+            action_result.add_data(vpc)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_vpcs'] = action_result.get_data_size()
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -939,29 +985,44 @@ class AwsEc2Connector(BaseConnector):
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        if not self._create_client('ec2', action_result, param):
-            return action_result.get_status()
+        try:
+            source_region = EC2_REGION_DICT[param['source_region']]
+        except Exception:
+            return self.set_status(phantom.APP_ERROR, "Please provide valid value for 'source region' parameter")
 
         args = {
-            'SourceRegion': param['source_region'],
+            'SourceRegion': source_region,
             'SourceSnapshotId': param['source_snapshot_id'],
-            'Description': param.get('description', f"[Copied {param['source_snapshot_id']} from {param['source_region']}]")
+            'Description': param.get('description', f"[Copied {param['source_snapshot_id']} from {source_region}]")
         }
+
         if param.get('encrypted', False):
             args['Encrypted'] = param.get('encrypted')
+
         if param.get('destination_region'):
-            args['DestinationRegion'] = param.get('destination_region')
-        if param.get('destination_outpost_arn'):
-            args['DestinationOutpostArn'] = param.get('destination_outpost_arn')
+            try:
+                args['DestinationRegion'] = EC2_REGION_DICT[param.get('destination_region')]
+            except Exception:
+                return self.set_status(phantom.APP_ERROR, "Please provide valid value for 'destination region' parameter")
+
+            # The client should be of the destination region
+            if not self._create_client('ec2', action_result, param, region=args['DestinationRegion']):
+                return action_result.get_status()
+        else:
+            if not self._create_client('ec2', action_result, param):
+                return action_result.get_status()
+
         if param.get('kms_key_id'):
             args['KmsKeyId'] = param.get('kms_key_id')
+
         if param.get('presigned_url'):
             args['PresignedUrl'] = param.get('presigned_url')
 
         if param.get('dry_run'):
             args['DryRun'] = param.get('dry_run')
+
         if param.get('tag_specifications'):
-            ret_val, tag_specifications = self._parse_tag_specifications(tag_specifications, action_result)
+            ret_val, tag_specifications = self._parse_tag_specifications(param.get('tag_specifications'), action_result)
             if phantom.is_fail(ret_val):
                 return action_result.get_status()
 
@@ -1640,6 +1701,7 @@ class AwsEc2Connector(BaseConnector):
             'register_instance': self._handle_register_instance,
             'deregister_instance': self._handle_deregister_instance,
             'describe_snapshots': self._handle_describe_snapshots,
+            'describe_vpcs': self._handle_describe_vpcs,
             'snapshot_instance': self._handle_snapshot_instance,
             'copy_snapshot': self._handle_copy_snapshot,
             'delete_snapshot': self._handle_delete_snapshot,
