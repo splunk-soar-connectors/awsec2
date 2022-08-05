@@ -1012,6 +1012,10 @@ class AwsEc2Connector(BaseConnector):
             if not self._create_client('ec2', action_result, param):
                 return action_result.get_status()
 
+        # The parameter is not added in the action as per the discussion in PAPP-26699
+        # if param.get('destination_outpost_arn'):
+        #     args['DestinationOutpostArn'] = param.get('destination_outpost_arn')
+
         if param.get('kms_key_id'):
             args['KmsKeyId'] = param.get('kms_key_id')
 
