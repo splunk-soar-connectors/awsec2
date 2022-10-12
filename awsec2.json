@@ -1840,15 +1840,10 @@
                     "primary": true,
                     "order": 3
                 },
-                "dry_run": {
-                    "description": "Check if asset has required permissions for the action",
-                    "data_type": "boolean",
-                    "order": 4
-                },
                 "limit": {
                     "description": "The maximum number of results to be fetched",
                     "data_type": "numeric",
-                    "order": 5
+                    "order": 4
                 },
                 "credentials": {
                     "description": "Assumed role credentials",
@@ -1857,6 +1852,11 @@
                     "contains": [
                         "aws credentials"
                     ],
+                    "order": 5
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
                     "order": 6
                 }
             },

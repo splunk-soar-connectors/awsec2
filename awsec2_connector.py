@@ -155,7 +155,7 @@ class AwsEc2Connector(BaseConnector):
             return RetVal(action_result.set_status(
                 phantom.APP_ERROR, 'The boto3 call to ec2 failed. {}'.format(error_msg)), None)
 
-        return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
+        return action_result.set_status(phantom.APP_SUCCESS), self._sanitize_data(resp_json)
 
     def _handle_get_ec2_role(self):
 
@@ -325,6 +325,10 @@ class AwsEc2Connector(BaseConnector):
                 ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, **kwargs)
             else:
                 ret_val, response = self._make_boto_call(action_result, method_name, **kwargs)
+                if phantom.is_fail(ret_val) and 'InvalidParameterCombination' in action_result.get_message():
+                    kwargs.pop('MaxResults', None)
+                    self.debug_print('Retrying the call without pagination')
+                    ret_val, response = self._make_boto_call(action_result, method_name, **kwargs)
 
             if phantom.is_fail(ret_val):
                 return []
