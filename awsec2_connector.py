@@ -559,49 +559,6 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_describe_network_interfaces(self, param):
-
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
-
-        # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
-
-        if not self._create_client('ec2', action_result, param):
-            return action_result.get_status()
-
-        filters = param.get('filters')
-        network_interface_ids = param.get('network_interface_ids')
-        dry_run = param.get('dry_run')
-
-        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
-
-        args = dict()
-        if filters:
-            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
-            if phantom.is_fail(ret_val):
-                return action_result.get_status()
-
-        if network_interface_ids:
-            args['NetworkInterfaceIds'] = self._parse_comma_separated_ids(network_interface_ids)
-        if dry_run:
-            args['DryRun'] = dry_run
-
-        list_network_interfaces = self._paginator('describe_network_interfaces', limit, action_result, key="NetworkInterfaces", **args)
-        if action_result.get_message():
-            return action_result.get_status()
-
-        # Add the response into the data section
-        for network_interface in list_network_interfaces:
-            action_result.add_data(network_interface)
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-        summary['num_network_interfaces'] = action_result.get_data_size()
-
-        return action_result.set_status(phantom.APP_SUCCESS)
-
     def _handle_start_instance(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -1701,7 +1658,6 @@ class AwsEc2Connector(BaseConnector):
             'describe_instance': self._handle_describe_instance,
             'describe_images': self._handle_describe_images,
             'describe_subnets': self._handle_describe_subnets,
-            'describe_network_interfaces': self._handle_describe_network_interfaces,
             'start_instance': self._handle_start_instance,
             'stop_instance': self._handle_stop_instance,
             'detach_instance': self._handle_detach_instance,
