@@ -1422,7 +1422,9 @@
                     "example_values": [
                         "success",
                         "failed"
-                    ]
+                    ],
+                    "column_name": "Status",
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.parameter.credentials",
@@ -1447,7 +1449,9 @@
                     "data_type": "string",
                     "example_values": [
                         "Test Group Description"
-                    ]
+                    ],
+                    "column_name": "Group Description",
+                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.group_name",
@@ -1457,7 +1461,9 @@
                     ],
                     "example_values": [
                         "Test Group Name"
-                    ]
+                    ],
+                    "column_name": "Group Name",
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.tag_specifications",
@@ -1484,7 +1490,9 @@
                     ],
                     "example_values": [
                         "sg-082268bbc0b1c7a6a"
-                    ]
+                    ],
+                    "column_name": "Group ID",
+                    "column_order": 0
                 },
                 {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
@@ -1655,7 +1663,9 @@
                     "example_values": [
                         "success",
                         "failed"
-                    ]
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.credentials",
@@ -1683,7 +1693,9 @@
                     ],
                     "example_values": [
                         "sg-00dae13e516e82136"
-                    ]
+                    ],
+                    "column_name": "Group ID",
+                    "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.group_name",
@@ -3271,7 +3283,7 @@
                     "example_values": [
                         "vpc-b962a3df"
                     ],
-                    "column_name": "Vpc ID",
+                    "column_name": "VPC ID",
                     "column_order": 3
                 },
                 {
