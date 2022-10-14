@@ -1931,7 +1931,7 @@
                     "data_path": "action_result.data.*.Description",
                     "data_type": "string",
                     "column_name": "Description",
-                    "column_order": 5,
+                    "column_order": 4,
                     "example_values": [
                         "snapshot of image.vmdk"
                     ]
@@ -1944,7 +1944,7 @@
                         false
                     ],
                     "column_name": "Encrypted",
-                    "column_order": 6
+                    "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.KmsKeyId",
@@ -1967,7 +1967,7 @@
                         "aws ec2 owner id"
                     ],
                     "column_name": "Owner",
-                    "column_order": 3,
+                    "column_order": 2,
                     "example_values": [
                         "099720109477"
                     ]
@@ -2035,7 +2035,7 @@
                         "vol-ffffffff"
                     ],
                     "column_name": "Volume ID",
-                    "column_order": 4
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.VolumeSize",
