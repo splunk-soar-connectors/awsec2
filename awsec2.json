@@ -1611,7 +1611,7 @@
                 }
             ],
             "render": {
-                "type": "json"
+                "type": "table"
             },
             "versions": "EQ(*)"
         },
@@ -1804,7 +1804,7 @@
                 }
             ],
             "render": {
-                "type": "json"
+                "type": "table"
             },
             "versions": "EQ(*)"
         },
