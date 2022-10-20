@@ -949,7 +949,7 @@ class AwsEc2Connector(BaseConnector):
         try:
             source_region = EC2_REGION_DICT[param['source_region']]
         except Exception:
-            return self.set_status(phantom.APP_ERROR, "Please provide valid value for 'source region' parameter")
+            return action_result.set_status(phantom.APP_ERROR, "Please provide valid value for 'source region' parameter")
 
         args = {
             'SourceRegion': source_region,
@@ -964,7 +964,7 @@ class AwsEc2Connector(BaseConnector):
             try:
                 args['DestinationRegion'] = EC2_REGION_DICT[param.get('destination_region')]
             except Exception:
-                return self.set_status(phantom.APP_ERROR, "Please provide valid value for 'destination region' parameter")
+                return action_result.set_status(phantom.APP_ERROR, "Please provide valid value for 'destination region' parameter")
 
             # The client should be of the destination region
             if not self._create_client('ec2', action_result, param, region=args['DestinationRegion']):
