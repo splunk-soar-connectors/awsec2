@@ -18,7 +18,7 @@
     "python_version": "3",
     "fips_compliant": true,
     "latest_tested_versions": [
-        "Cloud tested on August 03, 2022"
+        "Cloud tested on October 31, 2022"
     ],
     "app_wizard_version": "1.0.0",
     "pip_dependencies": {

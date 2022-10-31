@@ -61,6 +61,7 @@ class AwsEc2Connector(BaseConnector):
         error_code = None
         error_msg = EC2_ERR_MSG_UNAVAILABLE
 
+        self.error_print("Error occurred.", e)
         try:
             if hasattr(e, "args"):
                 if len(e.args) > 1:
@@ -69,7 +70,7 @@ class AwsEc2Connector(BaseConnector):
                 elif len(e.args) == 1:
                     error_msg = e.args[0]
         except Exception as e:
-            self.debug_print("Error occurred while fetching exception information. Details: {}".format(str(e)))
+            self.error_print("Error occurred while fetching exception information. Details: {}".format(str(e)))
 
         if not error_code:
             error_text = "Error Message: {}".format(error_msg)
