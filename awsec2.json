@@ -2813,7 +2813,7 @@
                         "i386"
                     ],
                     "column_name": "Architecture",
-                    "column_order": 3
+                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.BlockDeviceMappings.*.DeviceName",
@@ -2894,7 +2894,7 @@
                         "shared-with-public-executable-by-description"
                     ],
                     "column_name": "Description",
-                    "column_order": 5
+                    "column_order": 6
                 },
                 {
                     "data_path": "action_result.data.*.EnaSupport",
@@ -2944,7 +2944,7 @@
                         "kernel"
                     ],
                     "column_name": "Image Type",
-                    "column_order": 6
+                    "column_order": 7
                 },
                 {
                     "data_path": "action_result.data.*.KernelId",
@@ -2981,7 +2981,7 @@
                         "windows"
                     ],
                     "column_name": "Platform",
-                    "column_order": 4
+                    "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.PlatformDetails",
@@ -2990,7 +2990,7 @@
                         "Linux/UNIX"
                     ],
                     "column_name": "Platform Details",
-                    "column_order": 5
+                    "column_order": 8
                 },
                 {
                     "data_path": "action_result.data.*.ProductCodes.*.ProductCodeId",
@@ -3042,7 +3042,7 @@
                         "available"
                     ],
                     "column_name": "State",
-                    "column_order": 2
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.UsageOperation",
