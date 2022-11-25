@@ -152,9 +152,9 @@ class AwsEc2Connector(BaseConnector):
         try:
             resp_json = boto_func(**kwargs)
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_message = self._get_error_message_from_exception(e)
             return RetVal(action_result.set_status(
-                phantom.APP_ERROR, 'The boto3 call to ec2 failed. {}'.format(error_msg)), None)
+                phantom.APP_ERROR, 'The boto3 call to ec2 failed. {}'.format(error_message)), None)
 
         return action_result.set_status(phantom.APP_SUCCESS), self._sanitize_data(resp_json)
 
@@ -181,9 +181,9 @@ class AwsEc2Connector(BaseConnector):
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
-                error_msg = self._get_error_message_from_exception(e)
+                error_message = self._get_error_message_from_exception(e)
                 return action_result.set_status(phantom.APP_ERROR,
-                                                "Failed to get temporary credentials: {0}".format(error_msg))
+                                                "Failed to get temporary credentials: {0}".format(error_message))
 
         if not region:
             region = self._region
@@ -205,8 +205,8 @@ class AwsEc2Connector(BaseConnector):
                     region_name=region,
                     config=boto_config)
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(error_msg))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -255,9 +255,9 @@ class AwsEc2Connector(BaseConnector):
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
-                error_msg = self._get_error_message_from_exception(e)
+                error_message = self._get_error_message_from_exception(e)
                 return action_result.set_status(phantom.APP_ERROR,
-                                                "Failed to get temporary credentials:{0}".format(error_msg))
+                                                "Failed to get temporary credentials:{0}".format(error_message))
 
         try:
             if self._access_key and self._secret_key:
@@ -283,8 +283,8 @@ class AwsEc2Connector(BaseConnector):
             else:
                 return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: incorrect resource parameters")
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(error_msg))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -358,16 +358,16 @@ class AwsEc2Connector(BaseConnector):
             else:
                 return phantom.APP_SUCCESS, evaluated_filters
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_message = self._get_error_message_from_exception(e)
             return action_result.set_status(
-                phantom.APP_ERROR, 'Error occurred while parsing filter: {0}'.format(error_msg)), None
+                phantom.APP_ERROR, 'Error occurred while parsing filter: {0}'.format(error_message)), None
 
     def _parse_tag_specifications(self, tag_specs, action_result):
         try:
             return phantom.APP_SUCCESS, json.loads(tag_specs)
         except Exception as e:
-            error_msg = "Error occurred while parsing tag specifications. {}".format(self._get_error_message_from_exception(e))
-            return action_result.set_status(phantom.APP_ERROR, error_msg), None
+            error_message = "Error occurred while parsing tag specifications. {}".format(self._get_error_message_from_exception(e))
+            return action_result.set_status(phantom.APP_ERROR, error_message), None
 
     def _handle_describe_images(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
