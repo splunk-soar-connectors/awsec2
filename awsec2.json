@@ -10,74 +10,70 @@
     "product_version_regex": ".*",
     "publisher": "Splunk",
     "license": "Copyright (c) 2019-2022 Splunk Inc.",
-    "app_version": "2.3.12",
+    "app_version": "2.4.0",
     "utctime_updated": "2022-02-03T22:16:49.000000Z",
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.py",
-    "min_phantom_version": "5.1.0",
+    "min_phantom_version": "5.3.5",
     "python_version": "3",
     "fips_compliant": true,
     "latest_tested_versions": [
-        "Cloud tested on August 11, 2021"
+        "Cloud tested on October 31, 2022"
     ],
     "app_wizard_version": "1.0.0",
     "pip_dependencies": {
         "wheel": [
             {
                 "module": "beautifulsoup4",
-                "input_file": "wheels/beautifulsoup4-4.9.1-py3-none-any.whl"
+                "input_file": "wheels/py3/beautifulsoup4-4.9.1-py3-none-any.whl"
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/boto3-1.17.30-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/boto3-1.17.30-py2.py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/botocore-1.20.30-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/botocore-1.20.30-py2.py3-none-any.whl"
             },
             {
                 "module": "certifi",
-                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2022.9.24-py3-none-any.whl"
             },
             {
                 "module": "chardet",
-                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
-            },
-            {
-                "module": "docutils",
-                "input_file": "wheels/docutils-0.18.1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/chardet-3.0.4-py2.py3-none-any.whl"
             },
             {
                 "module": "idna",
-                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/idna-2.10-py2.py3-none-any.whl"
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/jmespath-0.10.0-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/jmespath-0.10.0-py2.py3-none-any.whl"
             },
             {
                 "module": "python_dateutil",
-                "input_file": "wheels/python_dateutil-2.8.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/python_dateutil-2.8.2-py2.py3-none-any.whl"
             },
             {
                 "module": "requests",
-                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/requests-2.25.0-py2.py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
-                "input_file": "wheels/s3transfer-0.3.7-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/s3transfer-0.3.7-py2.py3-none-any.whl"
             },
             {
                 "module": "six",
-                "input_file": "wheels/six-1.15.0-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/six-1.15.0-py2.py3-none-any.whl"
             },
             {
                 "module": "soupsieve",
-                "input_file": "wheels/soupsieve-2.3.1-py3-none-any.whl"
+                "input_file": "wheels/py3/soupsieve-2.3.2.post1-py3-none-any.whl"
             },
             {
                 "module": "urllib3",
-                "input_file": "wheels/urllib3-1.26.8-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/urllib3-1.26.12-py2.py3-none-any.whl"
             }
         ]
     },
@@ -186,6 +182,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -201,16 +207,6 @@
                     ],
                     "example_values": [
                         "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -337,6 +333,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -360,16 +366,6 @@
                     ],
                     "example_values": [
                         "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -451,12 +447,12 @@
             "action": "describe instance",
             "identifier": "describe_instance",
             "description": "Describe one or more instances",
-            "verbose": "It is not suggested to use the limit parameter when instanceIDs parameter is used or instance-id is used as filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
+            "verbose": "It is not suggested to use the limit parameter when 'instance ids' parameter is used or instance-id is used as filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
-                    "description": "One or more filters, separated by commas. Example: { 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }",
+                    "description": "One or more filters, separated by commas",
                     "data_type": "string",
                     "order": 0
                 },
@@ -499,6 +495,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -528,16 +534,6 @@
                     "data_type": "numeric",
                     "example_values": [
                         35
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -645,6 +641,14 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.EnclaveOptions.Enabled",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.HibernationOptions.Configured",
                     "data_type": "boolean",
                     "example_values": [
@@ -677,7 +681,7 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.ImageId",
                     "data_type": "string",
                     "contanis": [
-                        "aws ec2 ami id"
+                        "aws ec2 image id"
                     ],
                     "example_values": [
                         "ami-061573a27231c6d25"
@@ -712,6 +716,34 @@
                     "data_type": "string",
                     "example_values": [
                         "2019-02-13 23:20:21"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpEndpoint",
+                    "data_type": "string",
+                    "example_values": [
+                        "enabled"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpPutResponseHopLimit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.HttpTokens",
+                    "data_type": "string",
+                    "example_values": [
+                        "optional"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.MetadataOptions.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "applied"
                     ]
                 },
                 {
@@ -775,6 +807,10 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Attachment.NetworkCardIndex",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Attachment.Status",
                     "data_type": "string",
                     "example_values": [
@@ -791,6 +827,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-07987bf5b796b5261"
                     ]
@@ -799,10 +838,17 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.Groups.*.GroupName",
                     "data_type": "string",
                     "example_values": [
-                        "Splunk Enterprise-7-2-0-AutogenByAWSMP-4"
+                        "Test-7-2-0-AutogenByAWSMP-4"
                     ],
                     "contains": [
                         "url"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.InterfaceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "interface"
                     ]
                 },
                 {
@@ -815,6 +861,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.NetworkInterfaceId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 network interface id"
+                    ],
                     "example_values": [
                         "eni-09579cbf4e49f8f65"
                     ]
@@ -822,6 +871,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -910,6 +962,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.NetworkInterfaces.*.SubnetId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
                     "example_values": [
                         "subnet-d8782cf7"
                     ]
@@ -1017,6 +1072,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.SecurityGroups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-07987bf5b796b5261"
                     ]
@@ -1025,10 +1083,10 @@
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.SecurityGroups.*.GroupName",
                     "data_type": "string",
                     "example_values": [
-                        "Splunk Enterprise-7-2-0-AutogenByAWSMP-4"
+                        "Test-7-2-0-AutogenByAWSMP-4"
                     ],
                     "contains": [
-                        "url"
+                        "aws ec2 group name"
                     ]
                 },
                 {
@@ -1068,8 +1126,102 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.Instances.*.SubnetId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
                     "example_values": [
                         "subnet-d8782cf7"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.ASG",
+                    "data_type": "string",
+                    "example_values": [
+                        "ASG_value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.BMC",
+                    "data_type": "string",
+                    "example_values": [
+                        "TICKET-632"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.JIRA",
+                    "data_type": "string",
+                    "example_values": [
+                        "TICKET-408"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "proyer-xoltdjq-test-v45-backup"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.Project",
+                    "data_type": "string",
+                    "example_values": [
+                        "TestProject"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:logical-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "EDAInstance1100VTrace"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:stack-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:cloudformation:us-east-1:157568067690:stack/test-extrahop-sensor/0e24e140-bfd5-11ec-a04d-0aac273a061b"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.aws:cloudformation:stack-name",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-extrahop-sensor"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.proyer-lab",
+                    "data_type": "string",
+                    "example_values": [
+                        "xoltdjq"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.proyer-schedule",
+                    "data_type": "string",
+                    "example_values": [
+                        "night-shutoff"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.purpose",
+                    "data_type": "string",
+                    "example_values": [
+                        "apps-testing"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.team",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-plugin-team"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Reservations.*.Instances.*.Tags.windows-hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "EC2AMAZ-4CQ1DK7"
                     ]
                 },
                 {
@@ -1092,6 +1244,9 @@
                 {
                     "data_path": "action_result.data.*.Reservations.*.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -1128,8 +1283,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
                     "data_type": "string",
                     "example_values": [
-                        "Wed, 27 Feb 2019 18:39:01 GMT",
-                        "Wed, 27 Feb 2019 18:40:25 GMT"
+                        "Wed, 27 Feb 2019 18:39:01 GMT"
                     ]
                 },
                 {
@@ -1164,8 +1318,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "146815a0-5918-4305-8a77-540704c88939",
-                        "15f53d9a-179e-4402-8acb-be5787f6d0cf"
+                        "146815a0-5918-4305-8a77-540704c88939"
                     ]
                 },
                 {
@@ -1179,7 +1332,6 @@
                     "data_path": "action_result.summary.num_instances",
                     "data_type": "numeric",
                     "example_values": [
-                        0,
                         3
                     ]
                 },
@@ -1187,7 +1339,6 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Num instances: 0",
                         "Num instances: 3"
                     ]
                 },
@@ -1209,6 +1360,1990 @@
             "render": {
                 "type": "custom",
                 "view": "awsec2_view.display_view"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "create security group",
+            "identifier": "create_security_group",
+            "description": "Creates a security group",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "group_name": {
+                    "description": "The name of the security group",
+                    "data_type": "string",
+                    "required": true,
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "order": 0,
+                    "primary": true
+                },
+                "group_description": {
+                    "description": "A description for the security group",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 1
+                },
+                "tag_specifications": {
+                    "description": "The tags to assign to the security group",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "vpc_id": {
+                    "description": "The ID of the VPC",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "primary": true,
+                    "order": 3
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 4
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 5
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_description",
+                    "data_type": "string",
+                    "example_values": [
+                        "Test Group Description"
+                    ],
+                    "column_name": "Group Description",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.parameter.group_name",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Test Group Name"
+                    ],
+                    "column_name": "Group Name",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.tag_specifications",
+                    "data_type": "string",
+                    "example_values": [
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.vpc_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-04a9ace96009f1141"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.GroupId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-082268bbc0b1c7a6a"
+                    ],
+                    "column_name": "Group ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "283"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mon, 01 Aug 2022 06:13:25 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "d103997b-3fc6-4cfa-a3bd-e3200005c1b9"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "d103997b-3fc6-4cfa-a3bd-e3200005c1b9"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-key"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.group_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-082268bbc0b1c7a6a"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Group id: sg-082268bbc0b1c7a6a"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "delete security group",
+            "identifier": "delete_security_group",
+            "description": "Deletes a security group",
+            "verbose": "You can specify either the security group name or the security group ID. If both parameters are provided, the 'group id' will be considered.",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "group_id": {
+                    "description": "The ID of the security group",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "primary": true,
+                    "order": 0
+                },
+                "group_name": {
+                    "description": "The name of the security group",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 2
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 3
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.group_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
+                    "example_values": [
+                        "sg-00dae13e516e82136"
+                    ],
+                    "column_name": "Group ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.group_name",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 group name"
+                    ],
+                    "example_values": [
+                        "Test Group Name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "239"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mon, 01 Aug 2022 06:06:41 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "c5ada32e-8c4d-4f4a-b9aa-d53efd210aba"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "c5ada32e-8c4d-4f4a-b9aa-d53efd210aba"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully deleted the security group"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "describe snapshots",
+            "identifier": "describe_snapshots",
+            "description": "Describe one or more snapshots",
+            "verbose": "The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions.",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "filters": {
+                    "description": "One or more filters, separated by commas",
+                    "data_type": "string",
+                    "order": 0
+                },
+                "snapshot_ids": {
+                    "description": "One or more snapshot IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "restorable_by": {
+                    "description": "The IDs of the AWS accounts that can create volumes from the snapshot",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "order": 2,
+                    "primary": true
+                },
+                "owners": {
+                    "description": "Scopes the results to snapshots with the specified owners. You can specify a combination of AWS account IDs, self, and amazon",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "primary": true,
+                    "order": 3
+                },
+                "limit": {
+                    "description": "The maximum number of results to be fetched",
+                    "data_type": "numeric",
+                    "order": 4
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 5
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 6
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.filters",
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.limit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.owners",
+                    "data_type": "string",
+                    "example_values": [
+                        "575461648593"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.restorable_by",
+                    "data_type": "string",
+                    "example_values": [
+                        "575461648593"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.snapshot_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-08391e1d0fe151035"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Description",
+                    "data_type": "string",
+                    "column_name": "Description",
+                    "column_order": 4,
+                    "example_values": [
+                        "snapshot of image.vmdk"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Encrypted",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ],
+                    "column_name": "Encrypted",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.KmsKeyId",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:kms:us-east-1:157568067690:key/cabd6f9c-4bd4-4f88-80ef-5509e5d23551"
+                    ],
+                    "column_name": "KMS Key ID",
+                    "column_order": 6,
+                    "contains": [
+                        "kms key id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerAlias",
+                    "data_type": "string",
+                    "example_values": [
+                        "amazon"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "column_name": "Owner",
+                    "column_order": 2,
+                    "example_values": [
+                        "099720109477"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Progress",
+                    "data_type": "string",
+                    "example_values": [
+                        "100%"
+                    ],
+                    "column_name": "Progress",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.SnapshotId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0,
+                    "example_values": [
+                        "snap-08391e1d0fe151035"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.StartTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "2017-02-08 12:14:09"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "completed"
+                    ],
+                    "column_name": "State",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.StateMessage",
+                    "data_type": "string",
+                    "example_values": [
+                        "Source snapshot is not found"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "proyer-lab"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "xoltdjq"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.VolumeId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vol-ffffffff"
+                    ],
+                    "column_name": "Volume ID",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.VolumeSize",
+                    "data_type": "numeric",
+                    "example_values": [
+                        8
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.num_snapshots",
+                    "data_type": "numeric",
+                    "example_values": [
+                        53805
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num snapshots: 53805"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "copy snapshot",
+            "identifier": "copy_snapshot",
+            "description": "Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3",
+            "verbose": "For more information regarding the action parameters, please refer to <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopySnapshot.html\" target=\"_blank\">Copy Snapshot API Documentation</a>.",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "source_region": {
+                    "description": "The ID of the region that contains the snapshot to be copied",
+                    "data_type": "string",
+                    "required": true,
+                    "value_list": [
+                        "US East (Ohio)",
+                        "US East (N. Virginia)",
+                        "US West (N. California)",
+                        "US West (Oregon)",
+                        "Asia Pacific (Mumbai)",
+                        "Asia Pacific (Osaka-Local)",
+                        "Asia Pacific (Seoul)",
+                        "Asia Pacific (Singapore)",
+                        "Asia Pacific (Sydney)",
+                        "Asia Pacific (Hong Kong)",
+                        "Asia Pacific (Tokyo)",
+                        "Canada (Central)",
+                        "China (Beijing)",
+                        "China (Ningxia)",
+                        "EU (Frankfurt)",
+                        "EU (Ireland)",
+                        "EU (London)",
+                        "EU (Paris)",
+                        "EU (Stockholm)",
+                        "South America (Sao Paulo)",
+                        "AWS GovCloud (US-East)",
+                        "AWS GovCloud (US)"
+                    ],
+                    "order": 0
+                },
+                "source_snapshot_id": {
+                    "description": "The ID of the EBS snapshot to copy",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "required": true,
+                    "order": 1,
+                    "primary": true
+                },
+                "destination_region": {
+                    "description": "The destination region to use in the 'presigned url' parameter of a snapshot copy operation",
+                    "data_type": "string",
+                    "value_list": [
+                        "US East (Ohio)",
+                        "US East (N. Virginia)",
+                        "US West (N. California)",
+                        "US West (Oregon)",
+                        "Asia Pacific (Mumbai)",
+                        "Asia Pacific (Osaka-Local)",
+                        "Asia Pacific (Seoul)",
+                        "Asia Pacific (Singapore)",
+                        "Asia Pacific (Sydney)",
+                        "Asia Pacific (Hong Kong)",
+                        "Asia Pacific (Tokyo)",
+                        "Canada (Central)",
+                        "China (Beijing)",
+                        "China (Ningxia)",
+                        "EU (Frankfurt)",
+                        "EU (Ireland)",
+                        "EU (London)",
+                        "EU (Paris)",
+                        "EU (Stockholm)",
+                        "South America (Sao Paulo)",
+                        "AWS GovCloud (US-East)",
+                        "AWS GovCloud (US)"
+                    ],
+                    "order": 2
+                },
+                "kms_key_id": {
+                    "description": "The identifier of the AWS Key Management Service (AWS KMS) KMS key to use for Amazon EBS encryption",
+                    "data_type": "string",
+                    "order": 3,
+                    "contains": [
+                        "kms key id"
+                    ],
+                    "primary": true
+                },
+                "presigned_url": {
+                    "description": "When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL",
+                    "data_type": "string",
+                    "order": 4
+                },
+                "encrypted": {
+                    "description": "To encrypt a copy of an unencrypted snapshot if encryption by default is not enabled, enable encryption using this parameter",
+                    "data_type": "boolean",
+                    "order": 5
+                },
+                "description": {
+                    "description": "A description for the EBS snapshot",
+                    "data_type": "string",
+                    "order": 6
+                },
+                "tag_specifications": {
+                    "description": "The tags to apply to the snapshot during creation, separated by commas",
+                    "data_type": "string",
+                    "order": 7
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 8
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 9
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.description",
+                    "data_type": "string",
+                    "example_values": [
+                        "[Copied snap-00f74e7eba4a187e from us-east-1]"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.destination_region",
+                    "data_type": "string",
+                    "example_values": [
+                        "eu-central-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.encrypted",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.kms_key_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "cabd6f9c-4bd4-4f88-80ef-5509e5d23551"
+                    ],
+                    "contains": [
+                        "kms key id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.presigned_url",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://ec2.us-west-1.amazonaws.com/?Action=CopySnapshot&Version=2016-11-15&SourceRegion=us-east-1&DestinationRegion=us-west-1&SourceSnapshotId=snap-0b99123fc9e155567&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIASGL4J5BVFVKH54QI%2F20210804%2Fus-west-1%2Fec2%2Faws4_request&X-Amz-Date=20210804T104319Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=908638c4bbe2464ab4f01526cc0db19b2c17582171916aad42fa31f6bc69e86f"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.source_region",
+                    "data_type": "string",
+                    "example_values": [
+                        "us-east-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.source_snapshot_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-00f74e7e5ba4a187e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.tag_specifications",
+                    "data_type": "string",
+                    "example_values": [
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "251"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 28 Jul 2022 13:04:52 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "AmazonEC2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "ea754bd2-f8de-4460-a45b-972c6f6295e0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "ea754bd2-f8de-4460-a45b-972c6f6295e0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SnapshotId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-061d898454a25d946"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Key",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-key"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tags.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "test-value"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.snapshot_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "snap-061d898454a25d946"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Snapshot id: snap-061d898454a25d946"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "describe vpcs",
+            "identifier": "describe_vpcs",
+            "description": "Describe one or more vpcs",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "filters": {
+                    "description": "One or more filters, separated by commas",
+                    "data_type": "string",
+                    "order": 0
+                },
+                "vpc_ids": {
+                    "description": "One or more vpc IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "limit": {
+                    "description": "The maximum number of results to be fetched",
+                    "data_type": "numeric",
+                    "order": 2
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 3
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.filters",
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.limit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.vpc_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-0606b5757a86faaaa, vpc-1706b5757b86facaa"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "172.31.0.0/16"
+                    ],
+                    "column_name": "CIDR Ipv4 Block",
+                    "column_order": 3,
+                    "contains": [
+                        "aws cidr block"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CidrBlockAssociationSet.*.AssociationId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vpc-cidr-assoc-bb3fd4d3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CidrBlockAssociationSet.*.CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "172.31.0.0/16"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CidrBlockAssociationSet.*.CidrBlockState.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "associated"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.DhcpOptionsId",
+                    "data_type": "string",
+                    "example_values": [
+                        "dopt-1be7197c"
+                    ],
+                    "column_name": "Dhcp Options ID",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.InstanceTenancy",
+                    "data_type": "string",
+                    "example_values": [
+                        "default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Ipv6CidrBlockAssociationSet.*.AssociationId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vpc-cidr-assoc-0f3eccfc9e5929eca"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "2600:1f18:e56:7e00::/56"
+                    ],
+                    "column_name": "CIDR Ipv6 Block",
+                    "column_order": 4,
+                    "contains": [
+                        "aws cidr ipv6 block"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Ipv6CidrBlockAssociationSet.*.Ipv6CidrBlockState.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "associated"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Ipv6CidrBlockAssociationSet.*.Ipv6Pool",
+                    "data_type": "string",
+                    "example_values": [
+                        "Amazon"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Ipv6CidrBlockAssociationSet.*.NetworkBorderGroup",
+                    "data_type": "string",
+                    "example_values": [
+                        "us-east-1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.IsDefault",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerId",
+                    "data_type": "string",
+                    "example_values": [
+                        "157568067690"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "column_name": "Owner",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "available"
+                    ],
+                    "column_name": "State",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.VpcId",
+                    "data_type": "string",
+                    "example_values": [
+                        "vpc-b962a3df"
+                    ],
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "column_name": "VPC ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.summary.num_vpcs",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num vpc: 4"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "describe images",
+            "identifier": "describe_images",
+            "description": "Describe one or more images",
+            "verbose": "The images available to you include public images, private images that you own, and private images owned by other AWS accounts for which you have explicit launch permissions.",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "filters": {
+                    "description": "One or more filters, separated by commas",
+                    "data_type": "string",
+                    "order": 0
+                },
+                "image_ids": {
+                    "description": "One or more images IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 image id"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "executable_users": {
+                    "description": "Scopes the images by users with explicit launch permissions",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "owners": {
+                    "description": "Scopes the results to images with the specified owners",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "primary": true,
+                    "order": 3
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 4
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 5
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ],
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.executable_users",
+                    "data_type": "string",
+                    "example_values": [
+                        "self"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.filters",
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.image_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 image id"
+                    ],
+                    "example_values": [
+                        "aki-10f41769"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.owners",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "example_values": [
+                        "575461648593"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Architecture",
+                    "data_type": "string",
+                    "example_values": [
+                        "i386"
+                    ],
+                    "column_name": "Architecture",
+                    "column_order": 4
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.DeviceName",
+                    "data_type": "string",
+                    "example_values": [
+                        "/dev/xvda"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.DeleteOnTermination",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.Encrypted",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.Iops",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.SnapshotId",
+                    "data_type": "string",
+                    "example_values": [
+                        "snap-080a0957ea8635473"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.Throughput",
+                    "data_type": "numeric",
+                    "example_values": [
+                        125
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.VolumeSize",
+                    "data_type": "numeric",
+                    "example_values": [
+                        8
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.Ebs.VolumeType",
+                    "data_type": "string",
+                    "example_values": [
+                        "gp2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.BlockDeviceMappings.*.VirtualName",
+                    "data_type": "string",
+                    "example_values": [
+                        "ephemeral0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CreationDate",
+                    "data_type": "string",
+                    "example_values": [
+                        "2019-04-11T12:30:47.000Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Description",
+                    "data_type": "string",
+                    "example_values": [
+                        "shared-with-public-executable-by-description"
+                    ],
+                    "column_name": "Description",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.EnaSupport",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Hypervisor",
+                    "data_type": "string",
+                    "example_values": [
+                        "xen"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ImageId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aki-00896a69"
+                    ],
+                    "contains": [
+                        "aws ec2 image id"
+                    ],
+                    "column_name": "Image ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.ImageLocation",
+                    "data_type": "string",
+                    "example_values": [
+                        "karmic-kernel-zul/ubuntu-kernel-2.6.31-300-ec2-i386-20091002-test-04.manifest.xml"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ImageOwnerAlias",
+                    "data_type": "string",
+                    "example_values": [
+                        "aws-marketplace"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ImageType",
+                    "data_type": "string",
+                    "example_values": [
+                        "kernel"
+                    ],
+                    "column_name": "Image Type",
+                    "column_order": 7
+                },
+                {
+                    "data_path": "action_result.data.*.KernelId",
+                    "data_type": "string",
+                    "example_values": [
+                        "aki-8f9dcae6"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "shared-with-public-executable-by"
+                    ],
+                    "column_name": "Image Name",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerId",
+                    "data_type": "string",
+                    "example_values": [
+                        "099720109477"
+                    ],
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "column_name": "Owner",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.Platform",
+                    "data_type": "string",
+                    "example_values": [
+                        "windows"
+                    ],
+                    "column_name": "Platform",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.PlatformDetails",
+                    "data_type": "string",
+                    "example_values": [
+                        "Linux/UNIX"
+                    ],
+                    "column_name": "Platform Details",
+                    "column_order": 8
+                },
+                {
+                    "data_path": "action_result.data.*.ProductCodes.*.ProductCodeId",
+                    "data_type": "string",
+                    "example_values": [
+                        "6njl1pau431dv1qxipg63mvah"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ProductCodes.*.ProductCodeType",
+                    "data_type": "string",
+                    "example_values": [
+                        "marketplace"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Public",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.RootDeviceName",
+                    "data_type": "string",
+                    "example_values": [
+                        "/dev/xvda"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.RootDeviceType",
+                    "data_type": "string",
+                    "example_values": [
+                        "instance-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SriovNetSupport",
+                    "data_type": "string",
+                    "example_values": [
+                        "simple"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "available"
+                    ],
+                    "column_name": "State",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.data.*.UsageOperation",
+                    "data_type": "string",
+                    "example_values": [
+                        "RunInstances"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.VirtualizationType",
+                    "data_type": "string",
+                    "example_values": [
+                        "paravirtual"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary.num_images",
+                    "data_type": "numeric",
+                    "example_values": [
+                        6
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num images: 6"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "describe subnets",
+            "identifier": "describe_subnets",
+            "description": "Describe one or more subnets",
+            "type": "investigate",
+            "read_only": true,
+            "parameters": {
+                "filters": {
+                    "description": "One or more filters, separated by commas",
+                    "data_type": "string",
+                    "order": 0
+                },
+                "subnet_ids": {
+                    "description": "One or more subnet IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
+                    "primary": true,
+                    "order": 1
+                },
+                "limit": {
+                    "description": "The maximum number of results to be fetched",
+                    "data_type": "numeric",
+                    "order": 2
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action",
+                    "data_type": "boolean",
+                    "order": 3
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ],
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.filters",
+                    "data_type": "string",
+                    "example_values": [
+                        "{ 'Name': 'name_1', 'Values': [ 'val_1' ]}"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.limit",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.subnet_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
+                    "example_values": [
+                        "subnet-e541c2c8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AssignIpv6AddressOnCreation",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AvailabilityZone",
+                    "data_type": "string",
+                    "example_values": [
+                        "us-east-1a"
+                    ],
+                    "column_name": "Availability Zone",
+                    "column_order": 5
+                },
+                {
+                    "data_path": "action_result.data.*.AvailabilityZoneId",
+                    "data_type": "string",
+                    "example_values": [
+                        "use1-az2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AvailableIpAddressCount",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4073
+                    ],
+                    "column_name": "Available IP Address Count",
+                    "column_order": 6
+                },
+                {
+                    "data_path": "action_result.data.*.CidrBlock",
+                    "data_type": "string",
+                    "example_values": [
+                        "172.31.48.0/20"
+                    ],
+                    "column_name": "CIDR Block",
+                    "column_order": 4,
+                    "contains": [
+                        "aws cidr block"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.DefaultForAz",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.MapCustomerOwnedIpOnLaunch",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.MapPublicIpOnLaunch",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.OwnerId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
+                    "example_values": [
+                        "157568067690"
+                    ],
+                    "column_name": "Owner",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "available"
+                    ],
+                    "column_name": "Subnet State",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.SubnetArn",
+                    "data_type": "string",
+                    "example_values": [
+                        "arn:aws:ec2:us-east-1:157568067690:subnet/subnet-e541c2c8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SubnetId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
+                    "example_values": [
+                        "subnet-e541c2c8"
+                    ],
+                    "column_name": "Subnet ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.VpcId",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-b962a3df"
+                    ],
+                    "column_name": "VPC ID",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary.num_subnets",
+                    "data_type": "numeric",
+                    "example_values": [
+                        6
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Num subnets: 6"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
             },
             "versions": "EQ(*)"
         },
@@ -1277,6 +3412,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.instance_ids",
                     "data_type": "string",
                     "contains": [
@@ -1297,16 +3442,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.Activities.*.ActivityId",
                     "data_type": "string",
                     "column_name": "Activity ID",
@@ -1318,6 +3453,9 @@
                 {
                     "data_path": "action_result.data.*.Activities.*.AutoScalingGroupName",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 autoscaling group name"
+                    ],
                     "example_values": [
                         "new-test-group1"
                     ]
@@ -1513,6 +3651,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.instance_ids",
                     "data_type": "string",
                     "contains": [
@@ -1522,16 +3670,6 @@
                     "column_order": 0,
                     "example_values": [
                         "i-0fc20335d5bd6a222"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -1651,10 +3789,63 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "b220b8a8-9763-4a2a-9811-be6393fede56"
+                        "success",
+                        "failed"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "numeric",
+                    "example_values": [
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.vpc_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 vpc id"
+                    ],
+                    "example_values": [
+                        "vpc-0606b5757a86faaaa"
+                    ],
+                    "column_name": "VPC ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "219"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
                     ]
                 },
                 {
@@ -1672,24 +3863,10 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
                     "data_type": "string",
                     "example_values": [
-                        "text/xml;charset=UTF-8"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
-                    "data_type": "string",
-                    "example_values": [
-                        "no-cache, no-store"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
-                    "data_type": "string",
-                    "example_values": [
-                        "219"
+                        "max-age=31536000; includeSubDomains"
                     ]
                 },
                 {
@@ -1700,10 +3877,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "max-age=31536000; includeSubDomains"
+                        "b220b8a8-9763-4a2a-9811-be6393fede56"
                     ]
                 },
                 {
@@ -1714,55 +3898,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
-                    "data_type": "numeric",
-                    "example_values": [
-                        200
-                    ]
-                },
-                {
-                    "data_path": "action_result.status",
+                    "data_path": "action_result.summary.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
-                    ],
-                    "column_name": "Status",
-                    "column_order": 1
+                        "Successfully deleted VPC"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
                         "Status: Successfully deleted VPC"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.vpc_id",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 vpc id"
-                    ],
-                    "example_values": [
-                        "vpc-0606b5757a86faaaa"
-                    ],
-                    "column_name": "VPC ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.dry_run",
-                    "data_type": "numeric",
-                    "example_values": [
-                        false
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -1777,13 +3923,6 @@
                     "data_type": "numeric",
                     "example_values": [
                         1
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary.status",
-                    "data_type": "string",
-                    "example_values": [
-                        "Successfully deleted VPC"
                     ]
                 }
             ],
@@ -1797,178 +3936,12 @@
             "identifier": "register_instance",
             "undo": "deregister instance",
             "description": "Register an instance to a Classic AWS Elastic Load Balancer",
+            "verbose": "The load balancer provided in the 'load_balancer_name' parameter, has to be in the active state and of type classic.",
             "type": "contain",
             "read_only": false,
             "parameters": {
                 "load_balancer_name": {
                     "description": "Name of the classic load balancer",
-                    "verbose": "The load balancer provided in the input has to be in the active state and of type classic",
-                    "data_type": "string",
-                    "required": true,
-                    "order": 0
-                },
-                "instance_ids": {
-                    "description": "One or more instance IDs, separated by commas",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 instance id"
-                    ],
-                    "required": true,
-                    "primary": true,
-                    "order": 1
-                },
-                "credentials": {
-                    "description": "Assumed role credentials",
-                    "data_type": "string",
-                    "primary": true,
-                    "contains": [
-                        "aws credentials"
-                    ],
-                    "order": 2
-                }
-            },
-            "output": [
-                {
-                    "data_path": "action_result.data.*.Instances.*.InstanceId",
-                    "data_type": "string",
-                    "example_values": [
-                        "i-00617ee31402c4b46"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
-                    "data_type": "string",
-                    "example_values": [
-                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
-                    "data_type": "string",
-                    "example_values": [
-                        "Thu, 11 Feb 2021 00:17:18 GMT"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
-                    "data_type": "string",
-                    "example_values": [
-                        "text/xml"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
-                    "data_type": "string",
-                    "example_values": [
-                        "468"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
-                    "data_type": "string",
-                    "example_values": [
-                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
-                    "data_type": "numeric",
-                    "example_values": [
-                        0
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
-                    "data_type": "numeric",
-                    "example_values": [
-                        200
-                    ]
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "example_values": [
-                        "success"
-                    ],
-                    "column_name": "Status",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_values": [
-                        "Status: Successfully registered instance"
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary.status",
-                    "data_type": "string",
-                    "example_values": [
-                        "Successfully registered instance"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.instance_ids",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 instance id"
-                    ],
-                    "example_values": [
-                        "i-00617ee31402c4b46"
-                    ],
-                    "column_name": "Instance IDs",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.load_balancer_name",
-                    "data_type": "string",
-                    "example_values": [
-                        "testloadbalancer1"
-                    ],
-                    "column_name": "Load Balancer Name",
-                    "column_order": 1
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric",
-                    "example_values": [
-                        1
-                    ]
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric",
-                    "example_values": [
-                        1
-                    ]
-                }
-            ],
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "deregister instance",
-            "identifier": "deregister_instance",
-            "undo": "register instance",
-            "description": "Deregister an instance from a Classic AWS Elastic Load Balancer",
-            "type": "contain",
-            "read_only": false,
-            "parameters": {
-                "load_balancer_name": {
-                    "description": "Name of the classic load balancer",
-                    "verbose": "The load balancer provided in the input has to be in the active state and type classic",
                     "data_type": "string",
                     "required": true,
                     "order": 0
@@ -2005,6 +3978,183 @@
                     "column_order": 2
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-00617ee31402c4b46"
+                    ],
+                    "column_name": "Instance IDs",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.load_balancer_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "testloadbalancer1"
+                    ],
+                    "column_name": "Load Balancer Name",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.data.*.Instances.*.InstanceId",
+                    "data_type": "string",
+                    "example_values": [
+                        "i-00617ee31402c4b46"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "468"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 11 Feb 2021 00:17:18 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_type": "string",
+                    "example_values": [
+                        "bdecdff6-ccfb-4c12-81a7-1d6c4dc99ead"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RetryAttempts",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully registered instance"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Status: Successfully registered instance"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "deregister instance",
+            "identifier": "deregister_instance",
+            "undo": "register instance",
+            "description": "Deregister an instance from a Classic AWS Elastic Load Balancer",
+            "verbose": "The load balancer provided in the 'load_balancer_name' parameter, has to be in the active state and type classic.",
+            "type": "contain",
+            "read_only": false,
+            "parameters": {
+                "load_balancer_name": {
+                    "description": "Name of the classic load balancer",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 0
+                },
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 1
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.instance_ids",
                     "data_type": "string",
                     "contains": [
@@ -2023,16 +4173,6 @@
                     "column_order": 1,
                     "example_values": [
                         "test-2"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -2162,10 +4302,63 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
+                    "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "cbdea730-5f77-4607-a030-4b94587283d8"
+                        "success",
+                        "failed"
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "numeric",
+                    "example_values": [
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.snapshot_id",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 snapshot id"
+                    ],
+                    "example_values": [
+                        "snap-0157e1eeeee3112be"
+                    ],
+                    "column_name": "Snapshot ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "229"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/xml;charset=UTF-8"
                     ]
                 },
                 {
@@ -2183,24 +4376,10 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-type",
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
                     "data_type": "string",
                     "example_values": [
-                        "text/xml;charset=UTF-8"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
-                    "data_type": "string",
-                    "example_values": [
-                        "no-cache, no-store"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
-                    "data_type": "string",
-                    "example_values": [
-                        "229"
+                        "max-age=31536000; includeSubDomains"
                     ]
                 },
                 {
@@ -2211,10 +4390,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
+                    "data_type": "numeric",
+                    "example_values": [
+                        200
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "max-age=31536000; includeSubDomains"
+                        "cbdea730-5f77-4607-a030-4b94587283d8"
                     ]
                 },
                 {
@@ -2225,56 +4411,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data.*.ResponseMetadata.HTTPStatusCode",
-                    "data_type": "numeric",
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
                     "example_values": [
-                        200
+                        "Successfully deleted snapshot"
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.snapshot_id",
-                    "data_type": "string",
-                    "contains": [
-                        "aws ec2 snapshot id"
-                    ],
-                    "example_values": [
-                        "snap-0157e1eeeee3112be"
-                    ],
-                    "column_name": "Snapshot ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "example_values": [
-                        "success"
-                    ],
-                    "column_name": "Status",
-                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "",
                         "Status: Successfully deleted snapshot"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.dry_run",
-                    "data_type": "numeric",
-                    "example_values": [
-                        false
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -2289,13 +4436,6 @@
                     "data_type": "numeric",
                     "example_values": [
                         1
-                    ]
-                },
-                {
-                    "data_path": "action_result.summary.status",
-                    "data_type": "string",
-                    "example_values": [
-                        "Successfully deleted snapshot"
                     ]
                 }
             ],
@@ -2323,9 +4463,8 @@
                     "order": 1
                 },
                 "tag_specifications": {
-                    "description": "The tags to apply to the snapshot during creation, separated by commas. Example: { 'Name': 'name1', 'Values': [ 'value1' ] }, { 'Name': 'name2', 'Values': [ 'value2' ] }",
+                    "description": "The tags to apply to the snapshot during creation, separated by commas",
                     "data_type": "string",
-                    "required": true,
                     "order": 2
                 },
                 "dry_run": {
@@ -2353,6 +4492,16 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.description",
                     "data_type": "string",
                     "example_values": [
@@ -2371,8 +4520,7 @@
                     "data_path": "action_result.parameter.tag_specifications",
                     "data_type": "string",
                     "example_values": [
-                        false,
-                        true
+                        "[{\"ResourceType\": \"security-group\",\"Tags\": [{\"Key\": \"test-key\", \"Value\": \"test-value\"}]}]"
                     ]
                 },
                 {
@@ -2382,16 +4530,6 @@
                     "column_order": 0,
                     "example_values": [
                         "vol-0606e18158aac7321"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -2414,6 +4552,9 @@
                 {
                     "data_path": "action_result.data.*.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -2599,6 +4740,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -2628,16 +4779,6 @@
                     "column_order": 1,
                     "example_values": [
                         "test"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -2772,6 +4913,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -2788,8 +4939,7 @@
                     "column_name": "Instance ID",
                     "column_order": 0,
                     "example_values": [
-                        "i-074f52e85356829a3",
-                        "i-002f4fd5cabdf8cf0"
+                        "i-074f52e85356829a3"
                     ]
                 },
                 {
@@ -2817,16 +4967,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.resource_id",
                     "data_type": "string",
                     "contains": [
@@ -2835,8 +4975,7 @@
                     "column_name": "Resource ID",
                     "column_order": 1,
                     "example_values": [
-                        "i-074f52e85356829a3",
-                        "i-002f4fd5cabdf8cf0"
+                        "i-074f52e85356829a3"
                     ]
                 },
                 {
@@ -2937,6 +5076,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -2953,8 +5102,7 @@
                     "column_name": "Instance ID",
                     "column_order": 0,
                     "example_values": [
-                        "i-074f52e85356829a3",
-                        "i-002f4fd5cabdf8cf0"
+                        "i-074f52e85356829a3"
                     ]
                 },
                 {
@@ -2978,16 +5126,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
                     "data_type": "string",
                     "example_values": [
@@ -3005,8 +5143,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
                     "data_type": "string",
                     "example_values": [
-                        "Tue, 26 Feb 2019 01:28:49 GMT",
-                        "Thu, 11 Apr 2019 11:15:35 GMT"
+                        "Tue, 26 Feb 2019 01:28:49 GMT"
                     ]
                 },
                 {
@@ -3027,8 +5164,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "8d814715-abff-4816-829c-888344f8ccf5",
-                        "93d029e8-7e62-44bf-b42d-580a7c11b692"
+                        "8d814715-abff-4816-829c-888344f8ccf5"
                     ]
                 },
                 {
@@ -3080,7 +5216,7 @@
             "read_only": true,
             "parameters": {
                 "filters": {
-                    "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
+                    "description": "One or more filters in dictionary format, separated by commas",
                     "data_type": "string",
                     "order": 0
                 },
@@ -3114,6 +5250,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -3136,16 +5282,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.NetworkAcls.*.Associations.*.NetworkAclAssociationId",
                     "data_type": "string",
                     "example_values": [
@@ -3162,6 +5298,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.Associations.*.SubnetId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
                     "example_values": [
                         "subnet-e3dcc0a8"
                     ]
@@ -3220,7 +5359,7 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.NetworkAclId",
                     "data_type": "string",
-                    "column_name": "Network Acl ID",
+                    "column_name": "Network ACL ID",
                     "column_order": 0,
                     "contains": [
                         "aws ec2 acl id"
@@ -3232,6 +5371,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -3253,7 +5395,7 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcls.*.VpcId",
                     "data_type": "string",
-                    "column_name": "Vpc ID",
+                    "column_name": "VPC ID",
                     "column_order": 1,
                     "contains": [
                         "aws ec2 vpc id"
@@ -3401,6 +5543,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -3418,16 +5570,6 @@
                     "column_order": 0,
                     "example_values": [
                         "vpc-0ebb6161e92f4b472"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -3496,6 +5638,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkAcl.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -3638,6 +5783,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -3655,16 +5810,6 @@
                     "column_order": 0,
                     "example_values": [
                         "acl-0e12cacd61c686be7"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -3755,12 +5900,12 @@
         {
             "action": "list security groups",
             "identifier": "list_security_groups",
-            "description": "Display security groups",
+            "description": "Describe one or more security groups",
             "type": "investigate",
             "read_only": true,
             "parameters": {
                 "filters": {
-                    "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
+                    "description": "One or more filters in dictionary format, separated by commas",
                     "data_type": "string",
                     "order": 0
                 },
@@ -3821,6 +5966,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -3852,7 +6007,7 @@
                         "aws ec2 group name"
                     ],
                     "example_values": [
-                        "Phantom Security Group"
+                        "Test Security Group"
                     ]
                 },
                 {
@@ -3873,16 +6028,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
-                    ]
-                },
-                {
                     "data_path": "action_result.data.*.NextToken",
                     "data_type": "string",
                     "contains": [
@@ -3892,6 +6037,13 @@
                     "column_order": 4,
                     "example_values": [
                         "eyJ2IjoiMiIsImMiOiJxTVBvSm9GZmpOVFhrc2RYL0RDK3htaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
                     ]
                 },
                 {
@@ -3923,6 +6075,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.transfer-encoding",
                     "data_type": "string",
                     "example_values": [
@@ -3934,6 +6093,13 @@
                     "data_type": "string",
                     "example_values": [
                         "accept-encoding"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "deb7046d-4d6d-411b-89a7-dfeccf0713f3"
                     ]
                 },
                 {
@@ -3985,7 +6151,7 @@
                         "minemeld-SGMinemeld-1PU2N2REVCWEB"
                     ],
                     "contains": [
-                        "url"
+                        "aws ec2 group name"
                     ]
                 },
                 {
@@ -4013,7 +6179,7 @@
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.IpRanges.*.Description",
                     "data_type": "string",
                     "example_values": [
-                        "splunk"
+                        "Test description"
                     ]
                 },
                 {
@@ -4027,7 +6193,7 @@
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.Ipv6Ranges.*.Description",
                     "data_type": "string",
                     "example_values": [
-                        "splunk"
+                        "Test description"
                     ]
                 },
                 {
@@ -4045,6 +6211,9 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissions.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-04c191ec3ad281c4d"
                     ]
@@ -4087,6 +6256,9 @@
                 {
                     "data_path": "action_result.data.*.SecurityGroups.*.IpPermissionsEgress.*.UserIdGroupPairs.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-0c95f4c3e04a5ed2f"
                     ]
@@ -4103,6 +6275,9 @@
                     "data_type": "string",
                     "column_name": "Owner",
                     "column_order": 3,
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -4215,6 +6390,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.group_id",
                     "data_type": "string",
                     "contains": [
@@ -4235,18 +6420,7 @@
                     "column_name": "Instance ID",
                     "column_order": 0,
                     "example_values": [
-                        "i-074f52e85356829a3",
-                        "i-002f4fd5cabdf8cf0"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
+                        "i-074f52e85356829a3"
                     ]
                 },
                 {
@@ -4267,8 +6441,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.date",
                     "data_type": "string",
                     "example_values": [
-                        "Tue, 26 Feb 2019 01:05:03 GMT",
-                        "Fri, 12 Apr 2019 06:54:29 GMT"
+                        "Tue, 26 Feb 2019 01:05:03 GMT"
                     ]
                 },
                 {
@@ -4289,8 +6462,7 @@
                     "data_path": "action_result.data.*.ResponseMetadata.RequestId",
                     "data_type": "string",
                     "example_values": [
-                        "5b8d85e9-81c0-4e72-bd9e-90f598508ed1",
-                        "751d6a5c-0b8f-48e0-bb23-3129f897c1a8"
+                        "5b8d85e9-81c0-4e72-bd9e-90f598508ed1"
                     ]
                 },
                 {
@@ -4384,6 +6556,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.group_id",
                     "data_type": "string",
                     "contains": [
@@ -4405,16 +6587,6 @@
                     "column_order": 0,
                     "example_values": [
                         "i-074f52e85356829a3"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -4513,12 +6685,20 @@
                     "description": "The IPv4 network range for the VPC, in CIDR notation. For example: 10.0.0.0/16",
                     "data_type": "string",
                     "required": true,
-                    "order": 0
+                    "order": 0,
+                    "contains": [
+                        "aws cidr block"
+                    ],
+                    "primary": true
                 },
                 "amazon_provided_ipv6_cidr_block": {
                     "description": "The Amazon provided IPv6 CIDR block with a /56 prefix length",
                     "data_type": "boolean",
-                    "order": 1
+                    "order": 1,
+                    "contains": [
+                        "aws cidr ipv6 block"
+                    ],
+                    "primary": true
                 },
                 "dry_run": {
                     "description": "Check if asset has required permissions for the action",
@@ -4555,6 +6735,9 @@
                     "example_values": [
                         true,
                         false
+                    ],
+                    "contains": [
+                        "aws cidr ipv6 block"
                     ]
                 },
                 {
@@ -4562,6 +6745,19 @@
                     "data_type": "string",
                     "example_values": [
                         "172.31.0.0/16"
+                    ],
+                    "contains": [
+                        "aws cidr block"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
                     ]
                 },
                 {
@@ -4577,16 +6773,6 @@
                     "data_type": "string",
                     "example_values": [
                         "Dedicated"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -4645,6 +6831,9 @@
                     "column_order": 3,
                     "example_values": [
                         "172.31.0.0/16"
+                    ],
+                    "contains": [
+                        "aws cidr block"
                     ]
                 },
                 {
@@ -4716,6 +6905,9 @@
                 {
                     "data_path": "action_result.data.*.Vpc.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -4793,7 +6985,7 @@
             "read_only": true,
             "parameters": {
                 "filters": {
-                    "description": "One or more filters in dictionary format, separated by commas. Example: { 'Name': 'string', 'Values': [ 'string' ]}",
+                    "description": "One or more filters in dictionary format, separated by commas",
                     "data_type": "string",
                     "order": 0
                 },
@@ -4845,6 +7037,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.dry_run",
                     "data_type": "boolean",
                     "example_values": [
@@ -4884,16 +7086,6 @@
                     ],
                     "example_values": [
                         "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -4978,6 +7170,10 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.NetworkInterfaces.*.Attachment.NetworkCardIndex",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Attachment.Status",
                     "data_type": "string",
                     "example_values": [
@@ -5001,6 +7197,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.Groups.*.GroupId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 group id"
+                    ],
                     "example_values": [
                         "sg-00c60hquaea33c09"
                     ]
@@ -5029,6 +7228,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.NetworkInterfaceId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 network interface id"
+                    ],
                     "example_values": [
                         "eni-024c6effa845834bb"
                     ]
@@ -5036,6 +7238,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.OwnerId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 owner id"
+                    ],
                     "example_values": [
                         "849257271967"
                     ]
@@ -5153,6 +7358,9 @@
                 {
                     "data_path": "action_result.data.*.NetworkInterfaces.*.SubnetId",
                     "data_type": "string",
+                    "contains": [
+                        "aws ec2 subnet id"
+                    ],
                     "example_values": [
                         "subnet-160c5929"
                     ]
@@ -5192,6 +7400,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache, no-store"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.content-length",
                     "data_type": "string",
                     "example_values": [
@@ -5220,6 +7435,13 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000; includeSubDomains"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.transfer-encoding",
                     "data_type": "string",
                     "example_values": [
@@ -5231,6 +7453,13 @@
                     "data_type": "string",
                     "example_values": [
                         "Accept-Encoding"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResponseMetadata.HTTPHeaders.x-amzn-requestid",
+                    "data_type": "string",
+                    "example_values": [
+                        "19523f47-f0be-4f9e-a05b-8917e7430937"
                     ]
                 },
                 {
@@ -5349,6 +7578,16 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.max_results",
                     "data_type": "numeric",
                     "example_values": [
@@ -5363,16 +7602,6 @@
                     ],
                     "example_values": [
                         "eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0="
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.credentials",
-                    "data_type": "string",
-                    "example_values": [
-                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
-                    ],
-                    "contains": [
-                        "aws credentials"
                     ]
                 },
                 {
@@ -5401,6 +7630,14 @@
                     "data_type": "string",
                     "example_values": [
                         "us-east-1f"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.CapacityRebalance",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
                     ]
                 },
                 {
@@ -5573,6 +7810,20 @@
                     "column_order": 2,
                     "example_values": [
                         "arn:aws:iam::849257270067:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.SuspendedProcesses.*.ProcessName",
+                    "data_type": "string",
+                    "example_values": [
+                        "AlarmNotification"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.AutoScalingGroups.*.SuspendedProcesses.*.SuspensionReason",
+                    "data_type": "string",
+                    "example_values": [
+                        "User suspended at 2021-03-05T20:00:06Z"
                     ]
                 },
                 {
