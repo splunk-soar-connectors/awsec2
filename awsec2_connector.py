@@ -26,7 +26,6 @@ import requests
 import six
 from boto3 import Session, client, resource
 from botocore.config import Config
-from bs4 import UnicodeDammit
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
@@ -51,36 +50,67 @@ class AwsEc2Connector(BaseConnector):
         self._secret_key = None
         self._session_token = None
         self._proxy = None
-        self._python_version = None
 
-    def _handle_py_ver_compat_for_input_str(self, input_str):
+    def _get_error_message_from_exception(self, e):
         """
-        This method returns the encoded|original string based on the Python version.
-        :param input_str: Input string to be processed
-        :return: input_str (Processed input string based on following logic 'input_str - Python 3; encoded input_str - Python 2')
+        Get appropriate error message from the exception.
+        :param e: Exception object
+        :return: error message
         """
-        try:
-            if input_str and self._python_version == 2:
-                input_str = UnicodeDammit(input_str).unicode_markup.encode('utf-8')
-        except:
-            self.debug_print("Error occurred while handling python 2to3 compatibility for the input string")
 
-        return input_str
+        error_code = None
+        error_msg = EC2_ERR_MSG_UNAVAILABLE
 
-    def is_positive_int(self, value):
+        self.error_print("Error occurred.", e)
         try:
-            value = int(value)
-            return True if value > 0 else False
-        except Exception:
-            pass
-        return False
+            if hasattr(e, "args"):
+                if len(e.args) > 1:
+                    error_code = e.args[0]
+                    error_msg = e.args[1]
+                elif len(e.args) == 1:
+                    error_msg = e.args[0]
+        except Exception as e:
+            self.error_print("Error occurred while fetching exception information. Details: {}".format(str(e)))
+
+        if not error_code:
+            error_text = "Error Message: {}".format(error_msg)
+        else:
+            error_text = "Error Code: {}. Error Message: {}".format(error_code, error_msg)
+
+        return error_text
+
+    def _validate_integer(self, action_result, parameter, key, allow_zero=False):
+        """
+        Validate an integer.
+
+        :param action_result: Action result or BaseConnector object
+        :param parameter: input parameter
+        :param key: input parameter message key
+        :allow_zero: whether zero should be considered as valid value or not
+        :return: status phantom.APP_ERROR/phantom.APP_SUCCESS, integer value of the parameter or None in case of failure
+        """
+        if parameter is not None:
+            try:
+                if not float(parameter).is_integer():
+                    return action_result.set_status(phantom.APP_ERROR, EC2_VALID_INT_MSG.format(param=key)), None
+
+                parameter = int(parameter)
+            except Exception:
+                return action_result.set_status(phantom.APP_ERROR, EC2_VALID_INT_MSG.format(param=key)), None
+
+            if parameter < 0:
+                return action_result.set_status(phantom.APP_ERROR, EC2_NON_NEG_INT_MSG.format(param=key)), None
+            if not allow_zero and parameter == 0:
+                return action_result.set_status(phantom.APP_ERROR, EC2_NON_NEG_NON_ZERO_INT_MSG.format(param=key)), None
+
+        return phantom.APP_SUCCESS, parameter
 
     def _sanitize_data(self, cur_obj):
 
         try:
             json.dumps(cur_obj)
             return cur_obj
-        except:
+        except Exception:
             pass
 
         if isinstance(cur_obj, dict):
@@ -97,7 +127,7 @@ class AwsEc2Connector(BaseConnector):
         if str(cur_obj).startswith('[ec2.Tag'):
             try:
                 return re.findall('.*resource_id=u?\'(.*?)\',.*', str(cur_obj))[0]
-            except:
+            except Exception:
                 pass
 
         if isinstance(cur_obj, list):
@@ -113,6 +143,7 @@ class AwsEc2Connector(BaseConnector):
 
     def _make_boto_call(self, action_result, method, **kwargs):
 
+        self.debug_print(f"Making boto call to '{method}' with arguments: {kwargs}")
         try:
             boto_func = getattr(self._service, method)
         except AttributeError:
@@ -121,9 +152,11 @@ class AwsEc2Connector(BaseConnector):
         try:
             resp_json = boto_func(**kwargs)
         except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, 'boto3 call to ec2 failed', e), None)
+            error_message = self._get_error_message_from_exception(e)
+            return RetVal(action_result.set_status(
+                phantom.APP_ERROR, 'The boto3 call to ec2 failed. {}'.format(error_message)), None)
 
-        return phantom.APP_SUCCESS, self._sanitize_data(resp_json)
+        return action_result.set_status(phantom.APP_SUCCESS), self._sanitize_data(resp_json)
 
     def _handle_get_ec2_role(self):
 
@@ -131,7 +164,7 @@ class AwsEc2Connector(BaseConnector):
         credentials = session.get_credentials()
         return credentials
 
-    def _create_client(self, service, action_result, param=None):
+    def _create_client(self, service, action_result, param=None, region=None):
 
         boto_config = None
         if self._proxy:
@@ -148,15 +181,19 @@ class AwsEc2Connector(BaseConnector):
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
+                error_message = self._get_error_message_from_exception(e)
                 return action_result.set_status(phantom.APP_ERROR,
-                                                "Failed to get temporary credentials:{0}".format(e))
+                                                "Failed to get temporary credentials: {0}".format(error_message))
+
+        if not region:
+            region = self._region
 
         try:
             if self._access_key and self._secret_key:
                 self.debug_print("Creating boto3 client with API keys")
                 self._service = client(
                     service,
-                    region_name=self._region,
+                    region_name=region,
                     aws_access_key_id=self._access_key,
                     aws_secret_access_key=self._secret_key,
                     aws_session_token=self._session_token,
@@ -165,10 +202,11 @@ class AwsEc2Connector(BaseConnector):
                 self.debug_print("Creating boto3 client without API keys")
                 self._service = client(
                     service,
-                    region_name=self._region,
+                    region_name=region,
                     config=boto_config)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 client: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -217,8 +255,9 @@ class AwsEc2Connector(BaseConnector):
 
                 self.save_progress("Using temporary assume role credentials for action")
             except Exception as e:
+                error_message = self._get_error_message_from_exception(e)
                 return action_result.set_status(phantom.APP_ERROR,
-                                                "Failed to get temporary credentials:{0}".format(e))
+                                                "Failed to get temporary credentials:{0}".format(error_message))
 
         try:
             if self._access_key and self._secret_key:
@@ -244,7 +283,8 @@ class AwsEc2Connector(BaseConnector):
             else:
                 return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: incorrect resource parameters")
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(e))
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(phantom.APP_ERROR, "Could not create boto3 instance: {0}".format(error_message))
 
         return phantom.APP_SUCCESS
 
@@ -269,7 +309,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _paginator(self, method_name, limit, action_result, **kwargs):
+    def _paginator(self, method_name, limit, action_result, key="Reservations", **kwargs):
         """
         Handles the pagination
         """
@@ -277,7 +317,8 @@ class AwsEc2Connector(BaseConnector):
         list_items = list()
         next_token = None
 
-        if self.get_action_identifier() == 'describe_instance' and 'InstanceIds' not in kwargs:
+        if self.get_action_identifier() in EC2_PAGINATION_SUPPORTED_ACTIONS and \
+                EC2_PAGINATION_SUPPORTED_ACTIONS[self.get_action_identifier()] not in kwargs:
             kwargs['MaxResults'] = EC2_MAX_RESULTS_LIMIT
 
         while True:
@@ -285,11 +326,15 @@ class AwsEc2Connector(BaseConnector):
                 ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, **kwargs)
             else:
                 ret_val, response = self._make_boto_call(action_result, method_name, **kwargs)
+                if phantom.is_fail(ret_val) and 'InvalidParameterCombination' in action_result.get_message():
+                    kwargs.pop('MaxResults', None)
+                    self.debug_print('Retrying the call without pagination')
+                    ret_val, response = self._make_boto_call(action_result, method_name, **kwargs)
 
             if phantom.is_fail(ret_val):
-                return None
+                return []
 
-            list_items.extend(response.get('Reservations'))
+            list_items.extend(response.get(key, []))
 
             if limit and len(list_items) >= limit:
                 return list_items[:limit]
@@ -299,6 +344,74 @@ class AwsEc2Connector(BaseConnector):
                 break
 
         return list_items
+
+    def _parse_comma_separated_ids(self, to_comma_sep_list):
+        to_list = [x.strip() for x in to_comma_sep_list.split(",")]
+        return list(filter(None, to_list))
+
+    def _parse_filter_string(self, filters, action_result):
+        try:
+            evaluated_filters = list(ast.literal_eval(filters))
+            # If only one filter
+            if isinstance(evaluated_filters[0], str):
+                return phantom.APP_SUCCESS, [ast.literal_eval(filters)]
+            else:
+                return phantom.APP_SUCCESS, evaluated_filters
+        except Exception as e:
+            error_message = self._get_error_message_from_exception(e)
+            return action_result.set_status(
+                phantom.APP_ERROR, 'Error occurred while parsing filter: {0}'.format(error_message)), None
+
+    def _parse_tag_specifications(self, tag_specs, action_result):
+        try:
+            return phantom.APP_SUCCESS, json.loads(tag_specs)
+        except Exception as e:
+            error_message = "Error occurred while parsing tag specifications. {}".format(self._get_error_message_from_exception(e))
+            return action_result.set_status(phantom.APP_ERROR, error_message), None
+
+    def _handle_describe_images(self, param):
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        image_ids = param.get('image_ids')
+        dry_run = param.get('dry_run')
+        executable_users = param.get('executable_users')
+        owners = param.get('owners')
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if image_ids:
+            args['ImageIds'] = self._parse_comma_separated_ids(image_ids)
+        if executable_users:
+            args['ExecutableUsers'] = self._parse_comma_separated_ids(executable_users)
+        if owners:
+            args['Owners'] = self._parse_comma_separated_ids(owners)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        ret_val, images_response = self._make_boto_call(action_result, 'describe_images', **args)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        images = images_response.get('Images', [])
+        for image in images:
+            action_result.add_data(image)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_images'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_describe_instance(self, param):
 
@@ -313,33 +426,24 @@ class AwsEc2Connector(BaseConnector):
         filters = param.get('filters')
         instance_ids = param.get('instance_ids')
         dry_run = param.get('dry_run')
-        limit = param.get('limit')
 
-        if not (limit is None or self.is_positive_int(limit)):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='limit'))
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
 
         args = dict()
         if filters:
-            try:
-                evaluated_filters = list(ast.literal_eval(filters))
-                # If only one filter
-                if type(evaluated_filters[0]) == str:
-                    args['Filters'] = [ast.literal_eval(filters)]
-                else:
-                    args['Filters'] = evaluated_filters
-            except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {0}'.format(str(e)))
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
 
         if instance_ids:
-            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
-            args['InstanceIds'] = list(filter(None, instance_ids_list))
+            args['InstanceIds'] = self._parse_comma_separated_ids(instance_ids)
         if dry_run:
             args['DryRun'] = dry_run
 
-        list_reservations = self._paginator('describe_instances', limit, action_result, **args)
-
-        if list_reservations is None:
-            self.save_progress('No reservations found')
+        list_reservations = self._paginator('describe_instances', limit, action_result, key="Reservations", **args)
+        if action_result.get_message():
             return action_result.get_status()
 
         response = {'Reservations': list_reservations}
@@ -370,6 +474,92 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_describe_subnets(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        subnet_ids = param.get('subnet_ids')
+        dry_run = param.get('dry_run')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if subnet_ids:
+            args['SubnetIds'] = self._parse_comma_separated_ids(subnet_ids)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_subnets = self._paginator('describe_subnets', limit, action_result, key="Subnets", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for subnet in list_subnets:
+            action_result.add_data(subnet)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_subnets'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_describe_vpcs(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        vpc_ids = param.get('vpc_ids')
+        dry_run = param.get('dry_run')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if vpc_ids:
+            args['VpcIds'] = self._parse_comma_separated_ids(vpc_ids)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_vpcs = self._paginator('describe_vpcs', limit, action_result, key="Vpcs", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for vpc in list_vpcs:
+            action_result.add_data(vpc)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_vpcs'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_start_instance(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -382,8 +572,7 @@ class AwsEc2Connector(BaseConnector):
         instance_ids = param['instance_ids']
         dry_run = param.get('dry_run', False)
 
-        instance_ids_list = [x.strip() for x in instance_ids.split(',')]
-        instance_ids_list = ' '.join(instance_ids_list).split()
+        instance_ids_list = self._parse_comma_separated_ids(instance_ids)
 
         args = {
             "InstanceIds": instance_ids_list
@@ -420,8 +609,7 @@ class AwsEc2Connector(BaseConnector):
         force = param.get('force', False)
         dry_run = param.get('dry_run', False)
 
-        instance_ids_list = [x.strip() for x in instance_ids.split(',')]
-        instance_ids_list = ' '.join(instance_ids_list).split()
+        instance_ids_list = self._parse_comma_separated_ids(instance_ids)
 
         args = {
             "InstanceIds": instance_ids_list
@@ -466,8 +654,7 @@ class AwsEc2Connector(BaseConnector):
             'ShouldDecrementDesiredCapacity': should_decrement_desired_capacity
         }
         if instance_ids:
-            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
-            args['InstanceIds'] = list(filter(None, instance_ids_list))
+            args['InstanceIds'] = self._parse_comma_separated_ids(instance_ids)
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'detach_instances', **args)
@@ -501,8 +688,7 @@ class AwsEc2Connector(BaseConnector):
             'AutoScalingGroupName': autoscaling_group_name
         }
         if instance_ids:
-            instance_ids_list = [item.strip() for item in instance_ids.split(',')]
-            args['InstanceIds'] = list(filter(None, instance_ids_list))
+            args['InstanceIds'] = self._parse_comma_separated_ids(instance_ids)
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'attach_instances', **args)
@@ -585,6 +771,135 @@ class AwsEc2Connector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_create_security_group(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        tag_specifications = param.get('tag_specifications')
+        vpc_id = param.get('vpc_id')
+        dry_run = param.get('dry_run')
+
+        args = {
+            "GroupName": param['group_name'],
+            "Description": param['group_description']
+        }
+        if vpc_id:
+            args['VpcId'] = vpc_id
+        if dry_run:
+            args['DryRun'] = dry_run
+        if tag_specifications:
+            ret_val, tag_specifications = self._parse_tag_specifications(tag_specifications, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+            args['TagSpecifications'] = tag_specifications
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'create_security_group', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['group_id'] = response.get('GroupId', 'Unavailable')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_delete_security_group(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        dry_run = param.get('dry_run')
+        group_name = param.get('group_name')
+        group_id = param.get('group_id')
+
+        args = dict()
+        if group_id:
+            args['GroupId'] = group_id
+        elif group_name:
+            args['GroupName'] = group_name
+        else:
+            return action_result.set_status(phantom.APP_ERROR, "Please provide one of the 'group id' or 'group name' parameter")
+
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'delete_security_group', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        return action_result.set_status(phantom.APP_SUCCESS, "Successfully deleted the security group")
+
+    def _handle_describe_snapshots(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client('ec2', action_result, param):
+            return action_result.get_status()
+
+        filters = param.get('filters')
+        snapshot_ids = param.get('snapshot_ids')
+        dry_run = param.get('dry_run')
+        restorable_by = param.get('restorable_by')
+        owners = param.get('owners')
+
+        ret_val, limit = self._validate_integer(action_result, param.get('limit'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        args = dict()
+        if filters:
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+        if snapshot_ids:
+            args['SnapshotIds'] = self._parse_comma_separated_ids(snapshot_ids)
+        if restorable_by:
+            args['RestorableByUserIds'] = self._parse_comma_separated_ids(restorable_by)
+        if owners:
+            args['OwnerIds'] = self._parse_comma_separated_ids(owners)
+        if dry_run:
+            args['DryRun'] = dry_run
+
+        list_snapshots = self._paginator('describe_snapshots', limit, action_result, key="Snapshots", **args)
+        if action_result.get_message():
+            return action_result.get_status()
+
+        # Add the response into the data section
+        for snapshot in list_snapshots:
+            action_result.add_data(snapshot)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['num_snapshots'] = action_result.get_data_size()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_snapshot_instance(self, param):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -612,6 +927,75 @@ class AwsEc2Connector(BaseConnector):
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'create_snapshot', **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        # Add the response into the data section
+        action_result.add_data(response)
+
+        # Add a dictionary that is made up of the most important values from data into the summary
+        summary = action_result.update_summary({})
+        summary['snapshot_id'] = response.get('SnapshotId')
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_copy_snapshot(self, param):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        try:
+            source_region = EC2_REGION_DICT[param['source_region']]
+        except Exception:
+            return action_result.set_status(phantom.APP_ERROR, "Please provide valid value for 'source region' parameter")
+
+        args = {
+            'SourceRegion': source_region,
+            'SourceSnapshotId': param['source_snapshot_id'],
+            'Description': param.get('description', f"[Copied {param['source_snapshot_id']} from {source_region}]")
+        }
+
+        if param.get('encrypted', False):
+            args['Encrypted'] = param.get('encrypted')
+
+        if param.get('destination_region'):
+            try:
+                args['DestinationRegion'] = EC2_REGION_DICT[param.get('destination_region')]
+            except Exception:
+                return action_result.set_status(phantom.APP_ERROR, "Please provide valid value for 'destination region' parameter")
+
+            # The client should be of the destination region
+            if not self._create_client('ec2', action_result, param, region=args['DestinationRegion']):
+                return action_result.get_status()
+        else:
+            if not self._create_client('ec2', action_result, param):
+                return action_result.get_status()
+
+        # The parameter is not added in the action as per the discussion in PAPP-26699
+        # if param.get('destination_outpost_arn'):
+        #     args['DestinationOutpostArn'] = param.get('destination_outpost_arn')
+
+        if param.get('kms_key_id'):
+            args['KmsKeyId'] = param.get('kms_key_id')
+
+        if param.get('presigned_url'):
+            args['PresignedUrl'] = param.get('presigned_url')
+
+        if param.get('dry_run'):
+            args['DryRun'] = param.get('dry_run')
+
+        if param.get('tag_specifications'):
+            ret_val, tag_specifications = self._parse_tag_specifications(param.get('tag_specifications'), action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+
+            args['TagSpecifications'] = tag_specifications
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, 'copy_snapshot', **args)
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
@@ -748,10 +1132,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         if not response.get('Tags'):
-            resp_message = 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(
-                self._handle_py_ver_compat_for_input_str(tag_key),
-                self._handle_py_ver_compat_for_input_str(instance_id)
-            )
+            resp_message = 'No tags found with the tag key: {0} in the instance with ID: {1}'.format(tag_key, instance_id)
             return action_result.set_status(phantom.APP_ERROR, resp_message)
 
         # Add the response into the data section
@@ -831,20 +1212,13 @@ class AwsEc2Connector(BaseConnector):
 
         args = dict()
         if filters:
-            try:
-                evaluated_filters = list(ast.literal_eval(filters))
-                # If only one filter
-                if type(evaluated_filters[0]) == str:
-                    args['Filters'] = [ast.literal_eval(filters)]
-                else:
-                    args['Filters'] = evaluated_filters
-            except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
         if dry_run:
             args['DryRun'] = dry_run
         if network_acl_ids:
-            network_acl_ids_list = [item.strip() for item in network_acl_ids.split(',')]
-            args['NetworkAclIds'] = list(filter(None, network_acl_ids_list))
+            args['NetworkAclIds'] = self._parse_comma_separated_ids(network_acl_ids)
 
         # make rest call
         ret_val, response = self._make_boto_call(action_result, 'describe_network_acls', **args)
@@ -943,28 +1317,20 @@ class AwsEc2Connector(BaseConnector):
         group_ids = param.get('group_ids')
         group_names = param.get('group_names')
         next_token = param.get('next_token')
-        max_results = param.get('max_results')
 
-        if not (max_results is None or self.is_positive_int(max_results)):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+        ret_val, max_results = self._validate_integer(action_result, param.get('max_results'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
 
         args = dict()
         if filters:
-            try:
-                evaluated_filters = list(ast.literal_eval(filters))
-                # If only one filter
-                if type(evaluated_filters[0]) == str:
-                    args['Filters'] = [ast.literal_eval(filters)]
-                else:
-                    args['Filters'] = evaluated_filters
-            except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
         if group_ids:
-            group_ids_list = [item.strip() for item in group_ids.split(',')]
-            args['GroupIds'] = list(filter(None, group_ids_list))
+            args['GroupIds'] = self._parse_comma_separated_ids(group_ids)
         if group_names:
-            group_names_list = [item.strip() for item in group_names.split(',')]
-            args['GroupNames'] = list(filter(None, group_names_list))
+            args['GroupNames'] = self._parse_comma_separated_ids(group_names)
         if dry_run:
             args['DryRun'] = dry_run
         if next_token:
@@ -1091,7 +1457,7 @@ class AwsEc2Connector(BaseConnector):
         # Try to remove the parameterized group from the list
         try:
             group_list.remove(group_to_remove)
-        except:
+        except Exception:
             return action_result.set_status(phantom.APP_SUCCESS, "Instance already not included in security group")
 
         # Now that you have the list of original groups, remove the one provided by the user and post the new list
@@ -1205,27 +1571,20 @@ class AwsEc2Connector(BaseConnector):
         dry_run = param.get('dry_run')
         network_interface_ids = param.get('network_interface_ids')
         next_token = param.get('next_token')
-        max_results = param.get('max_results')
 
-        if not (max_results is None or self.is_positive_int(max_results)):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+        ret_val, max_results = self._validate_integer(action_result, param.get('max_results'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
 
         args = dict()
         if filters:
-            try:
-                evaluated_filters = list(ast.literal_eval(filters))
-                # If only one filter
-                if type(evaluated_filters[0]) == str:
-                    args['Filters'] = [ast.literal_eval(filters)]
-                else:
-                    args['Filters'] = evaluated_filters
-            except Exception as e:
-                return action_result.set_status(phantom.APP_ERROR, 'Error occured while parsing filter : {}'.format(e))
+            ret_val, args['Filters'] = self._parse_filter_string(filters, action_result)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
         if dry_run:
             args['DryRun'] = dry_run
         if network_interface_ids:
-            network_interface_ids_list = [item.strip() for item in network_interface_ids.split(',')]
-            args['NetworkInterfaceIds'] = list(filter(None, network_interface_ids_list))
+            args['NetworkInterfaceIds'] = self._parse_comma_separated_ids(network_interface_ids)
         if next_token:
             args['NextToken'] = next_token
         if max_results is not None:
@@ -1257,15 +1616,14 @@ class AwsEc2Connector(BaseConnector):
 
         autoscaling_group_names = param.get('autoscaling_group_names')
         next_token = param.get('next_token')
-        max_results = param.get('max_results')
 
-        if not (max_results is None or self.is_positive_int(max_results)):
-            return action_result.set_status(phantom.APP_ERROR, EC2_INVALID_LIMIT_MSG.format(param_name='max_results'))
+        ret_val, max_results = self._validate_integer(action_result, param.get('max_results'), EC2_LIMIT_KEY)
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
 
         args = dict()
         if autoscaling_group_names:
-            autoscaling_group_names_list = [item.strip() for item in autoscaling_group_names.split(',')]
-            args['AutoScalingGroupNames'] = list(filter(None, autoscaling_group_names_list))
+            args['AutoScalingGroupNames'] = self._parse_comma_separated_ids(autoscaling_group_names)
         if next_token:
             args['NextToken'] = next_token
         # This is a special case where the key is 'MaxRecords' instead of 'MaxResults'
@@ -1296,87 +1654,51 @@ class AwsEc2Connector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
-            ret_val = self._handle_test_connectivity(param)
+        action_mappings = {
+            'test_connectivity': self._handle_test_connectivity,
+            'describe_instance': self._handle_describe_instance,
+            'describe_images': self._handle_describe_images,
+            'describe_subnets': self._handle_describe_subnets,
+            'start_instance': self._handle_start_instance,
+            'stop_instance': self._handle_stop_instance,
+            'detach_instance': self._handle_detach_instance,
+            'attach_instance': self._handle_attach_instance,
+            'register_instance': self._handle_register_instance,
+            'deregister_instance': self._handle_deregister_instance,
+            'describe_snapshots': self._handle_describe_snapshots,
+            'describe_vpcs': self._handle_describe_vpcs,
+            'snapshot_instance': self._handle_snapshot_instance,
+            'copy_snapshot': self._handle_copy_snapshot,
+            'delete_snapshot': self._handle_delete_snapshot,
+            'get_tag': self._handle_get_tag,
+            'add_tag': self._handle_add_tag,
+            'remove_tag': self._handle_remove_tag,
+            'get_acls': self._handle_get_acls,
+            'add_acl': self._handle_add_acl,
+            'remove_acl': self._handle_remove_acl,
+            'list_security_groups': self._handle_list_security_groups,
+            'assign_instance_to_group': self._handle_assign_instance_to_group,
+            'remove_instance_from_group': self._handle_remove_instance_from_group,
+            'create_vpc': self._handle_create_vpc,
+            'delete_vpc': self._handle_delete_vpc,
+            'list_network_interfaces': self._handle_list_network_interfaces,
+            'list_autoscaling_groups': self._handle_list_autoscaling_groups,
+            'create_security_group': self._handle_create_security_group,
+            'delete_security_group': self._handle_delete_security_group,
+        }
 
-        elif action_id == 'describe_instance':
-            ret_val = self._handle_describe_instance(param)
-
-        elif action_id == 'start_instance':
-            ret_val = self._handle_start_instance(param)
-
-        elif action_id == 'stop_instance':
-            ret_val = self._handle_stop_instance(param)
-
-        elif action_id == 'detach_instance':
-            ret_val = self._handle_detach_instance(param)
-
-        elif action_id == 'attach_instance':
-            ret_val = self._handle_attach_instance(param)
-
-        elif action_id == 'register_instance':
-            ret_val = self._handle_register_instance(param)
-
-        elif action_id == 'deregister_instance':
-            ret_val = self._handle_deregister_instance(param)
-
-        elif action_id == 'snapshot_instance':
-            ret_val = self._handle_snapshot_instance(param)
-
-        elif action_id == 'delete_snapshot':
-            ret_val = self._handle_delete_snapshot(param)
-
-        elif action_id == 'get_tag':
-            ret_val = self._handle_get_tag(param)
-
-        elif action_id == 'add_tag':
-            ret_val = self._handle_add_tag(param)
-
-        elif action_id == 'remove_tag':
-            ret_val = self._handle_remove_tag(param)
-
-        elif action_id == 'get_acls':
-            ret_val = self._handle_get_acls(param)
-
-        elif action_id == 'add_acl':
-            ret_val = self._handle_add_acl(param)
-
-        elif action_id == 'remove_acl':
-            ret_val = self._handle_remove_acl(param)
-
-        elif action_id == 'list_security_groups':
-            ret_val = self._handle_list_security_groups(param)
-
-        elif action_id == 'assign_instance_to_group':
-            ret_val = self._handle_assign_instance_to_group(param)
-
-        elif action_id == 'remove_instance_from_group':
-            ret_val = self._handle_remove_instance_from_group(param)
-
-        elif action_id == 'create_vpc':
-            ret_val = self._handle_create_vpc(param)
-
-        elif action_id == 'delete_vpc':
-            ret_val = self._handle_delete_vpc(param)
-
-        elif action_id == 'list_network_interfaces':
-            ret_val = self._handle_list_network_interfaces(param)
-
-        elif action_id == 'list_autoscaling_groups':
-            ret_val = self._handle_list_autoscaling_groups(param)
+        if action_id in action_mappings:
+            action_function = action_mappings[action_id]
+            ret_val = action_function(param)
 
         return ret_val
 
     def initialize(self):
 
-        # Load the state in initialize, use it to store data
-        # that needs to be accessed across actions
-        try:
-            self._python_version = int(sys.version_info[0])
-        except:
-            return self.set_status(phantom.APP_ERROR, "Error occurred while getting the Phantom server's Python major version.")
-
         self._state = self.load_state()
+        if not isinstance(self._state, dict):
+            self.debug_print("Resetting the state file with the default format")
+            self._state = {"app_version": self.get_app_json().get("app_version")}
 
         # get the asset config
         config = self.get_config()
@@ -1428,12 +1750,14 @@ if __name__ == '__main__':
     argparser.add_argument('input_test_json', help='Input Test JSON file')
     argparser.add_argument('-u', '--username', help='username', required=False)
     argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument('-v', '--verify', action='store_true', help='verify', required=False, default=False)
 
     args = argparser.parse_args()
     session_id = None
 
     username = args.username
     password = args.password
+    verify = args.verify
 
     if (username is not None and password is None):
 
@@ -1446,7 +1770,7 @@ if __name__ == '__main__':
             login_url = AwsEc2Connector._get_phantom_base_url() + '/login'
 
             print("Accessing the Login page")
-            r = requests.get(login_url, verify=False)
+            r = requests.get(login_url, verify=verify, timeout=EC2_DEFAULT_TIMEOUT)
             csrftoken = r.cookies['csrftoken']
 
             data = dict()
@@ -1459,11 +1783,11 @@ if __name__ == '__main__':
             headers['Referer'] = login_url
 
             print("Logging into Platform to get the session id")
-            r2 = requests.post(login_url, verify=False, data=data, headers=headers)
+            r2 = requests.post(login_url, verify=verify, data=data, headers=headers, timeout=EC2_DEFAULT_TIMEOUT)
             session_id = r2.cookies['sessionid']
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
-            exit(1)
+            sys.exit(1)
 
     with open(args.input_test_json) as f:
         in_json = f.read()
@@ -1480,4 +1804,4 @@ if __name__ == '__main__':
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
 
-    exit(0)
+    sys.exit(0)
