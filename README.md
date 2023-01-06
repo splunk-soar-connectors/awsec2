@@ -2,7 +2,7 @@
 # AWS EC2
 
 Publisher: Splunk  
-Connector Version: 2\.4\.1  
+Connector Version: 2\.4\.2  
 Product Vendor: AWS  
 Product Name: EC2  
 Product Version Supported (regex): "\.\*"  
