@@ -33,11 +33,6 @@ Copyright 2004-2007 Chad Miller
 Copyright 2009-2021 G
 Copyright 2011 Günter Milde,
 
-Library: requests
-Version: 2.25.0
-License: Apache 2.0
-Kenneth Reitz
-
 Library: six
 Version: 1.15.0
 License: MIT
