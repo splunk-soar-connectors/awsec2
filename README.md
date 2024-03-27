@@ -6,7 +6,7 @@ Connector Version: 2.4.4
 Product Vendor: AWS  
 Product Name: EC2  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.1.1  
+Minimum Product Version: 5.3.5  
 
 This app integrates with AWS Elastic Compute Cloud (EC2) to perform virtualization actions
 
