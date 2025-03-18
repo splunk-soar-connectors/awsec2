@@ -9,7 +9,7 @@
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2019-2024 Splunk Inc.",
+    "license": "Copyright (c) 2019-2025 Splunk Inc.",
     "app_version": "2.4.4",
     "utctime_updated": "2023-01-04T12:24:20.000000Z",
     "package_name": "phantom_awsec2",
