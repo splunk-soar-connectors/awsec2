@@ -58,6 +58,7 @@ def display_view(provides, all_app_runs, context):
                 continue
             results.append(ctx_result)
 
+    return_page = ""
     if provides == "describe instance":
         return_page = "awsec2_describe_instance.html"
     elif provides == "list network interfaces":
