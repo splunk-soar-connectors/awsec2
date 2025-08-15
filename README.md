@@ -1,9 +1,9 @@
 # AWS EC2
 
-Publisher: Splunk \
-Connector Version: 2.4.4 \
-Product Vendor: AWS \
-Product Name: EC2 \
+Publisher: Splunk <br>
+Connector Version: 2.4.4 <br>
+Product Vendor: AWS <br>
+Product Name: EC2 <br>
 Minimum Product Version: 5.3.5
 
 This app integrates with AWS Elastic Compute Cloud (EC2) to perform virtualization actions
@@ -48,42 +48,42 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[start instance](#action-start-instance) - Start one or more instances \
-[stop instance](#action-stop-instance) - Stop one or more instances \
-[describe instance](#action-describe-instance) - Describe one or more instances \
-[create security group](#action-create-security-group) - Creates a security group \
-[delete security group](#action-delete-security-group) - Deletes a security group \
-[describe snapshots](#action-describe-snapshots) - Describe one or more snapshots \
-[copy snapshot](#action-copy-snapshot) - Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3 \
-[describe vpcs](#action-describe-vpcs) - Describe one or more vpcs \
-[describe images](#action-describe-images) - Describe one or more images \
-[describe subnets](#action-describe-subnets) - Describe one or more subnets \
-[detach instance](#action-detach-instance) - Detach an instance from an autoscaling group \
-[attach instance](#action-attach-instance) - Attach an instance to an autoscaling group \
-[delete vpc](#action-delete-vpc) - Delete a VPC \
-[register instance](#action-register-instance) - Register an instance to a Classic AWS Elastic Load Balancer \
-[deregister instance](#action-deregister-instance) - Deregister an instance from a Classic AWS Elastic Load Balancer \
-[delete snapshot](#action-delete-snapshot) - Delete snapshot of given AWS instance \
-[snapshot instance](#action-snapshot-instance) - Snapshot AWS instance that has the given IP address or instance ID \
-[get tag](#action-get-tag) - Get the value of a tag for the given instance ID \
-[add tag](#action-add-tag) - Add a tag to an instance \
-[remove tag](#action-remove-tag) - Remove specified tag from an instance \
-[get acls](#action-get-acls) - Get one or more network ACLs \
-[add acl](#action-add-acl) - Add ACL to an instance \
-[remove acl](#action-remove-acl) - Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted \
-[list security groups](#action-list-security-groups) - Describe one or more security groups \
-[assign instance](#action-assign-instance) - Assign an instance to a security group \
-[remove instance](#action-remove-instance) - Removes an instance from a security group \
-[create vpc](#action-create-vpc) - Create a VPC with the specified IPv4 CIDR block \
-[list network interfaces](#action-list-network-interfaces) - Display network interfaces \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[start instance](#action-start-instance) - Start one or more instances <br>
+[stop instance](#action-stop-instance) - Stop one or more instances <br>
+[describe instance](#action-describe-instance) - Describe one or more instances <br>
+[create security group](#action-create-security-group) - Creates a security group <br>
+[delete security group](#action-delete-security-group) - Deletes a security group <br>
+[describe snapshots](#action-describe-snapshots) - Describe one or more snapshots <br>
+[copy snapshot](#action-copy-snapshot) - Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3 <br>
+[describe vpcs](#action-describe-vpcs) - Describe one or more vpcs <br>
+[describe images](#action-describe-images) - Describe one or more images <br>
+[describe subnets](#action-describe-subnets) - Describe one or more subnets <br>
+[detach instance](#action-detach-instance) - Detach an instance from an autoscaling group <br>
+[attach instance](#action-attach-instance) - Attach an instance to an autoscaling group <br>
+[delete vpc](#action-delete-vpc) - Delete a VPC <br>
+[register instance](#action-register-instance) - Register an instance to a Classic AWS Elastic Load Balancer <br>
+[deregister instance](#action-deregister-instance) - Deregister an instance from a Classic AWS Elastic Load Balancer <br>
+[delete snapshot](#action-delete-snapshot) - Delete snapshot of given AWS instance <br>
+[snapshot instance](#action-snapshot-instance) - Snapshot AWS instance that has the given IP address or instance ID <br>
+[get tag](#action-get-tag) - Get the value of a tag for the given instance ID <br>
+[add tag](#action-add-tag) - Add a tag to an instance <br>
+[remove tag](#action-remove-tag) - Remove specified tag from an instance <br>
+[get acls](#action-get-acls) - Get one or more network ACLs <br>
+[add acl](#action-add-acl) - Add ACL to an instance <br>
+[remove acl](#action-remove-acl) - Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted <br>
+[list security groups](#action-list-security-groups) - Describe one or more security groups <br>
+[assign instance](#action-assign-instance) - Assign an instance to a security group <br>
+[remove instance](#action-remove-instance) - Removes an instance from a security group <br>
+[create vpc](#action-create-vpc) - Create a VPC with the specified IPv4 CIDR block <br>
+[list network interfaces](#action-list-network-interfaces) - Display network interfaces <br>
 [list autoscaling groups](#action-list-autoscaling-groups) - Display autoscaling groups
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -98,7 +98,7 @@ No Output
 
 Start one or more instances
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -131,7 +131,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Stop one or more instances
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 If the force parameter is enabled, the instances do not have an opportunity to flush file system caches or file system metadata. If this option is enabled, you must perform file system check and repair procedures. This option is not recommended for Windows instances.
@@ -168,7 +168,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more instances
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 It is not suggested to use the limit parameter when 'instance ids' parameter is used or instance-id is used as filter criteria in the filters parameter. But, if the limit parameter is used along with the above-mentioned parameters, the number of instances fetched will be driven by the limit parameter value.
@@ -307,7 +307,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Creates a security group
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -354,7 +354,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Deletes a security group
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 You can specify either the security group name or the security group ID. If both parameters are provided, the 'group id' will be considered.
@@ -396,7 +396,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more snapshots
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other AWS accounts for which you have explicit create volume permissions.
@@ -448,7 +448,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 For more information regarding the action parameters, please refer to <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopySnapshot.html" target="_blank">Copy Snapshot API Documentation</a>.
@@ -505,7 +505,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more vpcs
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -552,7 +552,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more images
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 The images available to you include public images, private images that you own, and private images owned by other AWS accounts for which you have explicit launch permissions.
@@ -621,7 +621,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more subnets
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -667,7 +667,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Detach an instance from an autoscaling group
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -712,7 +712,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Attach an instance to an autoscaling group
 
-Type: **correct** \
+Type: **correct** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -747,7 +747,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Delete a VPC
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -785,7 +785,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Register an instance to a Classic AWS Elastic Load Balancer
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 The load balancer provided in the 'load_balancer_name' parameter, has to be in the active state and of type classic.
@@ -823,7 +823,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Deregister an instance from a Classic AWS Elastic Load Balancer
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 The load balancer provided in the 'load_balancer_name' parameter, has to be in the active state and type classic.
@@ -861,7 +861,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Delete snapshot of given AWS instance
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -899,7 +899,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Snapshot AWS instance that has the given IP address or instance ID
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -947,7 +947,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get the value of a tag for the given instance ID
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -981,7 +981,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Add a tag to an instance
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1014,7 +1014,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Remove specified tag from an instance
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 If the user specifies a tag key without a tag value, it deletes any tag with this key regardless of its value. If the user specifies a tag key with an empty string as the tag value, it deletes the tag only if its value is an empty string. If the user omits this parameter, it deletes all user-defined tags for the specified resources. It does not delete AWS-generated tags (tags that have the AWS: prefix).
@@ -1055,7 +1055,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Get one or more network ACLs
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -1109,7 +1109,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Add ACL to an instance
 
-Type: **correct** \
+Type: **correct** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1154,7 +1154,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Remove ACL from an instance. The default network ACL and ACLs associated with any subnets cannot be deleted
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1189,7 +1189,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Describe one or more security groups
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -1261,7 +1261,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Assign an instance to a security group
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1296,7 +1296,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Removes an instance from a security group
 
-Type: **contain** \
+Type: **contain** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1331,7 +1331,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Create a VPC with the specified IPv4 CIDR block
 
-Type: **generic** \
+Type: **generic** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -1384,7 +1384,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Display network interfaces
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -1470,7 +1470,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Display autoscaling groups
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
