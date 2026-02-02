@@ -1594,7 +1594,7 @@ class AwsEc2Connector(BaseConnector):
             "describe_subnets": self._handle_describe_subnets,
             "start_instance": self._handle_start_instance,
             "stop_instance": self._handle_stop_instance,
-            "stop_instance": self._handle_reboot_instance,
+            "reboot_instance": self._handle_reboot_instance,
             "detach_instance": self._handle_detach_instance,
             "attach_instance": self._handle_attach_instance,
             "register_instance": self._handle_register_instance,
