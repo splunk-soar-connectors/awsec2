@@ -15,7 +15,7 @@
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.py",
     "min_phantom_version": "5.3.5",
-    "python_version": "3",
+    "python_version": "3.9, 3.13",
     "fips_compliant": true,
     "latest_tested_versions": [
         "Cloud tested on October 31, 2022"
@@ -7962,36 +7962,40 @@
     "pip39_dependencies": {
         "wheel": [
             {
-                "module": "beautifulsoup4",
-                "input_file": "wheels/py3/beautifulsoup4-4.9.1-py3-none-any.whl"
-            },
-            {
                 "module": "boto3",
-                "input_file": "wheels/shared/boto3-1.17.30-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.40.9-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/shared/botocore-1.20.30-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.40.9-py3-none-any.whl"
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/shared/jmespath-0.10.0-py2.py3-none-any.whl"
-            },
-            {
-                "module": "python_dateutil",
-                "input_file": "wheels/shared/python_dateutil-2.9.0.post0-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
-                "input_file": "wheels/shared/s3transfer-0.3.7-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/s3transfer-0.13.1-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "boto3",
+                "input_file": "wheels/py3/boto3-1.40.9-py3-none-any.whl"
             },
             {
-                "module": "six",
-                "input_file": "wheels/shared/six-1.15.0-py2.py3-none-any.whl"
+                "module": "botocore",
+                "input_file": "wheels/py3/botocore-1.40.9-py3-none-any.whl"
             },
             {
-                "module": "soupsieve",
-                "input_file": "wheels/py3/soupsieve-2.5-py3-none-any.whl"
+                "module": "jmespath",
+                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+            },
+            {
+                "module": "s3transfer",
+                "input_file": "wheels/py3/s3transfer-0.13.1-py3-none-any.whl"
             }
         ]
     }
