@@ -1,7 +1,7 @@
 # AWS EC2
 
 Publisher: Splunk <br>
-Connector Version: 2.4.4 <br>
+Connector Version: 2.4.5 <br>
 Product Vendor: AWS <br>
 Product Name: EC2 <br>
 Minimum Product Version: 5.3.5
