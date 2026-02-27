@@ -1,6 +1,6 @@
 # File: awsec2_connector.py
 #
-# Copyright (c) 2019-2025 Splunk Inc.
+# Copyright (c) 2019-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -610,6 +610,40 @@ class AwsEc2Connector(BaseConnector):
             action_result.add_data(instance)
 
         return action_result.set_status(phantom.APP_SUCCESS, "Instances stopped successfully")
+
+    def _handle_reboot_instance(self, param):
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
+
+        # Add an action result object to self (BaseConnector) to represent the action for this param
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        if not self._create_client("ec2", action_result, param):
+            return action_result.get_status()
+
+        instance_ids = param["instance_ids"]
+        dry_run = param.get("dry_run", False)
+
+        instance_ids_list = self._parse_comma_separated_ids(instance_ids)
+
+        args = {"InstanceIds": instance_ids_list}
+        if dry_run:
+            args["DryRun"] = dry_run
+
+        # make rest call
+        ret_val, response = self._make_boto_call(action_result, "reboot_instances", **args)
+
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        if not response:
+            return action_result.get_status()
+
+        rebooted_instances = response.get("RebootingInstances", [])
+
+        for instance in rebooted_instances:
+            action_result.add_data(instance)
+
+        return action_result.set_status(phantom.APP_SUCCESS, "Instances rebooted successfully")
 
     def _handle_detach_instance(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
@@ -1560,6 +1594,7 @@ class AwsEc2Connector(BaseConnector):
             "describe_subnets": self._handle_describe_subnets,
             "start_instance": self._handle_start_instance,
             "stop_instance": self._handle_stop_instance,
+            "reboot_instance": self._handle_reboot_instance,
             "detach_instance": self._handle_detach_instance,
             "attach_instance": self._handle_attach_instance,
             "register_instance": self._handle_register_instance,
