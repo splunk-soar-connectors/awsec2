@@ -9,7 +9,12 @@
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2019-2025 Splunk Inc.",
+    "contributors": [
+        {
+            "name": "Borislav Gachev"
+        }
+    ],
+    "license": "Copyright (c) 2019-2026 Splunk Inc.",
     "app_version": "2.4.5",
     "utctime_updated": "2026-02-18T22:56:42.593251Z",
     "package_name": "phantom_awsec2",
@@ -401,6 +406,150 @@
                     "data_type": "string",
                     "example_values": [
                         "Instances stopped successfully"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "reboot instance",
+            "identifier": "reboot_instance",
+            "description": "Reboot one or more instances",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action, without actually making the request",
+                    "data_type": "boolean",
+                    "order": 1
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "string",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "{'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': 'ZZZZZAmvLPictcVBPvjJx0d7MRezOuxiLCMZZZZZ', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='}"
+                    ],
+                    "contains": [
+                        "aws credentials"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.CurrentState.Name",
+                    "data_type": "string",
+                    "column_name": "Current State",
+                    "column_order": 1,
+                    "example_values": [
+                        "pending"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.InstanceId",
+                    "data_type": "string",
+                    "column_name": "Instance ID",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "column_order": 0,
+                    "example_values": [
+                        "i-0d872de1de2ea7640"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Code",
+                    "data_type": "numeric",
+                    "example_values": [
+                        80
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.PreviousState.Name",
+                    "data_type": "string",
+                    "column_name": "Previous State",
+                    "column_order": 2,
+                    "example_values": [
+                        "stopped"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Instances rebooted successfully"
                     ]
                 },
                 {
@@ -7971,7 +8120,7 @@
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+                "input_file": "wheels/py3/jmespath-1.1.0-py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
@@ -7991,7 +8140,7 @@
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+                "input_file": "wheels/py3/jmespath-1.1.0-py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
