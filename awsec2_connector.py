@@ -30,6 +30,7 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
 from awsec2_consts import *
+from awsec2_security import collect_network_interface_groups, record_pagination_token
 
 
 class RetVal(tuple):
@@ -298,6 +299,8 @@ class AwsEc2Connector(BaseConnector):
 
         list_items = list()
         next_token = None
+        seen_tokens = set()
+        page_count = 0
 
         if (
             self.get_action_identifier() in EC2_PAGINATION_SUPPORTED_ACTIONS
@@ -306,6 +309,14 @@ class AwsEc2Connector(BaseConnector):
             kwargs["MaxResults"] = EC2_MAX_RESULTS_LIMIT
 
         while True:
+            page_count += 1
+            if page_count > EC2_MAX_PAGINATION_PAGES:
+                action_result.set_status(
+                    phantom.APP_ERROR,
+                    f"Pagination exceeded the maximum of {EC2_MAX_PAGINATION_PAGES} pages",
+                )
+                return []
+
             if next_token:
                 ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, **kwargs)
             else:
@@ -326,6 +337,11 @@ class AwsEc2Connector(BaseConnector):
             next_token = response.get("NextToken")
             if not next_token:
                 break
+            try:
+                record_pagination_token(next_token, seen_tokens)
+            except ValueError as exc:
+                action_result.set_status(phantom.APP_ERROR, str(exc))
+                return []
 
         return list_items
 
