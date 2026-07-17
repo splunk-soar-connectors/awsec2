@@ -14,9 +14,6 @@
 import sys
 from pathlib import Path
 
-import pytest
-
-
 sys.path.insert(0, str(Path(__file__).parent))
 
 from awsec2_security import collect_network_interface_groups
@@ -38,5 +35,9 @@ def test_interface_groups_are_derived_per_interface() -> None:
 
 
 def test_missing_interface_groups_are_rejected() -> None:
-    with pytest.raises(ValueError, match="missing its ID or security groups"):
+    try:
         collect_network_interface_groups({"NetworkInterfaces": [{"NetworkInterfaceId": "eni-1"}]})
+    except ValueError as exc:
+        assert "missing its ID or security groups" in str(exc)
+    else:
+        raise AssertionError("Incomplete network interface was accepted")
