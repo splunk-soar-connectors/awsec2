@@ -11,7 +11,7 @@
 {% block widget_content %}
   <!-- Main Start Block -->
   <!-- File: awsec2_describe_instance.html
-  Copyright (c) 2019-2025 Splunk Inc.
+  Copyright (c) 2019-2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -141,7 +141,7 @@ and limitations under the License.
                   <tr>
                     <td class="widget-td">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['aws ec2 instance id'], 'value':'{{ item.InstanceId }}' }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['aws ec2 instance id'], 'value':'{{ item.InstanceId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ item.InstanceId }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -150,7 +150,7 @@ and limitations under the License.
                     <td class="widget-td">{{ item.InstanceType }}</td>
                     <td class="widget-td">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['aws ec2 ami id'], 'value':'{{ item.ImageId }}' }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['aws ec2 ami id'], 'value':'{{ item.ImageId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ item.ImageId }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -158,7 +158,7 @@ and limitations under the License.
                     </td>
                     <td class="widget-td">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId }}' }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ item.VpcId }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -168,7 +168,7 @@ and limitations under the License.
                     <td class="widget-td">{{ item.State.Name }}</td>
                     <td class="widget-td">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ item.PublicDnsName }}' }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['domain'], 'value':'{{ item.PublicDnsName|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ item.PublicDnsName }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -176,7 +176,7 @@ and limitations under the License.
                     </td>
                     <td class="widget-td">
                       <a href="javascript:;"
-                         onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PublicIpAddress }}' }], 0, {{ container.id }}, null, false);">
+                         onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PublicIpAddress|escapejs }}' }], 0, {{ container.id }}, null, false);">
                         {{ item.PublicIpAddress }}
                         &nbsp;
                         <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -186,7 +186,7 @@ and limitations under the License.
                       {% for tag_key, tag_value in item.Tags.items %}
                         <span class="glyphicon glyphicon-dot"></span>&nbsp;
                         <a href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['aws ec2 tag key'], 'value': '{{ tag_key }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['aws ec2 tag key'], 'value': '{{ tag_key|escapejs }}' }], 0, {{ container.id }}, null, false);">
                           {{ tag_key }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -198,7 +198,7 @@ and limitations under the License.
                       {% for tag_key, tag_value in item.Tags.items %}
                         <span class="glyphicon glyphicon-dot"></span>&nbsp;
                         <a href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['aws ec2 tag value'], 'value': '{{ tag_value }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['aws ec2 tag value'], 'value': '{{ tag_value|escapejs }}' }], 0, {{ container.id }}, null, false);">
                           {{ tag_value }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -210,7 +210,7 @@ and limitations under the License.
                       {% for group in item.SecurityGroups %}
                         <span class="glyphicon glyphicon-dot"></span>&nbsp;
                         <a href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['aws ec2 group id'], 'value': '{{ group.GroupId }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['aws ec2 group id'], 'value': '{{ group.GroupId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                           {{ group.GroupId }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -222,7 +222,7 @@ and limitations under the License.
                       {% for group in item.SecurityGroups %}
                         <span class="glyphicon glyphicon-dot"></span>&nbsp;
                         <a href="javascript:;"
-                           onclick="context_menu(this, [{'contains': ['aws ec2 group name'], 'value': '{{ group.GroupName }}' }], 0, {{ container.id }}, null, false);">
+                           onclick="context_menu(this, [{'contains': ['aws ec2 group name'], 'value': '{{ group.GroupName|escapejs }}' }], 0, {{ container.id }}, null, false);">
                           {{ group.GroupName }}
                           &nbsp;
                           <span class="fa fa-caret-down" style="font-size: smaller;"></span>

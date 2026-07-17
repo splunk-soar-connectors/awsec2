@@ -11,7 +11,7 @@
 {% block widget_content %}
   <!-- Main Start Block -->
   <!-- File: awsec2_list_network_interfaces.html
-  Copyright (c) 2019-2025 Splunk Inc.
+  Copyright (c) 2019-2026 Splunk Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -95,7 +95,7 @@ and limitations under the License.
               <td>Autoscaling Group Names</td>
               <td>
                 <a href="javascript:;"
-                   onclick="context_menu(this, [{'contains': ['aws ec2 autoscaling group name'], 'value':'{{ result.param.autoscaling_group_names }}' }], 0, {{ container.id }}, null, false);">
+                   onclick="context_menu(this, [{'contains': ['aws ec2 autoscaling group name'], 'value':'{{ result.param.autoscaling_group_names|escapejs }}' }], 0, {{ container.id }}, null, false);">
                   {{ result.param.autoscaling_group_names }}
                   &nbsp;
                   <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -114,7 +114,7 @@ and limitations under the License.
               <td>Current Page Token</td>
               <td>
                 <a href="javascript:;"
-                   onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.param.next_token }}' }], 0, {{ container.id }}, null, false);">
+                   onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.param.next_token|escapejs }}' }], 0, {{ container.id }}, null, false);">
                   {{ result.param.next_token }}
                   &nbsp;
                   <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -127,7 +127,7 @@ and limitations under the License.
               <td>Next Page Token</td>
               <td>
                 <a href="javascript:;"
-                   onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.data.NextToken }}' }], 0, {{ container.id }}, null, false);">
+                   onclick="context_menu(this, [{'contains': ['aws ec2 next token'], 'value':'{{ result.data.NextToken|escapejs }}' }], 0, {{ container.id }}, null, false);">
                   {{ result.data.NextToken }}
                   &nbsp;
                   <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -154,7 +154,7 @@ and limitations under the License.
                 <tr>
                   <td class="widget-td">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['aws ec2 vpc id'], 'value':'{{ item.VpcId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ item.VpcId }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -162,7 +162,7 @@ and limitations under the License.
                   </td>
                   <td class="widget-td">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['aws ec2 network interface id'], 'value':'{{ item.NetworkInterfaceId }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['aws ec2 network interface id'], 'value':'{{ item.NetworkInterfaceId|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ item.NetworkInterfaceId }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
@@ -171,7 +171,7 @@ and limitations under the License.
                   <td class="widget-td">{{ item.PrivateDnsName }}</td>
                   <td class="widget-td">
                     <a href="javascript:;"
-                       onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PrivateIpAddress }}' }], 0, {{ container.id }}, null, false);">
+                       onclick="context_menu(this, [{'contains': ['ip'], 'value':'{{ item.PrivateIpAddress|escapejs }}' }], 0, {{ container.id }}, null, false);">
                       {{ item.PrivateIpAddress }}
                       &nbsp;
                       <span class="fa fa-caret-down" style="font-size: smaller;"></span>
