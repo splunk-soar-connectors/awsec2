@@ -1,6 +1,6 @@
 # File: awsec2_consts.py
 #
-# Copyright (c) 2019-2025 Splunk Inc.
+# Copyright (c) 2019-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ EC2_JSON_ACCESS_KEY = "access_key"
 EC2_JSON_SECRET_KEY = "secret_key"  # pragma: allowlist secret
 EC2_JSON_REGION = "region"
 EC2_MAX_RESULTS_LIMIT = 1000
+EC2_MAX_PAGINATION_PAGES = 1000
 
 EC2_REGION_DICT = {
     "US East (Ohio)": "us-east-2",

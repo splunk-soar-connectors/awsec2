@@ -1,6 +1,6 @@
 # File: awsec2_connector.py
 #
-# Copyright (c) 2019-2025 Splunk Inc.
+# Copyright (c) 2019-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
 from awsec2_consts import *
+from awsec2_security import collect_network_interface_groups, record_pagination_token
 
 
 class RetVal(tuple):
@@ -298,6 +299,8 @@ class AwsEc2Connector(BaseConnector):
 
         list_items = list()
         next_token = None
+        seen_tokens = set()
+        page_count = 0
 
         if (
             self.get_action_identifier() in EC2_PAGINATION_SUPPORTED_ACTIONS
@@ -306,6 +309,14 @@ class AwsEc2Connector(BaseConnector):
             kwargs["MaxResults"] = EC2_MAX_RESULTS_LIMIT
 
         while True:
+            page_count += 1
+            if page_count > EC2_MAX_PAGINATION_PAGES:
+                action_result.set_status(
+                    phantom.APP_ERROR,
+                    f"Pagination exceeded the maximum of {EC2_MAX_PAGINATION_PAGES} pages",
+                )
+                return []
+
             if next_token:
                 ret_val, response = self._make_boto_call(action_result, method_name, NextToken=next_token, **kwargs)
             else:
@@ -326,6 +337,11 @@ class AwsEc2Connector(BaseConnector):
             next_token = response.get("NextToken")
             if not next_token:
                 break
+            try:
+                record_pagination_token(next_token, seen_tokens)
+            except ValueError as exc:
+                action_result.set_status(phantom.APP_ERROR, str(exc))
+                return []
 
         return list_items
 
@@ -1267,7 +1283,7 @@ class AwsEc2Connector(BaseConnector):
     def _security_group_helper(self, instance_id, action_result, param):
         # Get original list of security groups associated with network interface id
         if not self._create_client("ec2", action_result, param):
-            return action_result.get_status()
+            return (action_result.get_status(), None)
 
         args = {"InstanceIds": [instance_id]}
 
@@ -1275,32 +1291,21 @@ class AwsEc2Connector(BaseConnector):
         ret_val, response = self._make_boto_call(action_result, "describe_instances", **args)
 
         if phantom.is_fail(ret_val):
-            return (action_result.get_status(), None, None)
+            return (action_result.get_status(), None)
 
-        group_list = None
-        network_interface_id = None
         reservations = response.get("Reservations")
-        if reservations and reservations[0].get("Instances"):
-            original_groups = reservations[0].get("Instances")[0].get("SecurityGroups")
-            if original_groups:
-                group_list = [item.get("GroupId") for item in original_groups]
-
-            network_interfaces = reservations[0].get("Instances")[0].get("NetworkInterfaces")
-            if network_interfaces:
-                network_interface_id = network_interfaces[0].get("NetworkInterfaceId")
-        else:
-            return (action_result.set_status(phantom.APP_ERROR, "The provided instance does not exist"), None, None)
-
-        if group_list is None or network_interface_id is None:
+        if not reservations or not reservations[0].get("Instances"):
             return (
-                action_result.set_status(
-                    phantom.APP_ERROR, "Error occurred while fetching the group list and network interface ID for given instance ID"
-                ),
-                None,
+                action_result.set_status(phantom.APP_ERROR, "The provided instance does not exist"),
                 None,
             )
 
-        return (phantom.APP_SUCCESS, group_list, network_interface_id)
+        try:
+            interfaces = collect_network_interface_groups(reservations[0]["Instances"][0])
+        except ValueError as exc:
+            return (action_result.set_status(phantom.APP_ERROR, str(exc)), None)
+
+        return (phantom.APP_SUCCESS, interfaces)
 
     def _handle_assign_instance_to_group(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
@@ -1310,34 +1315,29 @@ class AwsEc2Connector(BaseConnector):
 
         group_to_add = param["group_id"]
         instance_id = param["instance_id"]
-        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
+        ret_val, interfaces = self._security_group_helper(instance_id, action_result, param)
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
-        # Try to add the parameterized group from the list
-        if group_to_add not in group_list:
-            group_list.append(group_to_add)
-        else:
-            return action_result.set_status(phantom.APP_SUCCESS, "Instance already included in security group")
-
-        # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_resource(action_result, "network_interface", network_interface_id, param):
-            return action_result.get_status()
-
-        args = {"Groups": group_list}
-
-        # make rest call
-        ret_val, response = self._make_boto_call(action_result, "modify_attribute", **args)
-
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
-
-        # Add the response into the data section
-        action_result.add_data(response)
+        modified = 0
+        for network_interface_id, original_groups in interfaces:
+            if group_to_add in original_groups:
+                action_result.add_data({"NetworkInterfaceId": network_interface_id, "Status": "already included"})
+                continue
+            group_list = [*original_groups, group_to_add]
+            if not self._create_resource(action_result, "network_interface", network_interface_id, param):
+                return action_result.get_status()
+            ret_val, response = self._make_boto_call(action_result, "modify_attribute", Groups=group_list)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+            action_result.add_data({"NetworkInterfaceId": network_interface_id, "Groups": group_list, "Response": response})
+            modified += 1
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary["status"] = "Successfully added instance to security group"
+        summary["status"] = "Successfully added instance network interfaces to security group"
+        summary["modified_network_interfaces"] = modified
+        summary["total_network_interfaces"] = len(interfaces)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -1359,35 +1359,30 @@ class AwsEc2Connector(BaseConnector):
         group_to_remove = param["group_id"]
         instance_id = param["instance_id"]
 
-        ret_val, group_list, network_interface_id = self._security_group_helper(instance_id, action_result, param)
+        ret_val, interfaces = self._security_group_helper(instance_id, action_result, param)
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
-        # Try to remove the parameterized group from the list
-        try:
-            group_list.remove(group_to_remove)
-        except Exception:
-            return action_result.set_status(phantom.APP_SUCCESS, "Instance already not included in security group")
-
-        # Now that you have the list of original groups, remove the one provided by the user and post the new list
-        if not self._create_resource(action_result, "network_interface", network_interface_id, param):
-            return action_result.get_status()
-
-        args = {"Groups": group_list}
-
-        # make rest call
-        ret_val, response = self._make_boto_call(action_result, "modify_attribute", **args)
-
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
-
-        # Add the response into the data section
-        action_result.add_data(response)
+        modified = 0
+        for network_interface_id, original_groups in interfaces:
+            if group_to_remove not in original_groups:
+                action_result.add_data({"NetworkInterfaceId": network_interface_id, "Status": "already absent"})
+                continue
+            group_list = [group_id for group_id in original_groups if group_id != group_to_remove]
+            if not self._create_resource(action_result, "network_interface", network_interface_id, param):
+                return action_result.get_status()
+            ret_val, response = self._make_boto_call(action_result, "modify_attribute", Groups=group_list)
+            if phantom.is_fail(ret_val):
+                return action_result.get_status()
+            action_result.add_data({"NetworkInterfaceId": network_interface_id, "Groups": group_list, "Response": response})
+            modified += 1
 
         # Add a dictionary that is made up of the most important values from data into the summary
         summary = action_result.update_summary({})
-        summary["status"] = "Successfully removed instance from security group"
+        summary["status"] = "Successfully removed instance network interfaces from security group"
+        summary["modified_network_interfaces"] = modified
+        summary["total_network_interfaces"] = len(interfaces)
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
