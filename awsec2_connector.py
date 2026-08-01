@@ -286,7 +286,7 @@ class AwsEc2Connector(BaseConnector):
             return action_result.get_status()
 
         # make rest call
-        ret_val, resp_json = self._make_boto_call(action_result, "describe_security_groups", MaxResults=5)
+        ret_val, _resp_json = self._make_boto_call(action_result, "describe_security_groups", MaxResults=5)
 
         if phantom.is_fail(ret_val):
             self.save_progress("Test Connectivity Failed")
