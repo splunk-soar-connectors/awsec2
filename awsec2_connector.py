@@ -50,6 +50,10 @@ class AwsEc2Connector(BaseConnector):
         self._session_token = None
         self._proxy = None
 
+    @staticmethod
+    def _sanitize_action_parameters(param):
+        return {key: value for key, value in param.items() if key != "credentials"}
+
     def _get_error_message_from_exception(self, e):
         """
         Get appropriate error message from the exception.
@@ -274,7 +278,7 @@ class AwsEc2Connector(BaseConnector):
 
     def _handle_test_connectivity(self, param):
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         self.save_progress("Querying AWS to check credentials")
 
@@ -372,7 +376,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -416,7 +420,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -476,7 +480,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -518,7 +522,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -560,7 +564,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -594,7 +598,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -631,7 +635,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("autoscaling", action_result, param):
             return action_result.get_status()
@@ -663,7 +667,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("autoscaling", action_result, param):
             return action_result.get_status()
@@ -694,7 +698,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("elb", action_result, param):
             return action_result.get_status()
@@ -723,7 +727,7 @@ class AwsEc2Connector(BaseConnector):
     def _handle_register_instance(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("elb", action_result, param):
             return action_result.get_status()
@@ -752,7 +756,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -792,7 +796,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -827,7 +831,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -875,7 +879,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -912,7 +916,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         try:
             source_region = EC2_REGION_DICT[param["source_region"]]
@@ -979,7 +983,7 @@ class AwsEc2Connector(BaseConnector):
     def _handle_delete_snapshot(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1009,7 +1013,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         instance_id = param["instance_id"]
 
@@ -1043,7 +1047,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         instance_id = param["instance_id"]
         tag_key = param["tag_key"]
@@ -1086,7 +1090,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         instance_id = param["instance_id"]
 
@@ -1135,7 +1139,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1173,7 +1177,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1203,7 +1207,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1234,7 +1238,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1311,7 +1315,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         group_to_add = param["group_id"]
         instance_id = param["instance_id"]
@@ -1354,7 +1358,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         group_to_remove = param["group_id"]
         instance_id = param["instance_id"]
@@ -1390,7 +1394,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1428,7 +1432,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1458,7 +1462,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -1504,7 +1508,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("autoscaling", action_result, param):
             return action_result.get_status()

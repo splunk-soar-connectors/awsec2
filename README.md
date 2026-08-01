@@ -107,14 +107,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **instance_ids** | required | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0d872de1de2ea7640,i-059d3667cb8b94f39 |
 action_result.data.\*.CurrentState.Code | numeric | | 0 |
@@ -143,14 +142,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **instance_ids** | required | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
 **force** | optional | Forces the instances to stop | boolean | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.force | boolean | | True False |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0d872de1de2ea7640,i-059d3667cb8b94f39 |
@@ -181,14 +179,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **instance_ids** | optional | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
 **limit** | optional | The maximum number of results to be fetched | numeric | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { "Name": "vpc-id", "Values": [ "vpc-0840e9850b3f02915"]} |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-002f4885c00dd08cf0 |
@@ -319,14 +316,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **tag_specifications** | optional | The tags to assign to the security group | string | |
 **vpc_id** | optional | The ID of the VPC | string | `aws ec2 vpc id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.group_description | string | | Test Group Description |
 action_result.parameter.group_name | string | `aws ec2 group name` | Test Group Name |
@@ -366,14 +362,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **group_id** | optional | The ID of the security group | string | `aws ec2 group id` |
 **group_name** | optional | The name of the security group | string | `aws ec2 group name` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.group_id | string | `aws ec2 group id` | sg-00dae13e516e82136 |
 action_result.parameter.group_name | string | `aws ec2 group name` | Test Group Name |
@@ -410,7 +405,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **restorable_by** | optional | The IDs of the AWS accounts that can create volumes from the snapshot | string | `aws ec2 owner id` |
 **owners** | optional | Scopes the results to snapshots with the specified owners. You can specify a combination of AWS account IDs, self, and amazon | string | `aws ec2 owner id` |
 **limit** | optional | The maximum number of results to be fetched | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
 
 #### Action Output
@@ -418,7 +413,6 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.limit | numeric | | 100 |
@@ -466,14 +460,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **description** | optional | A description for the EBS snapshot | string | |
 **tag_specifications** | optional | The tags to apply to the snapshot during creation, separated by commas | string | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.description | string | | [Copied snap-00f74e7eba4a187e from us-east-1] |
 action_result.parameter.destination_region | string | | eu-central-1 |
 action_result.parameter.dry_run | boolean | | True False |
@@ -516,14 +509,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **vpc_ids** | optional | One or more vpc IDs, separated by commas | string | `aws ec2 vpc id` |
 **limit** | optional | The maximum number of results to be fetched | numeric | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.limit | numeric | | 100 |
@@ -566,14 +558,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **executable_users** | optional | Scopes the images by users with explicit launch permissions | string | |
 **owners** | optional | Scopes the results to images with the specified owners | string | `aws ec2 owner id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.executable_users | string | | self |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
@@ -632,14 +623,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **subnet_ids** | optional | One or more subnet IDs, separated by commas | string | `aws ec2 subnet id` |
 **limit** | optional | The maximum number of results to be fetched | numeric | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.limit | numeric | | 100 |
@@ -677,7 +667,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **instance_ids** | required | Up to 20 IDs of the instances, separated by commas | string | `aws ec2 instance id` |
 **autoscaling_group_name** | required | The name of the autoscaling group | string | `aws ec2 autoscaling group name` |
 **should_decrement_desired_capacity** | optional | Decrement the desired capacity value by the number of instances being detached | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -685,7 +675,6 @@ DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
 action_result.parameter.autoscaling_group_name | string | `aws ec2 autoscaling group name` | new-test-group1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0fc20335d5bd6a222 |
 action_result.parameter.should_decrement_desired_capacity | boolean | | False True |
 action_result.data.\*.Activities.\*.ActivityId | string | | f4b5a82f-9649-3b08-ba77-8d7e25d70277 |
@@ -721,7 +710,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **instance_ids** | required | Up to 20 IDs of the instances, separated by commas | string | `aws ec2 instance id` |
 **autoscaling_group_name** | required | The name of the autoscaling group | string | `aws ec2 autoscaling group name` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -729,7 +718,6 @@ DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
 action_result.parameter.autoscaling_group_name | string | `aws ec2 autoscaling group name` | new-test-group1 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0fc20335d5bd6a222 |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string | | 217 |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-type | string | | text/xml |
@@ -756,14 +744,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **vpc_id** | required | VPC id | string | `aws ec2 vpc id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | numeric | | False |
 action_result.parameter.vpc_id | string | `aws ec2 vpc id` | vpc-0606b5757a86faaaa |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.cache-control | string | | no-cache, no-store |
@@ -796,14 +783,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **load_balancer_name** | required | Name of the classic load balancer | string | |
 **instance_ids** | required | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-00617ee31402c4b46 |
 action_result.parameter.load_balancer_name | string | | testloadbalancer1 |
 action_result.data.\*.Instances.\*.InstanceId | string | | i-00617ee31402c4b46 |
@@ -834,14 +820,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **load_balancer_name** | required | Name of the classic load balancer | string | |
 **instance_ids** | required | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0d872de1de2ea7640 |
 action_result.parameter.load_balancer_name | string | | test-2 |
 action_result.data.\*.Instances.\*.InstanceId | string | `aws ec2 instance id` | 376 |
@@ -870,14 +855,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **snapshot_id** | required | Snapshot ID | string | `aws ec2 snapshot id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | numeric | | False |
 action_result.parameter.snapshot_id | string | `aws ec2 snapshot id` | snap-0157e1eeeee3112be |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.cache-control | string | | no-cache, no-store |
@@ -910,14 +894,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **description** | optional | A description of the snapshot | string | |
 **tag_specifications** | optional | The tags to apply to the snapshot during creation, separated by commas | string | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.description | string | | test |
 action_result.parameter.dry_run | boolean | | False True |
 action_result.parameter.tag_specifications | string | | \[{"ResourceType": "security-group","Tags": [{"Key": "test-key", "Value": "test-value"}]}\] |
@@ -957,14 +940,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **instance_id** | required | Instance ID | string | `aws ec2 instance id` |
 **tag_key** | required | Tag key | string | `aws ec2 tag key` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.instance_id | string | `aws ec2 instance id` | i-059d3667cb8b94f39 |
 action_result.parameter.tag_key | string | `aws ec2 tag key` | test |
@@ -992,14 +974,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **tag_key** | required | Tag key | string | `aws ec2 tag key` |
 **tag_value** | optional | Tag value. Defaults to an empty string if left blank | string | `aws ec2 tag value` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.instance_id | string | `aws ec2 instance id` | i-074f52e85356829a3 |
 action_result.parameter.tag_key | string | `aws ec2 tag key` | test1 |
@@ -1027,14 +1008,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **tag_key** | optional | Tag key | string | `aws ec2 tag key` |
 **tag_value** | optional | Tag value. If not specified, all tags with tag_key will be removed. If empty string "" is specified, then tag_key with value of empty string will be removed | string | `aws ec2 tag value` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.instance_id | string | `aws ec2 instance id` | i-074f52e85356829a3 |
 action_result.parameter.tag_key | string | `aws ec2 tag key` | test1 |
@@ -1065,14 +1045,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **filters** | optional | One or more filters in dictionary format, separated by commas | string | |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
 **network_acl_ids** | optional | One or more network ACL IDs, separated by commas | string | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.network_acl_ids | string | | acl-0729ksdnv768dda206 |
@@ -1118,14 +1097,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **vpc_id** | required | The ID of the virtual private cloud (VPC) | string | `aws ec2 vpc id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.vpc_id | string | `aws ec2 vpc id` | vpc-0ebb6161e92f4b472 |
 action_result.data.\*.NetworkAcl.Entries.\*.CidrBlock | string | | 0.0.0.0/0 |
@@ -1163,14 +1141,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **network_acl_id** | required | The ID of the network ACL | string | `aws ec2 acl id` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.network_acl_id | string | `aws ec2 acl id` | acl-0e12cacd61c686be7 |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string | | 233 |
@@ -1202,14 +1179,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **group_names** | optional | One or more security group names, separated by commas | string | `aws ec2 group name` |
 **next_token** | optional | The token to request the next page of results | string | `aws ec2 next token` |
 **max_results** | optional | Maximum number of results to return in a single call | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.group_ids | string | `aws ec2 group id` | sg-005000000ea7b73e0 |
@@ -1270,14 +1246,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **instance_id** | required | The ID of the instance | string | `aws ec2 instance id` |
 **group_id** | required | The security group ID to add | string | `aws ec2 group id` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.group_id | string | `aws ec2 group id` | sg-00c60fd41aea33c09 |
 action_result.parameter.instance_id | string | `aws ec2 instance id` | i-074f52e85356829a3 |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string | | 263 |
@@ -1305,14 +1280,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **instance_id** | required | The ID of the instance | string | `aws ec2 instance id` |
 **group_id** | required | The security group ID to remove | string | `aws ec2 group id` |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.group_id | string | `aws ec2 group id` | sg-00c60fd41aea33c09 |
 action_result.parameter.instance_id | string | `aws ec2 instance id` | i-074f52e85356829a3 |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string | | 263 |
@@ -1342,7 +1316,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **amazon_provided_ipv6_cidr_block** | optional | The Amazon provided IPv6 CIDR block with a /56 prefix length | boolean | `aws cidr ipv6 block` |
 **dry_run** | optional | Check if asset has required permissions for the action | boolean | |
 **instance_tenancy** | optional | The tenancy options for instances launched into the VPC | string | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -1351,7 +1325,6 @@ DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 action_result.status | string | | success failed |
 action_result.parameter.amazon_provided_ipv6_cidr_block | boolean | `aws cidr ipv6 block` | True False |
 action_result.parameter.cidr_block | string | `aws cidr block` | 172.31.0.0/16 |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.instance_tenancy | string | | Dedicated |
 action_result.data.\*.ResponseMetadata.HTTPHeaders.content-length | string | | 927 |
@@ -1396,14 +1369,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **network_interface_ids** | optional | One or more network interface IDs, separated by commas | string | `aws ec2 network interface id` |
 **next_token** | optional | The token to request the next page of results | string | `aws ec2 next token` |
 **max_results** | optional | Maximum number of results to return in a single call | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.dry_run | boolean | | True False |
 action_result.parameter.filters | string | | { 'Name': 'name_1', 'Values': [ 'val_1' ]} |
 action_result.parameter.max_results | numeric | | 10 |
@@ -1480,7 +1452,7 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 **autoscaling_group_names** | optional | The names of the Auto Scaling groups, separated by commas | string | `aws ec2 autoscaling group name` |
 **next_token** | optional | The token for the next set of items to return | string | `aws ec2 next token` |
 **max_results** | optional | Maximum number of results to return in a single call | numeric | |
-**credentials** | optional | Assumed role credentials | string | `aws credentials` |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
 
 #### Action Output
 
@@ -1488,7 +1460,6 @@ DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
 action_result.status | string | | success failed |
 action_result.parameter.autoscaling_group_names | string | `aws ec2 autoscaling group name` | test ec2 group |
-action_result.parameter.credentials | string | `aws credentials` | {'AccessKeyId': 'ASIASJL6ZZZZZ3M7QC2J', 'Expiration': '2020-12-09 22:28:04', 'SecretAccessKey': '<secret-access-key>', 'SessionToken': 'ZZZZZXIvYXdzEN///////////wEaDFRU0s4AVrw0k0oYICK4ATAzOqzAkg9bHY29lYmP59UvVOHjLufOy4s7SnAzOxGqGIXnukLis4TWNhrJl5R5nYyimrm6K/9d0Cw2SW9gO0ZRjEJHWJ+yY5Qk2QpWctS2BGn4n+G8cD6zEweCCMj+ScI5p8n7YI4wOdvXvOsVMmjV6F09Ujqr1w+NwoKXlglznXGs/7Q1kNZOMiioEhGUyoiHbQb37GCKslDK+oqe0KNaUKQ96YCepaLgMbMquDgdAM8I0TTxUO0o5ILF/gUyLT04R7QlOfktkdh6Qt0atTS+xeKi1hirKRizpJ8jjnxGQIikPRToL2v3ZZZZZZ=='} |
 action_result.parameter.max_results | numeric | | 5 |
 action_result.parameter.next_token | string | `aws ec2 next token` | eyJ2IjoiMiIsImMiOiJaaaaasdfghjkwertyuieeeeehjgvhjaytZR0luRDhuTWR6SnN6VWNHcStSWGRwWTJ2cWtxZlBUWjY1QjJ3VzZRNlFqRkZaUzVrRDQ2V1lzTVpsY2dPSS9mVWNqVlVIbCtpaHV6b1dybnJWbXoxclp0T25YR3NvWVJRQkFuamhqaDlEN2o2dEtvcjB6bDBoeVo3clB2eGZOUlZxQUYzdWo5WnJKbTRRSmZqbHQzS0h1REhkWFI1Q1VmZnRLU2k2RkxhTkhaaUVkbXNPUlMwYnNYbkhVSHEwT0x1SmhEb2thTkc3R0tORkhaeWtIZCIsInMiOiIxIn0= |
 action_result.data.\*.AutoScalingGroups.\*.AutoScalingGroupARN | string | | arn:aws:autoscaling:us-east-1:849257271967:autoScalingGroup:19c78b3e-ed8a-40a5-a25e-03d628b45e8b:autoScalingGroupName/test ec2 group |
