@@ -125,7 +125,6 @@ action_result.summary | string | | |
 action_result.message | string | | Instances started successfully |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'stop instance'
 
@@ -162,7 +161,6 @@ action_result.summary | string | | |
 action_result.message | string | | Instances stopped successfully |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'describe instance'
 
@@ -301,7 +299,6 @@ action_result.summary.num_instances | numeric | | 3 |
 action_result.message | string | | Num instances: 3 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'create security group'
 
@@ -348,7 +345,6 @@ action_result.summary.group_id | string | `aws ec2 group id` | sg-082268bbc0b1c7
 action_result.message | string | | Group id: sg-082268bbc0b1c7a6a |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'delete security group'
 
@@ -390,7 +386,6 @@ action_result.summary | string | | |
 action_result.message | string | | Successfully deleted the security group |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'describe snapshots'
 
@@ -442,7 +437,6 @@ action_result.summary.num_snapshots | numeric | | 53805 |
 action_result.message | string | | Num snapshots: 53805 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'copy snapshot'
 
@@ -499,7 +493,6 @@ action_result.summary.snapshot_id | string | | snap-061d898454a25d946 |
 action_result.message | string | | Snapshot id: snap-061d898454a25d946 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'describe vpcs'
 
@@ -546,7 +539,6 @@ action_result.summary.num_vpcs | numeric | | 4 |
 action_result.message | string | | Num vpc: 4 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'describe images'
 
@@ -615,7 +607,6 @@ action_result.summary.num_images | numeric | | 6 |
 action_result.message | string | | Num images: 6 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'describe subnets'
 
@@ -661,7 +652,6 @@ action_result.summary.num_subnets | numeric | | 6 |
 action_result.message | string | | Num subnets: 6 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'detach instance'
 
@@ -706,7 +696,6 @@ action_result.summary.status | string | | Successfully detached instance |
 action_result.message | string | | Status: Successfully detached instance |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'attach instance'
 
@@ -741,7 +730,6 @@ action_result.summary.status | string | | Successfully attached instance |
 action_result.message | string | | Status: Successfully attached instance |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'delete vpc'
 
@@ -779,7 +767,6 @@ action_result.summary.status | string | | Successfully deleted VPC |
 action_result.message | string | | Status: Successfully deleted VPC |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'register instance'
 
@@ -817,7 +804,6 @@ action_result.summary.status | string | | Successfully registered instance |
 action_result.message | string | | Status: Successfully registered instance |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'deregister instance'
 
@@ -855,7 +841,6 @@ action_result.summary.status | string | | Successfully deregistered instance |
 action_result.message | string | | Status: Successfully deregistered instance |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'delete snapshot'
 
@@ -893,7 +878,6 @@ action_result.summary.status | string | | Successfully deleted snapshot |
 action_result.message | string | | Status: Successfully deleted snapshot |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'snapshot instance'
 
@@ -941,7 +925,6 @@ action_result.summary.snapshot_id | numeric | | 22 |
 action_result.message | string | | Snapshot id: 22 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'get tag'
 
@@ -975,7 +958,6 @@ action_result.summary | string | | |
 action_result.message | string | | Successfully fetched the tag |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'add tag'
 
@@ -1008,7 +990,6 @@ action_result.summary.status | string | | Successfully added tag |
 action_result.message | string | | Status: Successfully added tag |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'remove tag'
 
@@ -1049,7 +1030,6 @@ action_result.summary.status | string | | Successfully removed tag |
 action_result.message | string | | Status: Successfully removed tag |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'get acls'
 
@@ -1103,7 +1083,6 @@ action_result.summary.num_acls | numeric | | 3 |
 action_result.message | string | | Num acls: 3 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'add acl'
 
@@ -1148,7 +1127,6 @@ action_result.summary.network_acl_id | string | `aws ec2 acl id` | acl-0e12cacd6
 action_result.message | string | | Network acl id: acl-0e12cacd61c686be7 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'remove acl'
 
@@ -1183,7 +1161,6 @@ action_result.summary.status | string | | Successfully removed acl |
 action_result.message | string | | Status: Successfully removed acl |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'list security groups'
 
@@ -1255,7 +1232,6 @@ action_result.summary.num_security_groups | numeric | | 37 |
 action_result.message | string | | Num security groups: 37 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'assign instance'
 
@@ -1290,7 +1266,6 @@ action_result.summary.status | string | | Successfully added instance to securit
 action_result.message | string | | Status: Successfully added instance to security group |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'remove instance'
 
@@ -1325,7 +1300,6 @@ action_result.summary.status | string | | Successfully removed instance from sec
 action_result.message | string | | Status: Successfully removed instance from security group |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'create vpc'
 
@@ -1378,7 +1352,6 @@ action_result.summary.vpc_id | string | `aws ec2 vpc id` | vpc-0840e9850b3f02915
 action_result.message | string | | Instance tenancy: default, Vpc id: vpc-0840e9850b3f02915 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'list network interfaces'
 
@@ -1464,7 +1437,6 @@ action_result.summary.num_network_interfaces | numeric | | 4 |
 action_result.message | string | | Num network interfaces: 4 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ## action: 'list autoscaling groups'
 
@@ -1540,7 +1512,6 @@ action_result.summary.num_autoscaling_groups | numeric | | 1 |
 action_result.message | string | | Num autoscaling groups: 1 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.credentials | password | `aws credentials` | |
 
 ______________________________________________________________________
 
