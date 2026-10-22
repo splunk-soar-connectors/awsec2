@@ -650,18 +650,10 @@ class AwsEc2Connector(BaseConnector):
             args["DryRun"] = dry_run
 
         # make rest call
-        ret_val, response = self._make_boto_call(action_result, "reboot_instances", **args)
+        ret_val, _ = self._make_boto_call(action_result, "reboot_instances", **args)
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
-
-        if not response:
-            return action_result.get_status()
-
-        rebooted_instances = response.get("RebootingInstances", [])
-
-        for instance in rebooted_instances:
-            action_result.add_data(instance)
 
         return action_result.set_status(phantom.APP_SUCCESS, "Instances rebooted successfully")
 
