@@ -51,6 +51,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
 [start instance](#action-start-instance) - Start one or more instances <br>
 [stop instance](#action-stop-instance) - Stop one or more instances <br>
+[reboot instance](#action-reboot-instance) - Reboot one or more instances <br>
 [describe instance](#action-describe-instance) - Describe one or more instances <br>
 [create security group](#action-create-security-group) - Creates a security group <br>
 [delete security group](#action-delete-security-group) - Deletes a security group <br>
@@ -159,6 +160,33 @@ action_result.data.\*.PreviousState.Code | numeric | | 16 |
 action_result.data.\*.PreviousState.Name | string | | running |
 action_result.summary | string | | |
 action_result.message | string | | Instances stopped successfully |
+summary.total_objects | numeric | | 1 |
+summary.total_objects_successful | numeric | | 1 |
+
+## action: 'reboot instance'
+
+Reboot one or more instances
+
+Type: **generic** <br>
+Read only: **False**
+
+#### Action Parameters
+
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**instance_ids** | required | One or more instance IDs, separated by commas | string | `aws ec2 instance id` |
+**dry_run** | optional | Check if asset has required permissions for the action, without actually making the request | boolean | |
+**credentials** | optional | Assumed role credentials | password | `aws credentials` |
+
+#### Action Output
+
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string | | success failed |
+action_result.parameter.dry_run | boolean | | True False |
+action_result.parameter.instance_ids | string | `aws ec2 instance id` | i-0d872de1de2ea7640,i-059d3667cb8b94f39 |
+action_result.summary | string | | |
+action_result.message | string | | Instances rebooted successfully |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 

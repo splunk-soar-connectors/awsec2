@@ -9,6 +9,11 @@
     "product_name": "EC2",
     "product_version_regex": ".*",
     "publisher": "Splunk",
+    "contributors": [
+        {
+            "name": "Borislav Gachev"
+        }
+    ],
     "license": "Copyright (c) 2019-2026 Splunk Inc.",
     "app_version": "2.4.7",
     "utctime_updated": "2026-09-14T21:30:18.936153Z",
@@ -401,6 +406,93 @@
             "render": {
                 "type": "table"
             },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "reboot instance",
+            "identifier": "reboot_instance",
+            "description": "Reboot one or more instances",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "instance_ids": {
+                    "description": "One or more instance IDs, separated by commas",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                },
+                "dry_run": {
+                    "description": "Check if asset has required permissions for the action, without actually making the request",
+                    "data_type": "boolean",
+                    "order": 1
+                },
+                "credentials": {
+                    "description": "Assumed role credentials",
+                    "data_type": "password",
+                    "primary": true,
+                    "contains": [
+                        "aws credentials"
+                    ],
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.dry_run",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.instance_ids",
+                    "data_type": "string",
+                    "contains": [
+                        "aws ec2 instance id"
+                    ],
+                    "example_values": [
+                        "i-0d872de1de2ea7640,i-059d3667cb8b94f39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Instances rebooted successfully"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "versions": "EQ(*)"
         },
         {
