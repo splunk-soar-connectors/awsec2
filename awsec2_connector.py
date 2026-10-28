@@ -635,7 +635,7 @@ class AwsEc2Connector(BaseConnector):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
-        action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(self._sanitize_action_parameters(param)))
 
         if not self._create_client("ec2", action_result, param):
             return action_result.get_status()
@@ -654,14 +654,6 @@ class AwsEc2Connector(BaseConnector):
 
         if phantom.is_fail(ret_val):
             return action_result.get_status()
-
-        if not response:
-            return action_result.get_status()
-
-        rebooted_instances = response.get("RebootingInstances", [])
-
-        for instance in rebooted_instances:
-            action_result.add_data(instance)
 
         return action_result.set_status(phantom.APP_SUCCESS, "Instances rebooted successfully")
 
