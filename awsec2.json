@@ -15,8 +15,8 @@
         }
     ],
     "license": "Copyright (c) 2019-2026 Splunk Inc.",
-    "app_version": "2.4.7",
-    "utctime_updated": "2026-09-14T21:30:18.936153Z",
+    "app_version": "2.5.0",
+    "utctime_updated": "2026-10-29T04:09:05.484110Z",
     "package_name": "phantom_awsec2",
     "main_module": "awsec2_connector.py",
     "min_phantom_version": "5.3.5",
